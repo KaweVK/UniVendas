@@ -16,7 +16,7 @@ public class Item implements Serializable {
 
     @Column(name = "name", nullable = false, length = 80)
     private String name;
-    @Column(name = "descripition", nullable = false, length = 80)
+    @Column(name = "description", nullable = false, length = 80)
     private String description;
     @Column(name = "amount", nullable = false, length = 80)
     private Long amount;

@@ -1,8 +1,7 @@
 package com.uni.vendas.services;
 
-import com.uni.vendas.controllers.UserController;
+import com.uni.vendas.controllers.ItemController;
 import com.uni.vendas.data.dto.ItemDTO;
-import com.uni.vendas.data.dto.UserDTO;
 import com.uni.vendas.exceptions.ResourceNotFoundException;
 import com.uni.vendas.models.Item;
 import com.uni.vendas.repository.ItemRepository;
@@ -61,16 +60,17 @@ public class ItemService {
     }
 
     public ItemDTO updateItem(ItemDTO itemDTO) {
-        logger.info("Updating item: {}", itemDTO);
+        logger.info("Updating item: {}", itemDTO.getId());
 
-        var oldItem = repository.findById(itemDTO.getId()).orElseThrow(() -> new ResourceNotFoundException("Item not found with id: " + id));
+        var oldItem = repository.findById(itemDTO.getId()).orElseThrow(() -> new ResourceNotFoundException("Item not found with id: " + itemDTO.getId()));
+        logger.info("Found item: {}", oldItem.getId());
 
         oldItem.setName(itemDTO.getName());
         oldItem.setDescription(itemDTO.getDescription());
         oldItem.setAmount(itemDTO.getAmount());
         oldItem.setPrice(itemDTO.getPrice());
 
-        var dto = parseObject(oldItem, ItemDTO.class);
+        var dto = parseObject(repository.save(oldItem), ItemDTO.class);
         logger.info("Updated item: {}", dto);
 
         addHateoasLinks(dto);
@@ -86,11 +86,11 @@ public class ItemService {
     }
 
     private ItemDTO addHateoasLinks(ItemDTO dto) {
-        dto.add(linkTo(methodOn(UserController.class).findById(dto.getId())).withSelfRel().withType("GET"));
-        dto.add(linkTo(methodOn(UserController.class).findAll()).withRel("findAll").withType("GET"));
-        dto.add(linkTo(methodOn(UserController.class).createItem(dto)).withRel("create").withType("POST"));
-        dto.add(linkTo(methodOn(UserController.class).deleteItem(dto.getId())).withRel("delete").withType("DELETE"));
-        dto.add(linkTo(methodOn(UserController.class).updateItem(dto)).withRel("update").withType("PUT"));
+        dto.add(linkTo(methodOn(ItemController.class).findById(dto.getId())).withSelfRel().withType("GET"));
+        dto.add(linkTo(methodOn(ItemController.class).findAll()).withRel("findAll").withType("GET"));
+        dto.add(linkTo(methodOn(ItemController.class).createItem(dto)).withRel("create").withType("POST"));
+        dto.add(linkTo(methodOn(ItemController.class).deleteItem(dto.getId())).withRel("delete").withType("DELETE"));
+        dto.add(linkTo(methodOn(ItemController.class).updateItem(dto)).withRel("update").withType("PUT"));
 
         return dto;
     }
