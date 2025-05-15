@@ -60,6 +60,24 @@ public class ItemService {
 
     }
 
+    public ItemDTO updateItem(ItemDTO itemDTO) {
+        logger.info("Updating item: {}", itemDTO);
+
+        var oldItem = repository.findById(itemDTO.getId()).orElseThrow(() -> new ResourceNotFoundException("Item not found with id: " + id));
+
+        oldItem.setName(itemDTO.getname());
+        oldItem.setDescription(itemDTO.getDescription());
+        oldItem.setAmount(itemDTO.getAmount());
+        oldItem.setPrice(itemDTO.getPrice());
+
+        var dto = parseObject(oldItem, ItemDTO.class);
+        logger.info("Updated item: {}", dto);
+
+        addHateoasLinks(dto);
+
+        return dto;
+    }
+
 
     private ItemDTO addHateoasLinks(ItemDTO dto) {
         dto.add(linkTo(methodOn(UserController.class).findById(dto.getId())).withSelfRel().withType("GET"));
