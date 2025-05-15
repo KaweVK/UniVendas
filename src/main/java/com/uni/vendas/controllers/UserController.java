@@ -39,7 +39,7 @@ public class UserController {
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_YAML_VALUE},
             consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_YAML_VALUE}
     )
-    public UserDTO createPerson(@RequestBody UserDTO dto) {
+    public UserDTO createUser(@RequestBody UserDTO dto) {
 
         return userServices.createUser(dto);
     }
@@ -49,12 +49,12 @@ public class UserController {
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_YAML_VALUE},
             consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_YAML_VALUE}
     )
-    public UserDTO updatePerson(@RequestBody UserDTO dto) {
+    public UserDTO updateUser(@RequestBody UserDTO dto) {
         return userServices.updateUser(dto);
     }
 
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<?> deletePerson(@PathVariable("id") Long id) {
+    public ResponseEntity<?> deleteUser(@PathVariable("id") Long id) {
         userServices.deleteUser(id);
         return ResponseEntity.noContent().build();
     }
