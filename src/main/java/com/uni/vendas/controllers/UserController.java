@@ -22,7 +22,7 @@ public class UserController {
     )
     public UserDTO findById(@PathVariable("id") Long id) {
         var person = userServices.findById(id);
-
+        //atualizar nomes
         return person;
     }
 
@@ -31,7 +31,7 @@ public class UserController {
     )
     public List<UserDTO> findAll() {
         var user = userServices.findAll();
-
+        //atualizar nomes
         return user;
     }
 
