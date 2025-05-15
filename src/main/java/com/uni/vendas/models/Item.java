@@ -1,11 +1,12 @@
 package com.uni.vendas.models;
 
 import jakarta.persistence.*;
-
+import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
-public class Item {
+@Table(name = "item")
+public class Item implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
