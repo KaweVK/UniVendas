@@ -45,6 +45,13 @@ public class ItemController {
         return itemService.createItem(itemDTO);
     }
 
-
+    @PutMapping
+    @RequestMapping(
+            produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_YAML_VALUE},
+            consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_YAML_VALUE}
+    )
+    public ItemDTO updateItem(@RequestBody ItemDTO itemDTO) {
+        return itemService.updateItem(itemDTO);
+    }
 
 }
