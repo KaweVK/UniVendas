@@ -24,8 +24,6 @@ public class UserServices {
 
     @Autowired
     private UserRepository repository;
-    @Autowired
-    private UserRepository userRepository;
 
     public List<UserDTO> findAll() {
         logger.info("Finding all users");
@@ -39,7 +37,7 @@ public class UserServices {
 
     public UserDTO findById(Long id) {
         logger.info("Finding all users");
-        var user = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Person not found for this id: " + id));
+        var user = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Person not found for this id: " + id));
         logger.info("User found");
 
         var userDTO = parseObject(user, UserDTO.class);
@@ -79,7 +77,7 @@ public class UserServices {
     public void deleteUser(Long id) {
         logger.info("Deleting user");
 
-        var user = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Person not found for this id: " + id));
+        var user = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Person not found for this id: " + id));
 
         repository.delete(user);
 
