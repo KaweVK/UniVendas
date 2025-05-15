@@ -2,6 +2,7 @@ package com.uni.vendas.services;
 
 import com.uni.vendas.controllers.UserController;
 import com.uni.vendas.data.dto.UserDTO;
+import com.uni.vendas.exceptions.RequiredObjectIsNullException;
 import com.uni.vendas.exceptions.ResourceNotFoundException;
 import com.uni.vendas.models.User;
 import com.uni.vendas.repository.UserRepository;
@@ -36,7 +37,7 @@ public class UserServices {
     }
 
     public UserDTO findById(Long id) {
-        logger.info("Finding all users");
+        logger.info("Finding user");
         var user = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Person not found for this id: " + id));
         logger.info("User found");
 
@@ -61,12 +62,14 @@ public class UserServices {
     public UserDTO updateUser(UserDTO userDTO) {
         logger.info("Updating user");
         var oldUser = repository.findById(userDTO.getId()).orElseThrow(() -> new ResourceNotFoundException("Person not found for this id: " + userDTO.getId()));
+        logger.info("user found");
 
         oldUser.setFirstName(userDTO.getFirstName());
         oldUser.setLastName(userDTO.getLastName());
         oldUser.setEmail(userDTO.getEmail());
         oldUser.setPassword(userDTO.getPassword());
         oldUser.setPhone(userDTO.getPhone());
+        oldUser.setCity(userDTO.getCity());
 
         var dto = parseObject(repository.save(oldUser), UserDTO.class);
 

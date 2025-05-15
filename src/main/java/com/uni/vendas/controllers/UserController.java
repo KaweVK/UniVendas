@@ -18,8 +18,7 @@ public class UserController {
     private UserServices userServices;
 
     @GetMapping(value = "/{id}",
-            produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_YAML_VALUE},
-            consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_YAML_VALUE}
+            produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_YAML_VALUE}
     )
     public UserDTO findById(@PathVariable("id") Long id) {
         var person = userServices.findById(id);
@@ -45,18 +44,18 @@ public class UserController {
         return userServices.createUser(dto);
     }
 
-
-    @DeleteMapping(value = "/{id}")
-    public ResponseEntity<?> deletePerson(@PathVariable("id") Long id) {
-        userServices.deleteUser(id);
-        return ResponseEntity.noContent().build();
-    }
-
     @PutMapping(
+            path = "/",
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_YAML_VALUE},
             consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_YAML_VALUE}
     )
     public UserDTO updatePerson(@RequestBody UserDTO dto) {
         return userServices.updateUser(dto);
+    }
+
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<?> deletePerson(@PathVariable("id") Long id) {
+        userServices.deleteUser(id);
+        return ResponseEntity.noContent().build();
     }
 }
