@@ -4,6 +4,7 @@ import com.uni.vendas.controllers.UserController;
 import com.uni.vendas.data.dto.ItemDTO;
 import com.uni.vendas.data.dto.UserDTO;
 import com.uni.vendas.exceptions.ResourceNotFoundException;
+import com.uni.vendas.models.Item;
 import com.uni.vendas.repository.ItemRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,11 +39,25 @@ public class ItemService {
     public ItemDTO findById(Long id) {
         logger.info("Finding a item by id: {}", id);
         var item = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Item not found with id: " + id));
-        logger.info("Found item: {}", item);
+        logger.info("Found item: {}+--", item);
 
         var dto = parseObject(item, ItemDTO.class);
         addHateoasLinks(dto);
         return dto;
+    }
+
+    public ItemDTO createItem(ItemDTO itemDTO) {
+        logger.info("Creating a item: {}", itemDTO);
+        var item = parseObject(itemDTO, Item.class);
+
+        var dto = parseObject(repository.save(item), ItemDTO.class);
+
+        logger.info("Created item: {}", dto);
+
+        addHateoasLinks(dto);
+
+        return dto;
+
     }
 
 
