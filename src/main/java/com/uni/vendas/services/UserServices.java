@@ -72,6 +72,7 @@ public class UserServices {
         oldUser.setCity(userDTO.getCity());
 
         var dto = parseObject(repository.save(oldUser), UserDTO.class);
+        logger.info("Updated user");
 
         addHateoasLinks(dto);
         return dto;
