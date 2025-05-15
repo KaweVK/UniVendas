@@ -10,7 +10,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController("/users")
+@RestController
+@RequestMapping("/user/v1")
 public class UserController {
 
     @Autowired
@@ -27,8 +28,7 @@ public class UserController {
     }
 
     @GetMapping(
-            produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_YAML_VALUE},
-            consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_YAML_VALUE}
+            produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_YAML_VALUE}
     )
     public List<UserDTO> findAll() {
         var user = userServices.findAll();
@@ -36,22 +36,17 @@ public class UserController {
         return user;
     }
 
-
     @PostMapping(
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_YAML_VALUE},
             consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_YAML_VALUE}
     )
     public UserDTO createPerson(@RequestBody UserDTO dto) {
-        var user = userServices.crateUser(dto);
 
-        return user;
+        return userServices.createUser(dto);
     }
 
 
-    @DeleteMapping(value = "/{id}",
-            produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_YAML_VALUE},
-            consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_YAML_VALUE}
-    )
+    @DeleteMapping(value = "/{id}")
     public ResponseEntity<?> deletePerson(@PathVariable("id") Long id) {
         userServices.deleteUser(id);
         return ResponseEntity.noContent().build();

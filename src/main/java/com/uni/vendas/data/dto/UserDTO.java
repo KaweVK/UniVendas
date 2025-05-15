@@ -22,6 +22,7 @@ public class UserDTO extends RepresentationModel<UserDTO> {
     private String email;
     private String phone;
     private String password;
+    private String city;
 
     public UserDTO() {}
 
@@ -73,16 +74,24 @@ public class UserDTO extends RepresentationModel<UserDTO> {
         this.password = password;
     }
 
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         UserDTO userDTO = (UserDTO) o;
-        return Objects.equals(getId(), userDTO.getId()) && Objects.equals(getFirstName(), userDTO.getFirstName()) && Objects.equals(getLastName(), userDTO.getLastName()) && Objects.equals(getEmail(), userDTO.getEmail()) && Objects.equals(getPhone(), userDTO.getPhone()) && Objects.equals(getPassword(), userDTO.getPassword());
+        return Objects.equals(getId(), userDTO.getId()) && Objects.equals(getFirstName(), userDTO.getFirstName()) && Objects.equals(getLastName(), userDTO.getLastName()) && Objects.equals(getEmail(), userDTO.getEmail()) && Objects.equals(getPhone(), userDTO.getPhone()) && Objects.equals(getPassword(), userDTO.getPassword()) && Objects.equals(getCity(), userDTO.getCity());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), getId(), getFirstName(), getLastName(), getEmail(), getPhone(), getPassword());
+        return Objects.hash(super.hashCode(), getId(), getFirstName(), getLastName(), getEmail(), getPhone(), getPassword(), getCity());
     }
 }

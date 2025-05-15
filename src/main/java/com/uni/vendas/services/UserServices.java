@@ -46,12 +46,12 @@ public class UserServices {
         return userDTO;
     }
 
-    public UserDTO crateUser(UserDTO userDTO) {
-        logger.info("Crating user");
+    public UserDTO createUser(UserDTO userDTO) {
+        logger.info("Creating user");
         var user = parseObject(userDTO, User.class);
 
         var dto = parseObject(repository.save(user), UserDTO.class);
-        logger.info("Crated user");
+        logger.info("Created user");
 
         addHateoasLinks(dto);
 
