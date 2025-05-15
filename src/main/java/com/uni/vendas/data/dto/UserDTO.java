@@ -7,7 +7,7 @@ import org.springframework.hateoas.RepresentationModel;
 
 import java.util.Objects;
 
-@JsonPropertyOrder({"id", "first_name", "last_name", "gender", "birthday" , "age", "address", "email"})
+@JsonPropertyOrder({"id", "first_name", "last_name", "city", "address", "email", "phone"})
 public class UserDTO extends RepresentationModel<UserDTO> {
 
     private static final long serialVersionUID = 1L;
@@ -19,8 +19,10 @@ public class UserDTO extends RepresentationModel<UserDTO> {
     @JsonProperty("last_name")
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String lastName;
+    //add non null
     private String email;
     private String phone;
+    //add nonnull
     private String password;
     private String city;
 

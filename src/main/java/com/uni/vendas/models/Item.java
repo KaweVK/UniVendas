@@ -19,7 +19,7 @@ public class Item implements Serializable {
     @Column(name = "descripition", nullable = false, length = 80)
     private String description;
     @Column(name = "amount", nullable = false, length = 80)
-    private int amount;
+    private Long amount;
     @Column(name = "price", nullable = false)
     private double price;
 
@@ -49,11 +49,11 @@ public class Item implements Serializable {
         this.description = description;
     }
 
-    public int getAmount() {
+    public Long getAmount() {
         return amount;
     }
 
-    public void setAmount(int amount) {
+    public void setAmount(Long amount) {
         this.amount = amount;
     }
 

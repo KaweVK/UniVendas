@@ -85,7 +85,6 @@ public class ItemService {
         logger.info("Deleted item: {}", id);
     }
 
-
     private ItemDTO addHateoasLinks(ItemDTO dto) {
         dto.add(linkTo(methodOn(UserController.class).findById(dto.getId())).withSelfRel().withType("GET"));
         dto.add(linkTo(methodOn(UserController.class).findAll()).withRel("findAll").withType("GET"));
