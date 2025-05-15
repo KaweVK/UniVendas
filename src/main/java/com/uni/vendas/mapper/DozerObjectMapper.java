@@ -1,7 +1,8 @@
-package com.kawevk.mapper;
+package com.uni.vendas.mapper;
 
 import com.github.dozermapper.core.DozerBeanMapperBuilder;
 import com.github.dozermapper.core.Mapper;
+
 import java.util.ArrayList;
 import java.util.List;
 

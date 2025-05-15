@@ -13,13 +13,13 @@ public class Item {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(nullable = false)
+    @Column(name = "name", nullable = false, length = 80)
     private String name;
-    @Column(nullable = false)
+    @Column(name = "descripition", nullable = false, length = 80)
     private String description;
-    @Column(nullable = false)
+    @Column(name = "amount", nullable = false, length = 80)
     private int amount;
-    @Column(nullable = false)
+    @Column(name = "price", nullable = false)
     private double price;
 
     public Item() {}
