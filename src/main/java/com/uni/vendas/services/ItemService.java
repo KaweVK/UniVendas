@@ -65,7 +65,7 @@ public class ItemService {
 
         var oldItem = repository.findById(itemDTO.getId()).orElseThrow(() -> new ResourceNotFoundException("Item not found with id: " + id));
 
-        oldItem.setName(itemDTO.getname());
+        oldItem.setName(itemDTO.getName());
         oldItem.setDescription(itemDTO.getDescription());
         oldItem.setAmount(itemDTO.getAmount());
         oldItem.setPrice(itemDTO.getPrice());
@@ -88,9 +88,9 @@ public class ItemService {
     private ItemDTO addHateoasLinks(ItemDTO dto) {
         dto.add(linkTo(methodOn(UserController.class).findById(dto.getId())).withSelfRel().withType("GET"));
         dto.add(linkTo(methodOn(UserController.class).findAll()).withRel("findAll").withType("GET"));
-        dto.add(linkTo(methodOn(UserController.class).createPerson(dto)).withRel("create").withType("POST"));
-        dto.add(linkTo(methodOn(UserController.class).deletePerson(dto.getId())).withRel("delete").withType("DELETE"));
-        dto.add(linkTo(methodOn(UserController.class).updatePerson(dto)).withRel("update").withType("PUT"));
+        dto.add(linkTo(methodOn(UserController.class).createItem(dto)).withRel("create").withType("POST"));
+        dto.add(linkTo(methodOn(UserController.class).deleteItem(dto.getId())).withRel("delete").withType("DELETE"));
+        dto.add(linkTo(methodOn(UserController.class).updateItem(dto)).withRel("update").withType("PUT"));
 
         return dto;
     }

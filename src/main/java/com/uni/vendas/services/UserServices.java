@@ -90,9 +90,9 @@ public class UserServices {
     private UserDTO addHateoasLinks(UserDTO dto) {
         dto.add(linkTo(methodOn(UserController.class).findById(dto.getId())).withSelfRel().withType("GET"));
         dto.add(linkTo(methodOn(UserController.class).findAll()).withRel("findAll").withType("GET"));
-        dto.add(linkTo(methodOn(UserController.class).createPerson(dto)).withRel("create").withType("POST"));
-        dto.add(linkTo(methodOn(UserController.class).deletePerson(dto.getId())).withRel("delete").withType("DELETE"));
-        dto.add(linkTo(methodOn(UserController.class).updatePerson(dto)).withRel("update").withType("PUT"));
+        dto.add(linkTo(methodOn(UserController.class).createUser(dto)).withRel("create").withType("POST"));
+        dto.add(linkTo(methodOn(UserController.class).deleteUser(dto.getId())).withRel("delete").withType("DELETE"));
+        dto.add(linkTo(methodOn(UserController.class).updateUser(dto)).withRel("update").withType("PUT"));
 
         return dto;
     }
