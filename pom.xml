@@ -11,7 +11,7 @@
     <groupId>KaweVK</groupId>
     <artifactId>UniVendas</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>APIUdemyCurso</name>
+    <name>UniVendas</name>
     <description>Demo project for Spring Boot</description>
 
     <properties>
@@ -86,7 +86,7 @@
                 <groupId>org.flywaydb</groupId>
                 <artifactId>flyway-maven-plugin</artifactId>
                 <configuration>
-                    <url>jdbc:mysql://localhost:3306/api_udemy_curso?useTimezone=true&amp;serverTimezone=UTC</url>
+                    <url>jdbc:mysql://localhost:3306/uni_vendas?useTimezone=true&amp;serverTimezone=UTC</url>
                 </configuration>
                 <dependencies>
                     <dependency>

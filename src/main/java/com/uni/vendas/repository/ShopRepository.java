@@ -1,7 +1,7 @@
 package com.uni.vendas.repository;
 
-import org.springframework.stereotype.Repository;
+import com.uni.vendas.models.Item;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-@Repository
-public class ShopRepository {
+public interface ShopRepository extends JpaRepository<Item, Long> {
 }

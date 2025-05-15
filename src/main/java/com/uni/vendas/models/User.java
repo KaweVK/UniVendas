@@ -1,9 +1,6 @@
 package com.uni.vendas.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.util.Objects;
 
@@ -16,11 +13,17 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private String password;
+    @Column(name = "first_name", nullable = false, length = 80)
     private String firstName;
+    @Column(name = "last_name", nullable = false, length = 80)
     private String lastName;
+    @Column(name = "email", nullable = false, length = 100)
     private String email;
+    @Column(name = "password", nullable = false, length = 100)
+    private String password;
+    @Column(name = "phone", nullable = false, length = 20)
     private String phone;
+    @Column(name = "city", nullable = false, length = 80)
     private String city;
 
     public User() {}
