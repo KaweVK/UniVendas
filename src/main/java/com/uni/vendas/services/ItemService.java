@@ -27,7 +27,7 @@ public class ItemService {
 
     public List<ItemDTO> findAll() {
         logger.info("Finding all items");
-        var items = parseListObjects(repository.findAll(), UserDTO.class);
+        var items = parseListObjects(repository.findAll(), ItemDTO.class);
         logger.info("Found {} items", items.size());
 
         items.forEach(this::addHateoasLinks);
