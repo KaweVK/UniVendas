@@ -78,6 +78,13 @@ public class ItemService {
         return dto;
     }
 
+    public void deleteItem(Long id) {
+        logger.info("Deleting item: {}", id);
+        var item = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Person not found for this id: " + id));
+        repository.delete(item);
+        logger.info("Deleted item: {}", id);
+    }
+
 
     private ItemDTO addHateoasLinks(ItemDTO dto) {
         dto.add(linkTo(methodOn(UserController.class).findById(dto.getId())).withSelfRel().withType("GET"));
