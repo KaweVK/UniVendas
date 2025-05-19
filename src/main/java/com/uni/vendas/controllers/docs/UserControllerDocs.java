@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -61,5 +62,35 @@ public interface UserControllerDocs {
             }
     )
     UserDTO createPerson(@RequestBody UserDTO personDTO);
+
+    @Operation(summary = "Update a person",
+            description = "Update a specific person by your ID",
+            tags = {"Persons"},
+            responses = {
+                    @ApiResponse(description = "Sucess", responseCode = "200", content =
+                    @Content(schema = @Schema(implementation = UserDTO.class))
+                    ),
+                    @ApiResponse(description = "No content", responseCode = "204", content = @Content),
+                    @ApiResponse(description = "Bad request", responseCode = "400", content = @Content),
+                    @ApiResponse(description = "Unauthorized", responseCode = "401", content = @Content),
+                    @ApiResponse(description = "Not Found", responseCode = "404", content = @Content),
+                    @ApiResponse(description = "Internal Server Error", responseCode = "500", content = @Content)
+            }
+    )
+    UserDTO updatePerson(@RequestBody UserDTO personDTO);
+
+    @Operation(summary = "Find a person",
+            description = "Find a specific person by your ID",
+            tags = {"Persons"},
+            responses = {
+                    @ApiResponse(description = "Sucess", responseCode = "200", content = @Content),
+                    @ApiResponse(description = "No content", responseCode = "204", content = @Content),
+                    @ApiResponse(description = "Bad request", responseCode = "400", content = @Content),
+                    @ApiResponse(description = "Unauthorized", responseCode = "401", content = @Content),
+                    @ApiResponse(description = "Not Found", responseCode = "404", content = @Content),
+                    @ApiResponse(description = "Internal Server Error", responseCode = "500", content = @Content)
+            }
+    )
+    ResponseEntity<?> deletePerson(@PathVariable("id") Long id);
 
 }
