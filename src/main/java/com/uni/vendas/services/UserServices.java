@@ -1,8 +1,7 @@
 package com.uni.vendas.services;
 
 import com.uni.vendas.controllers.UserController;
-import com.uni.vendas.data.dto.UserDTO;
-import com.uni.vendas.exceptions.RequiredObjectIsNullException;
+import com.uni.vendas.data.dto.v1.UserDTO;
 import com.uni.vendas.exceptions.ResourceNotFoundException;
 import com.uni.vendas.models.User;
 import com.uni.vendas.repository.UserRepository;

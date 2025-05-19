@@ -1,6 +1,6 @@
 package com.uni.vendas.controllers;
 
-import com.uni.vendas.data.dto.ItemDTO;
+import com.uni.vendas.data.dto.v1.ItemDTO;
 import com.uni.vendas.services.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;

@@ -1,5 +1,6 @@
-package com.uni.vendas.data.dto;
+package com.uni.vendas.data.dto.v1;
 
+import com.fasterxml.jackson.annotation.JsonFilter;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -7,6 +8,7 @@ import org.springframework.hateoas.RepresentationModel;
 
 import java.util.Objects;
 
+//@JsonFilter("PasswordFilter")
 @JsonPropertyOrder({"id", "first_name", "last_name", "city", "address", "email", "phone"})
 public class UserDTO extends RepresentationModel<UserDTO> {
 
@@ -19,10 +21,10 @@ public class UserDTO extends RepresentationModel<UserDTO> {
     @JsonProperty("last_name")
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String lastName;
-    //add non null
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private String email;
     private String phone;
-    //add nonnull
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private String password;
     private String city;
 

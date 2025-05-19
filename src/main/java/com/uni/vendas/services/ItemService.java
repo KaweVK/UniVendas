@@ -1,7 +1,7 @@
 package com.uni.vendas.services;
 
 import com.uni.vendas.controllers.ItemController;
-import com.uni.vendas.data.dto.ItemDTO;
+import com.uni.vendas.data.dto.v1.ItemDTO;
 import com.uni.vendas.exceptions.ResourceNotFoundException;
 import com.uni.vendas.models.Item;
 import com.uni.vendas.repository.ItemRepository;

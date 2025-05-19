@@ -1,4 +1,4 @@
-package com.uni.vendas.data.dto;
+package com.uni.vendas.data.dto.v1;
 
 
 import com.fasterxml.jackson.annotation.JsonInclude;

@@ -13,7 +13,7 @@ public class ObjectMapperConfig {
     public ObjectMapper objectMapper() {
         ObjectMapper objectMapper = new ObjectMapper();
 
-        SimpleFilterProvider filters = new SimpleFilterProvider().addFilter("PersonFilter", SimpleBeanPropertyFilter.serializeAllExcept("age"));
+        SimpleFilterProvider filters = new SimpleFilterProvider().addFilter("PasswordFilter", SimpleBeanPropertyFilter.serializeAllExcept("password"));
 
         objectMapper.setFilterProvider(filters);
 
