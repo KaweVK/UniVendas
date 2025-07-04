@@ -1,79 +1,43 @@
 package com.uni.vendas.models;
 
 import jakarta.persistence.*;
-import java.io.Serializable;
-import java.util.Objects;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Entity
 @Table(name = "item")
-public class Item implements Serializable {
-
-    private static final long serialVersionUID = 1L;
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@EntityListeners(AuditingEntityListener.class)
+public class Item {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-
+    @Column(name = "id", updatable = false, nullable = false, unique = true)
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
     @Column(name = "name", nullable = false, length = 80)
     private String name;
-    @Column(name = "description", nullable = false, length = 80)
+    @Column(name = "description", nullable = false)
     private String description;
-    @Column(name = "amount", nullable = false, length = 80)
+    @Column(name = "amount", nullable = false)
     private Long amount;
     @Column(name = "price", nullable = false)
-    private double price;
-
-    public Item() {}
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public Long getAmount() {
-        return amount;
-    }
-
-    public void setAmount(Long amount) {
-        this.amount = amount;
-    }
-
-    public double getPrice() {
-        return price;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
-        Item item = (Item) o;
-        return getId() == item.getId() && getAmount() == item.getAmount() && Double.compare(getPrice(), item.getPrice()) == 0 && Objects.equals(getName(), item.getName()) && Objects.equals(getDescription(), item.getDescription());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getId(), getName(), getDescription(), getAmount(), getPrice());
-    }
+    private BigDecimal price;
+    @CreatedDate
+    @Column(name = "register_date")
+    private LocalDateTime registerDate;
+    @LastModifiedDate
+    @Column(name = "update_date")
+    private LocalDateTime updateDate;
+    @Column(name = "user_id")
+    private UUID userId;
 }
