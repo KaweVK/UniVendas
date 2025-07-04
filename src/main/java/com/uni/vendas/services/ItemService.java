@@ -1,98 +1,63 @@
 package com.uni.vendas.services;
 
-import com.uni.vendas.controllers.ItemController;
-import com.uni.vendas.data.dto.v1.ItemDTO;
-import com.uni.vendas.exceptions.ResourceNotFoundException;
 import com.uni.vendas.models.Item;
 import com.uni.vendas.repository.ItemRepository;
+import com.uni.vendas.validator.ItemValidator;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
-import java.util.List;
 
-import static com.uni.vendas.mapper.DozerObjectMapper.parseListObjects;
-import static com.uni.vendas.mapper.DozerObjectMapper.parseObject;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
+@RequiredArgsConstructor
 public class ItemService {
 
     private Logger logger = LoggerFactory.getLogger(ItemService.class.getName());
+    private final ItemRepository itemRepository;
+    private final ItemValidator itemValidator;
 
-    @Autowired
-    private ItemRepository repository;
-
-    public List<ItemDTO> findAll() {
-        logger.info("Finding all items");
-        var items = parseListObjects(repository.findAll(), ItemDTO.class);
-        logger.info("Found {} items", items.size());
-
-        items.forEach(this::addHateoasLinks);
-
-        return items;
+    public Optional<Item> findById(UUID id) {
+        return itemRepository.findById(id);
     }
 
-
-    public ItemDTO findById(Long id) {
-        logger.info("Finding a item by id: {}", id);
-        var item = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Item not found with id: " + id));
-        logger.info("Found item: {}+--", item);
-
-        var dto = parseObject(item, ItemDTO.class);
-        addHateoasLinks(dto);
-        return dto;
+    public Item createItem(Item item) {
+        itemValidator.validate(item);
+        return itemRepository.save(item);
     }
 
-    public ItemDTO createItem(ItemDTO itemDTO) {
-        logger.info("Creating a item: {}", itemDTO);
-        var item = parseObject(itemDTO, Item.class);
-
-        var dto = parseObject(repository.save(item), ItemDTO.class);
-
-        logger.info("Created item: {}", dto);
-
-        addHateoasLinks(dto);
-
-        return dto;
-
+    public void updateItem(Item item) {
+        if (item.getId() == null) {
+            throw new IllegalArgumentException("Item ID cannot be null for update operation");
+        }
+        itemRepository.save(item);
     }
 
-    public ItemDTO updateItem(ItemDTO itemDTO) {
-        logger.info("Updating item: {}", itemDTO.getId());
-
-        var oldItem = repository.findById(itemDTO.getId()).orElseThrow(() -> new ResourceNotFoundException("Item not found with id: " + itemDTO.getId()));
-        logger.info("Found item: {}", oldItem.getId());
-
-        oldItem.setName(itemDTO.getName());
-        oldItem.setDescription(itemDTO.getDescription());
-        oldItem.setAmount(itemDTO.getAmount());
-        oldItem.setPrice(itemDTO.getPrice());
-
-        var dto = parseObject(repository.save(oldItem), ItemDTO.class);
-        logger.info("Updated item: {}", dto);
-
-        addHateoasLinks(dto);
-
-        return dto;
+    public void deleteItem(UUID id) {
+        Optional<Item> itemOptional = itemRepository.findById(id);
+        if (itemOptional.isPresent()) {
+            itemRepository.delete(itemOptional.get());
+        }
     }
 
-    public void deleteItem(Long id) {
-        logger.info("Deleting item: {}", id);
-        var item = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Person not found for this id: " + id));
-        repository.delete(item);
-        logger.info("Deleted item: {}", id);
-    }
+    public List<Item> searchAuthorsByExample(String name) {
+        var item = new Item();
+        item.setName(name);
 
-    private ItemDTO addHateoasLinks(ItemDTO dto) {
-        dto.add(linkTo(methodOn(ItemController.class).findById(dto.getId())).withSelfRel().withType("GET"));
-        dto.add(linkTo(methodOn(ItemController.class).findAll()).withRel("findAll").withType("GET"));
-        dto.add(linkTo(methodOn(ItemController.class).createItem(dto)).withRel("create").withType("POST"));
-        dto.add(linkTo(methodOn(ItemController.class).deleteItem(dto.getId())).withRel("delete").withType("DELETE"));
-        dto.add(linkTo(methodOn(ItemController.class).updateItem(dto)).withRel("update").withType("PUT"));
+        ExampleMatcher matcher = ExampleMatcher
+                .matching()
+                .withIgnoreNullValues()
+                .withIgnoreCase()
+                .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);
+        Example<Item> authorExample = Example.of(item, matcher);
 
-        return dto;
+        return itemRepository.findAll(authorExample);
+
     }
 
 }
