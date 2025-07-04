@@ -1,0 +1,10 @@
+create table item(
+	id uuid not null primary key,
+	name varchar(100) not null,
+	description text not null,
+	amount int not null,
+	price numeric(18,2),
+	register_date timestamp,
+	update_date timestamp,
+	user_id uuid
+);
