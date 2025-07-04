@@ -1,20 +1,18 @@
 spring:
   application:
-    name: UniVendas
+    name: univendas
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/uni_vendas?useTimezone=true&serverTimezone=UTC
-    hikari:
-      username: root
-      password: root
+    url: jdbc:postgresql://localhost:5432/univendas
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
   jpa:
+    show-sql: true
     hibernate:
       ddl-auto: none
     properties:
       hibernate:
-    show-sql: false
-    open-in-view: false
+        format_sql: true
 logging:
   level:
-    #com.kawevk: DEBUG
-    root: info
+    root: warn
