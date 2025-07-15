@@ -6,6 +6,7 @@ import com.uni.vendas.exception.DuplicatedRegisterException;
 import com.uni.vendas.exception.OperationNotAllowedException;
 import com.uni.vendas.models.Item;
 import com.uni.vendas.services.ItemService;
+import com.uni.vendas.validator.ItemValidator;
 import jakarta.validation.Valid;
 import jakarta.websocket.server.PathParam;
 import lombok.RequiredArgsConstructor;
@@ -31,63 +32,29 @@ public class ItemController {
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE}
     )
     public ResponseEntity<Object> findById(@PathVariable("id") String id) {
-        var idItem = UUID.fromString(id);
-        Optional<Item> itemOptional = itemService.findById(idItem);
-        if (itemOptional.isPresent()) {
-            Item item = itemOptional.get();
-            ItemDTO dto = new ItemDTO(
-                    item.getId(),
-                    item.getName(),
-                    item.getDescription(),
-                    item.getAmount(),
-                    item.getPrice()
-            );
-            return ResponseEntity.ok(dto);
+
+        var item = itemService.findById(id);
+        if (item.isPresent()) {
+            return ResponseEntity.ok().body(item);
         }
         return ResponseEntity.notFound().build();
 
     }
 
-    @GetMapping(
-            produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE}
-    )
-    public ResponseEntity<List<ItemDTO>> searchByExample(@PathParam("name") String name) {
-        List<Item> items = itemService.searchAuthorsByExample(name);
-        List<ItemDTO> itemDTOS = items.stream()
-                .map(item -> new ItemDTO(
-                        item.getId(),
-                        item.getName(),
-                        item.getDescription(),
-                        item.getAmount(),
-                        item.getPrice()))
-                .toList();
-        return ResponseEntity.ok(itemDTOS);
-
-    }
 
     @PostMapping(
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
             consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE}
     )
     public ResponseEntity<Object> createItem(@RequestBody @Valid ItemDTO itemDTO) {
-        try {
-            var item = itemDTO.MapToItem();
-            itemService.createItem(item);
+        Item item = itemService.createItem(itemDTO);
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(item.getId())
+                .toUri();
 
-            URI location = ServletUriComponentsBuilder.fromCurrentRequest()
-                    .path("/{id}")
-                    .buildAndExpand(item.getId())
-                    .toUri();
-
-            return ResponseEntity.created(location)
-                    .body("Author created successfully with ID: " + item.getId());
-        } catch (DuplicatedRegisterException e) {
-            var errorDTO = ErrorAnswer.conflictAnswer(e.getMessage());
-            return ResponseEntity.status(errorDTO.status()).body(errorDTO);
-        } catch (Exception e) {
-            var errorDTO = ErrorAnswer.internalServerErrorAnswer(e.getMessage());
-            return ResponseEntity.status(errorDTO.status()).body(errorDTO);
-        }
+        return ResponseEntity.created(location)
+                .body("Author created successfully with ID: " + item.getId());
     }
 
     @PutMapping(
@@ -96,52 +63,21 @@ public class ItemController {
             consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE}
     )
     public ResponseEntity<Object> updateItem(@PathVariable("id") String id, @RequestBody @Valid ItemDTO itemDTO) {
-        try {
-
-            var idItem = UUID.fromString(id);
-            Optional<Item> itemOptional = itemService.findById(idItem);
-            if (itemOptional.isEmpty()) {
-                return ResponseEntity.notFound().build();
-            }
-            var item = itemOptional.get();
-            itemService.updateItem(item);
-            item.setName(itemDTO.name());
-            item.setDescription(itemDTO.description());
-            item.setAmount(itemDTO.amount());
-            item.setPrice(itemDTO.price());
-            itemService.updateItem(item);
-
-            return ResponseEntity.noContent().build();
-
-        } catch (DuplicatedRegisterException e) {
-            var errorDTO = ErrorAnswer.conflictAnswer(e.getMessage());
-            return ResponseEntity.status(errorDTO.status()).body(errorDTO);
-        } catch (IllegalArgumentException e) {
-            var errorDTO = ErrorAnswer.defaultAnswer(e.getMessage());
-            return ResponseEntity.status(errorDTO.status()).body(errorDTO);
-        } catch (Exception e) {
-            var errorDTO = ErrorAnswer.internalServerErrorAnswer(e.getMessage());
-            return ResponseEntity.status(errorDTO.status()).body(errorDTO);
+        Optional<ItemDTO> itemOptional = itemService.updateItem(id, itemDTO);;
+        if (itemOptional.isEmpty()) {
+            return ResponseEntity.notFound().build();
         }
+        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> deleteItem(@PathVariable("id") String id) {
-        try {
-            var idItem = UUID.fromString(id);
-            Optional<Item> authorOptional = itemService.findById(idItem);
-            if (authorOptional.isPresent()) {
-                itemService.deleteItem(idItem);
-                return ResponseEntity.ok("Item deleted successfully.");
-            }
-            return ResponseEntity.notFound().build();
-        } catch (OperationNotAllowedException | IllegalArgumentException e) {
-            var errorDTO = ErrorAnswer.defaultAnswer(e.getMessage());
-            return ResponseEntity.status(errorDTO.status()).body(errorDTO);
-        } catch (Exception e) {
-            var errorDTO = ErrorAnswer.internalServerErrorAnswer(e.getMessage());
-            return ResponseEntity.status(errorDTO.status()).body(errorDTO);
+        Optional<ItemDTO> authorOptional = itemService.findById(id);
+        if (authorOptional.isPresent()) {
+            itemService.deleteItem(id);
+            return ResponseEntity.ok("Item deleted successfully.");
         }
+        return ResponseEntity.notFound().build();
     }
 
 }

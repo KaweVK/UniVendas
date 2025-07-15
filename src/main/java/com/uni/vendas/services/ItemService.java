@@ -1,16 +1,13 @@
 package com.uni.vendas.services;
 
+import com.uni.vendas.data.dto.v1.ItemDTO;
+import com.uni.vendas.mapper.ItemMapper;
 import com.uni.vendas.models.Item;
 import com.uni.vendas.repository.ItemRepository;
 import com.uni.vendas.validator.ItemValidator;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -18,46 +15,59 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class ItemService {
 
-    private Logger logger = LoggerFactory.getLogger(ItemService.class.getName());
     private final ItemRepository itemRepository;
     private final ItemValidator itemValidator;
+    private final ItemMapper itemMapper;
 
-    public Optional<Item> findById(UUID id) {
-        return itemRepository.findById(id);
+    public Optional<ItemDTO> findById(String id) {
+        UUID idItem = UUID.fromString(id);
+        var itemOptional = itemRepository.findById(idItem);
+        if (itemOptional.isEmpty()) {
+            throw new IllegalArgumentException("Item with ID " + id + " does not exist");
+        }
+        return itemOptional.map(itemMapper::toDTO);
     }
 
-    public Item createItem(Item item) {
+    protected Optional<Item> findByIdInternal(String id) {
+        Optional<Item> itemOptional = itemRepository.findById(UUID.fromString(id));
+        if (itemOptional.isEmpty()) {
+            throw new IllegalArgumentException("Item with ID " + id + " does not exist");
+        }
+        return itemOptional;
+    }
+
+    public Item createItem(ItemDTO itemDTO) {
+        var item = itemDTO.MapToItem();
         itemValidator.validate(item);
         return itemRepository.save(item);
     }
 
-    public void updateItem(Item item) {
+    public Optional<ItemDTO> updateItem(String id, ItemDTO itemDTO) {
+        Optional<Item> itemOptional = findByIdInternal(id);
+
+        if (itemOptional.isEmpty()) {
+            throw new IllegalArgumentException("Item with ID " + id + " does not exist");
+        }
+
+        Item item = itemOptional.get();
+
         if (item.getId() == null) {
             throw new IllegalArgumentException("Item ID cannot be null for update operation");
         }
-        itemRepository.save(item);
+
+        item.setName(itemDTO.name());
+        item.setDescription(itemDTO.description());
+        item.setAmount(itemDTO.amount());
+        item.setPrice(itemDTO.price());
+
+        itemValidator.validate(item);
+        Item updated = itemRepository.save(item);
+        return Optional.of(itemMapper.toDTO(updated));
     }
 
-    public void deleteItem(UUID id) {
-        Optional<Item> itemOptional = itemRepository.findById(id);
-        if (itemOptional.isPresent()) {
-            itemRepository.delete(itemOptional.get());
-        }
+    public void deleteItem(String id) {
+        var itemId = UUID.fromString(id);
+        Optional<Item> itemOptional = itemRepository.findById(itemId);
+        itemOptional.ifPresent(itemRepository::delete);
     }
-
-    public List<Item> searchAuthorsByExample(String name) {
-        var item = new Item();
-        item.setName(name);
-
-        ExampleMatcher matcher = ExampleMatcher
-                .matching()
-                .withIgnoreNullValues()
-                .withIgnoreCase()
-                .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);
-        Example<Item> authorExample = Example.of(item, matcher);
-
-        return itemRepository.findAll(authorExample);
-
-    }
-
 }
