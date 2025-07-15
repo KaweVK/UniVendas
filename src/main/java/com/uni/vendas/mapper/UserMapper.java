@@ -1,5 +1,6 @@
 package com.uni.vendas.mapper;
 
+import com.uni.vendas.data.dto.RegisterUserDTO;
 import com.uni.vendas.models.User;
 import org.mapstruct.Mapper;
 
@@ -8,5 +9,7 @@ public interface UserMapper {
 
     User toEntity(UserDTO userDTO);
 
-    UserDTO toDTO(User user);
+    RegisterUserDTO toRegisterDTO(User user);
+
+    SearchUserDTO toSearchDTO(User user);
 }
