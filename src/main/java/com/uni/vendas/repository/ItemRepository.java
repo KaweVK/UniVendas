@@ -8,6 +8,5 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface ItemRepository extends JpaRepository<Item, UUID> {
-
     Optional<Item> findByIdAndNameAndDescriptionAndAmountAndPrice(UUID id, String name, String description, Long amount, BigDecimal price);
 }
