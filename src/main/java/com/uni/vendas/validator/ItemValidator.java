@@ -16,7 +16,7 @@ public class ItemValidator {
 
     public void validate(Item item){
         if(existItem(item)){
-            throw new DuplicatedRegisterException("Author alredy exists");
+            throw new DuplicatedRegisterException("Item alredy exists");
         }
     }
 
