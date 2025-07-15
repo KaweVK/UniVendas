@@ -20,6 +20,7 @@ import java.util.UUID;
 @EntityListeners(AuditingEntityListener.class)
 public class Item {
 
+    //add createdBy e Type
     @Id
     @Column(name = "id", updatable = false, nullable = false, unique = true)
     @GeneratedValue(strategy = GenerationType.UUID)
