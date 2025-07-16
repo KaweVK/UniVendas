@@ -3,6 +3,7 @@ package com.uni.vendas.data.dto;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 import java.math.BigDecimal;
 import java.util.UUID;
@@ -11,10 +12,12 @@ import java.util.UUID;
 public record ItemDTO(
         UUID id,
         @NotBlank(message = "Name cannot be blank")
+        @Size(min = 3, max = 100, message = "Nome deve ter entre 3 e 100 caracteres")
         String name,
         @NotBlank(message = "Description cannot be blank")
+        @Size(min = 20, max = 2000, message = "Descrição deve ter entre 20 e 2000 caracteres")
         String description,
-        @NotNull(message = "Price is required")
+        @NotNull(message = "Amount is required")
         Long amount,
         @NotNull(message = "Price is required")
         BigDecimal price) {
