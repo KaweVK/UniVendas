@@ -17,7 +17,7 @@ public class UserValidator {
 
     public void validate(User user){
         if(existItem(user)){
-            throw new DuplicatedRegisterException("Item alredy exists");
+            throw new DuplicatedRegisterException("User alredy exists");
         }
     }
 
