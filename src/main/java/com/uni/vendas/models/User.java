@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
-@Table(name = "user", schema = "public")
+@Table(name = "users", schema = "public")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -26,7 +26,7 @@ public class User {
     @Column(name = "name", nullable = false, length = 100)
     private String name;
     @Email(regexp = "^[a-zA-Z0-9._%+-]+@dcx.ufpb.br$", message = "Invalid email format")
-    @Column(name = "name", nullable = false, length = 100)
+    @Column(name = "email", nullable = false, length = 100)
     private String email;
     @Column(name = "password", nullable = false, length = 50)
     private String password;
@@ -42,7 +42,7 @@ public class User {
     private LocalDateTime registerDate;
     @Column(name = "update_date")
     private LocalDateTime updateDate;
-    @Column(name = "user_id")
-    private UUID userId;
+//    @Column(name = "user_id")
+//    private UUID userId;
 
 }
