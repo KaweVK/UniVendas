@@ -14,7 +14,7 @@ import java.net.URI;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/shop/")
+@RequestMapping("/shop")
 @RequiredArgsConstructor
 public class ItemController {
 
