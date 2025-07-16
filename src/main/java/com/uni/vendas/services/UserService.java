@@ -21,7 +21,7 @@ public class UserService {
     private final UserValidator userValidator;
 
     public Optional<DeafultUserDTO> findById(String id) {
-        var uuid = UUID.fromString(id);
+        UUID uuid = UUID.fromString(id);
         var userOptional = userRepository.findById(uuid);
         if (userOptional.isEmpty()) {
             throw new IllegalArgumentException("User with ID " + id + " does not exist");
