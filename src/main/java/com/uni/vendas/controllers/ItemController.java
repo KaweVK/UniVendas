@@ -1,14 +1,9 @@
 package com.uni.vendas.controllers;
 
-import com.uni.vendas.data.dto.v1.ItemDTO;
-import com.uni.vendas.error.ErrorAnswer;
-import com.uni.vendas.exception.DuplicatedRegisterException;
-import com.uni.vendas.exception.OperationNotAllowedException;
+import com.uni.vendas.data.dto.ItemDTO;
 import com.uni.vendas.models.Item;
 import com.uni.vendas.services.ItemService;
-import com.uni.vendas.validator.ItemValidator;
 import jakarta.validation.Valid;
-import jakarta.websocket.server.PathParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -16,9 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
-import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/shop/")
