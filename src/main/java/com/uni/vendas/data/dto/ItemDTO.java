@@ -1,7 +1,6 @@
-package com.uni.vendas.data.dto.v1;
+package com.uni.vendas.data.dto;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.uni.vendas.models.Item;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
@@ -19,13 +18,4 @@ public record ItemDTO(
         Long amount,
         @NotNull(message = "Price is required")
         BigDecimal price) {
-
-    public Item MapToItem() {
-        Item item = new Item();
-        item.setName(name);
-        item.setDescription(description);
-        item.setAmount(amount);
-        item.setPrice(price);
-        return item;
-    }
 }
