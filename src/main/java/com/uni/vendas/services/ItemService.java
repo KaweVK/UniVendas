@@ -1,6 +1,6 @@
 package com.uni.vendas.services;
 
-import com.uni.vendas.data.dto.v1.ItemDTO;
+import com.uni.vendas.data.dto.ItemDTO;
 import com.uni.vendas.mapper.ItemMapper;
 import com.uni.vendas.models.Item;
 import com.uni.vendas.repository.ItemRepository;
@@ -37,7 +37,7 @@ public class ItemService {
     }
 
     public Item createItem(ItemDTO itemDTO) {
-        var item = itemDTO.MapToItem();
+        var item = itemMapper.toEntity(itemDTO);
         itemValidator.validate(item);
         return itemRepository.save(item);
     }
