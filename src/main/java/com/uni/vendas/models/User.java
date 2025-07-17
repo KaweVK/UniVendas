@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
@@ -34,15 +35,11 @@ public class User {
     private String phoneNumber;
     @Column(name = "city", nullable = false, length = 50)
     private String city;
-//    @OneToMany(mappedBy = "", fetch = FetchType.LAZY)
-//    private List<Item> createdItems;
-
     @CreatedDate
     @Column(name = "register_date")
     private LocalDateTime registerDate;
+    @LastModifiedDate
     @Column(name = "update_date")
     private LocalDateTime updateDate;
-//    @Column(name = "user_id")
-//    private UUID userId;
 
 }
