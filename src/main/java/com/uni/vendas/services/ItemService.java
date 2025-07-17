@@ -6,7 +6,13 @@ import com.uni.vendas.models.Item;
 import com.uni.vendas.repository.ItemRepository;
 import com.uni.vendas.validator.ItemValidator;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+
+import static com.uni.vendas.repository.specs.ItemSpecs.*;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -69,5 +75,28 @@ public class ItemService {
         var itemId = UUID.fromString(id);
         Optional<Item> itemOptional = itemRepository.findById(itemId);
         itemOptional.ifPresent(itemRepository::delete);
+    }
+
+    public Page<ItemDTO> searchItem(String name, String description, Double price, Integer page, Integer size) {
+
+        Specification<Item> spec = Specification
+                .where((root, query, cb) -> cb.conjunction());
+
+        if (name != null && !name.isEmpty()) {
+            spec = spec.and(nameLike(name));
+        }
+        if (description != null && !description.isEmpty()) {
+            spec = spec.and(descriptionLike(description));
+        }
+        if (price != null) {
+            spec = spec.and(priceEqual(price));
+        }
+
+        Pageable pageable = PageRequest.of(page, size);
+
+        Page<Item> pageResult = itemRepository.findAll(spec, pageable);
+
+        return pageResult.map(itemMapper::toDTO);
+
     }
 }
