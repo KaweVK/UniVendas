@@ -13,8 +13,8 @@ public class ItemSpecs {
         return (root, query, cb) -> cb.like(cb.upper(root.get("description")), "%" + description.toUpperCase() + "%");
     }
 
-    public static Specification<Item> priceEqual(Double price) {
-        return (root, query, cb) -> cb.equal(root.get("price"), price);
+    public static Specification<Item> priceEqual(Double priceLess, Double priceGreater) {
+        return (root, query, cb) -> cb.between(root.get("price"), priceLess, priceGreater);
     }
 
 }
