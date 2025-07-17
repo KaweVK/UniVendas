@@ -83,14 +83,16 @@ public class ItemController {
             String name,
             @RequestParam(value = "description", required = false)
             String description,
-            @RequestParam(value = "price", required = false)
-            Double price,
+            @RequestParam(value = "priceLess", required = false)
+            Double priceLess,
+            @RequestParam(value = "priceGreater", required = false)
+            Double priceGreater,
             @RequestParam(value = "page", defaultValue = "0")
             Integer page,
             @RequestParam(value = "size", defaultValue = "10")
             Integer size
     ) {
-        Page<ItemDTO> pageResult = itemService.searchItem(name, description, price, page, size);
+        Page<ItemDTO> pageResult = itemService.searchItem(name, description, priceLess, priceGreater, page, size);
 
         return ResponseEntity.ok(pageResult);
     }

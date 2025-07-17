@@ -77,7 +77,7 @@ public class ItemService {
         itemOptional.ifPresent(itemRepository::delete);
     }
 
-    public Page<ItemDTO> searchItem(String name, String description, Double price, Integer page, Integer size) {
+    public Page<ItemDTO> searchItem(String name, String description, Double priceLess, Double priceGreater, Integer page, Integer size) {
 
         Specification<Item> spec = Specification
                 .where((root, query, cb) -> cb.conjunction());
@@ -88,8 +88,8 @@ public class ItemService {
         if (description != null && !description.isEmpty()) {
             spec = spec.and(descriptionLike(description));
         }
-        if (price != null) {
-            spec = spec.and(priceEqual(price));
+        if (priceLess != null && priceGreater != null) {
+            spec = spec.and(priceEqual(priceLess, priceGreater));
         }
 
         Pageable pageable = PageRequest.of(page, size);
@@ -98,6 +98,6 @@ public class ItemService {
 
         return pageResult.map(itemMapper::toDTO);
 
-
     }
+
 }
