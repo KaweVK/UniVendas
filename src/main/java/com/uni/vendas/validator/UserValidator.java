@@ -1,7 +1,6 @@
 package com.uni.vendas.validator;
 
 import com.uni.vendas.exception.DuplicatedRegisterException;
-import com.uni.vendas.models.Item;
 import com.uni.vendas.models.User;
 import com.uni.vendas.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
