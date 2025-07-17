@@ -5,6 +5,7 @@ import com.uni.vendas.models.Item;
 import com.uni.vendas.services.ItemService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -72,5 +73,27 @@ public class ItemController {
         }
         return ResponseEntity.notFound().build();
     }
+
+    @GetMapping(
+            value = "/search",
+            produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE}
+    )
+    public ResponseEntity<Page<ItemDTO>> searchItems(
+            @RequestParam(value = "name", required = false)
+            String name,
+            @RequestParam(value = "description", required = false)
+            String description,
+            @RequestParam(value = "price", required = false)
+            Double price,
+            @RequestParam(value = "page", defaultValue = "0")
+            Integer page,
+            @RequestParam(value = "size", defaultValue = "10")
+            Integer size
+    ) {
+        Page<ItemDTO> pageResult = itemService.searchItem(name, description, price, page, size);
+
+        return ResponseEntity.ok(pageResult);
+    }
+
 
 }
