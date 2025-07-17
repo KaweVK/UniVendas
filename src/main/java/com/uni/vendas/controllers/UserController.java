@@ -6,6 +6,7 @@ import com.uni.vendas.models.User;
 import com.uni.vendas.services.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -67,6 +68,27 @@ public class UserController {
             return ResponseEntity.ok().build();
         }
         return ResponseEntity.notFound().build();
+    }
+
+    @GetMapping(
+            value = "/search",
+            produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE}
+    )
+    public ResponseEntity<Page<DeafultUserDTO>> sarchUsers(
+            @RequestParam(value = "name", required = false)
+            String name,
+            @RequestParam(value = "email", required = false)
+            String email,
+            @RequestParam(value = "phone_number", required = false)
+            String phoneNumber,
+            @RequestParam(value = "page", defaultValue = "0")
+            Integer page,
+            @RequestParam(value = "size", defaultValue = "10")
+            Integer size
+    ) {
+        Page<DeafultUserDTO> pageResult = userService.search(name, email, phoneNumber, page, size);
+
+        return ResponseEntity.ok(pageResult);
     }
 
 }

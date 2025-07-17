@@ -7,10 +7,16 @@ import com.uni.vendas.models.User;
 import com.uni.vendas.repository.UserRepository;
 import com.uni.vendas.validator.UserValidator;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 import java.util.UUID;
+
+import static com.uni.vendas.repository.specs.UserSpecs.*;
 
 @Service
 @RequiredArgsConstructor
@@ -73,4 +79,26 @@ public class UserService {
         Optional<User> userOptional = userRepository.findById(uuid);
         userOptional.ifPresent(userRepository::delete);
     }
+
+    public Page<DeafultUserDTO> search(String name, String email, String phoneNumber, Integer page, Integer size) {
+        Specification<User> spec = Specification
+                .where((root, query, cb) -> cb.conjunction());
+
+        if (name != null && !name.isEmpty()) {
+            spec = spec.and(nameLike(name));
+        }
+        if (email != null && !email.isEmpty()) {
+            spec = spec.and(emailLike(email));
+        }
+        if (phoneNumber != null && !phoneNumber.isEmpty()) {
+            spec = spec.and(phoneNumberLike(phoneNumber));
+        }
+
+        Pageable pageable = PageRequest.of(page, size);
+
+        Page<User> result = userRepository.findAll(spec, pageable);
+
+        return result.map(userMapper::toDefaultDTO);
+    }
+
 }
