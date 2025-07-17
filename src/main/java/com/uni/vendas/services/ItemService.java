@@ -94,9 +94,9 @@ public class ItemService {
 
         Pageable pageable = PageRequest.of(page, size);
 
-        Page<Item> pageResult = itemRepository.findAll(spec, pageable);
+        Page<Item> result = itemRepository.findAll(spec, pageable);
 
-        return pageResult.map(itemMapper::toDTO);
+        return result.map(itemMapper::toDTO);
 
     }
 
