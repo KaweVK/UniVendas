@@ -77,7 +77,7 @@ public class ItemService {
         itemOptional.ifPresent(itemRepository::delete);
     }
 
-    public Page<ItemDTO> searchItem(String name, String description, Double priceLess, Double priceGreater, Integer page, Integer size) {
+    public Page<ItemDTO> searchItem(String name, String description, Double priceLess, Double priceGreater, Integer page, Integer size, String userNameLike, String category) {
 
         Specification<Item> spec = Specification
                 .where((root, query, cb) -> cb.conjunction());
@@ -90,6 +90,12 @@ public class ItemService {
         }
         if (priceLess != null && priceGreater != null) {
             spec = spec.and(priceEqual(priceLess, priceGreater));
+        }
+        if (userNameLike != null && !userNameLike.isEmpty()) {
+            spec = spec.and(userNameLike(userNameLike));
+        }
+        if (category != null && !category.isEmpty()) {
+            spec = spec.and(categoryEqual(category));
         }
 
         Pageable pageable = PageRequest.of(page, size);
