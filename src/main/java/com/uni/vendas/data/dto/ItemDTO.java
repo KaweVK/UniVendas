@@ -1,6 +1,7 @@
 package com.uni.vendas.data.dto;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.uni.vendas.models.enums.ItemCategory;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -20,5 +21,11 @@ public record ItemDTO(
         @NotNull(message = "Amount is required")
         Long amount,
         @NotNull(message = "Price is required")
-        BigDecimal price) {
+        BigDecimal price,
+        @NotNull(message = "User ID is required")
+        UUID soldById,
+        @NotNull(message = "Category is required")
+        ItemCategory category
+
+) {
 }
