@@ -17,4 +17,12 @@ public class ItemSpecs {
         return (root, query, cb) -> cb.between(root.get("price"), priceLess, priceGreater);
     }
 
+    public static Specification<Item> userNameLike(String userName) {
+        return (root, query, cb) -> cb.like(cb.lower(root.get("user").get("name")), "%" + userName + "%");
+    }
+
+    public static Specification<Item> categoryEqual(String category) {
+        return (root, query, cb) -> cb.equal(cb.lower(root.get("type").as(String.class)), category.toLowerCase());
+    }
+
 }
