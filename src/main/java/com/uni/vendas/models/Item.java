@@ -1,5 +1,6 @@
 package com.uni.vendas.models;
 
+import com.uni.vendas.models.enums.ItemCategory;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,7 +21,6 @@ import java.util.UUID;
 @EntityListeners(AuditingEntityListener.class)
 public class Item {
 
-    //add createdBy e Type
     @Id
     @Column(name = "id", updatable = false, nullable = false, unique = true)
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -33,6 +33,12 @@ public class Item {
     private Long amount;
     @Column(name = "price", nullable = false)
     private BigDecimal price;
+    @Column(name = "category", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private ItemCategory category;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_salesman")
+    private User soldBy;
     @CreatedDate
     @Column(name = "register_date")
     private LocalDateTime registerDate;
