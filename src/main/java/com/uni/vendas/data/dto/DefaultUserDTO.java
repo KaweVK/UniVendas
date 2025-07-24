@@ -6,7 +6,7 @@ import jakarta.validation.constraints.Size;
 
 import java.util.UUID;
 
-public record DeafultUserDTO(
+public record DefaultUserDTO(
         UUID id,
         @NotBlank(message = "Name cannot be blank")
         @Size(min = 3, max = 100, message = "Nome deve ter entre 3 e 100 caracteres")
