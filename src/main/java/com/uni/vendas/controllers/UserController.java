@@ -1,6 +1,6 @@
 package com.uni.vendas.controllers;
 
-import com.uni.vendas.data.dto.DeafultUserDTO;
+import com.uni.vendas.data.dto.DefaultUserDTO;
 import com.uni.vendas.data.dto.RegisterUserDTO;
 import com.uni.vendas.models.User;
 import com.uni.vendas.services.UserService;
@@ -53,7 +53,7 @@ public class UserController {
             consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE}
     )
     public ResponseEntity<Object> updateUser(@PathVariable("id") String id, @RequestBody @Valid RegisterUserDTO userDTO) {
-        Optional<DeafultUserDTO> userOptional = userService.updateUser(id, userDTO);
+        Optional<DefaultUserDTO> userOptional = userService.updateUser(id, userDTO);
         if (userOptional.isPresent()) {
             return ResponseEntity.noContent().build();
         }
@@ -62,7 +62,7 @@ public class UserController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> deleteUser(@PathVariable("id") String id) {
-        Optional<DeafultUserDTO> userOptional = userService.findById(id);
+        Optional<DefaultUserDTO> userOptional = userService.findById(id);
         if (userOptional.isPresent()) {
             userService.deleteUser(id);
             return ResponseEntity.ok().build();
@@ -74,7 +74,7 @@ public class UserController {
             value = "/search",
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE}
     )
-    public ResponseEntity<Page<DeafultUserDTO>> sarchUsers(
+    public ResponseEntity<Page<DefaultUserDTO>> sarchUsers(
             @RequestParam(value = "name", required = false)
             String name,
             @RequestParam(value = "email", required = false)
@@ -86,7 +86,7 @@ public class UserController {
             @RequestParam(value = "size", defaultValue = "10")
             Integer size
     ) {
-        Page<DeafultUserDTO> pageResult = userService.search(name, email, phoneNumber, page, size);
+        Page<DefaultUserDTO> pageResult = userService.search(name, email, phoneNumber, page, size);
 
         return ResponseEntity.ok(pageResult);
     }
