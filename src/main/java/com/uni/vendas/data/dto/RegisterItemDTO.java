@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 import java.util.UUID;
 
 @JsonPropertyOrder({"id", "name", "description", "amount", "price"})
-public record ItemDTO(
+public record RegisterItemDTO(
         UUID id,
         @NotBlank(message = "Name cannot be blank")
         @Size(min = 3, max = 100, message = "Nome deve ter entre 3 e 100 caracteres")
