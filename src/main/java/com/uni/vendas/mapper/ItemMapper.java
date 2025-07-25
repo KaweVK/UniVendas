@@ -1,6 +1,7 @@
 package com.uni.vendas.mapper;
 
-import com.uni.vendas.data.dto.ItemDTO;
+import com.uni.vendas.data.dto.DefaultItemDTO;
+import com.uni.vendas.data.dto.RegisterItemDTO;
 import com.uni.vendas.models.Item;
 import com.uni.vendas.repository.UserRepository;
 import org.mapstruct.Mapper;
@@ -13,9 +14,11 @@ public abstract class ItemMapper {
     @Autowired
     UserRepository userRepository;
 
-    @Mapping(target = "soldBy", expression = "java( userRepository.findById(itemDTO.soldById()).orElse(null) )")
-    public abstract Item toEntity(ItemDTO itemDTO);
+    @Mapping(target = "soldBy", expression = "java( userRepository.findById(registerItemDTO.soldById()).orElse(null) )")
+    public abstract Item toEntity(RegisterItemDTO registerItemDTO);
 
-    public abstract ItemDTO toDTO(Item item);
+    public abstract RegisterItemDTO toRegisterDTO(Item item);
+
+    public abstract DefaultItemDTO toDefaultDTO(Item item);
 
 }
