@@ -1,6 +1,6 @@
 package com.uni.vendas.mapper;
 
-import com.uni.vendas.data.dto.DeafultUserDTO;
+import com.uni.vendas.data.dto.DefaultUserDTO;
 import com.uni.vendas.data.dto.RegisterUserDTO;
 import com.uni.vendas.models.User;
 import org.mapstruct.Mapper;
@@ -12,5 +12,5 @@ public interface UserMapper {
 
     RegisterUserDTO toRegisterDTO(User user);
 
-    DeafultUserDTO toDefaultDTO(User user);
+    DefaultUserDTO toDefaultDTO(User user);
 }
