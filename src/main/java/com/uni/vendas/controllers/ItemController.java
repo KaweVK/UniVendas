@@ -1,6 +1,7 @@
 package com.uni.vendas.controllers;
 
-import com.uni.vendas.data.dto.ItemDTO;
+import com.uni.vendas.data.dto.DefaultItemDTO;
+import com.uni.vendas.data.dto.RegisterItemDTO;
 import com.uni.vendas.models.Item;
 import com.uni.vendas.services.ItemService;
 import jakarta.validation.Valid;
@@ -39,8 +40,8 @@ public class ItemController {
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
             consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE}
     )
-    public ResponseEntity<Object> createItem(@RequestBody @Valid ItemDTO itemDTO) {
-        Item item = itemService.createItem(itemDTO);
+    public ResponseEntity<Object> createItem(@RequestBody @Valid RegisterItemDTO registerItemDTO) {
+        Item item = itemService.createItem(registerItemDTO);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
                 .buildAndExpand(item.getId())
@@ -55,8 +56,8 @@ public class ItemController {
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
             consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE}
     )
-    public ResponseEntity<Object> updateItem(@PathVariable("id") String id, @RequestBody @Valid ItemDTO itemDTO) {
-        Optional<ItemDTO> itemOptional = itemService.updateItem(id, itemDTO);;
+    public ResponseEntity<Object> updateItem(@PathVariable("id") String id, @RequestBody @Valid RegisterItemDTO registerItemDTO) {
+        Optional<RegisterItemDTO> itemOptional = itemService.updateItem(id, registerItemDTO);;
         if (itemOptional.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
@@ -65,7 +66,7 @@ public class ItemController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> deleteItem(@PathVariable("id") String id) {
-        Optional<ItemDTO> authorOptional = itemService.findById(id);
+        Optional<RegisterItemDTO> authorOptional = itemService.findById(id);
         if (authorOptional.isPresent()) {
             itemService.deleteItem(id);
             return ResponseEntity.ok("Item deleted successfully.");
@@ -77,7 +78,7 @@ public class ItemController {
             value = "/search",
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE}
     )
-    public ResponseEntity<Page<ItemDTO>> searchItems(
+    public ResponseEntity<Page<DefaultItemDTO>> searchItems(
             @RequestParam(value = "name", required = false)
             String name,
             @RequestParam(value = "description", required = false)
@@ -95,7 +96,7 @@ public class ItemController {
             @RequestParam(value = "category", required = false)
             String category
     ) {
-        Page<ItemDTO> pageResult = itemService.searchItem(name, description, priceLess, priceGreater, page, size, userName, category);
+        Page<DefaultItemDTO> pageResult = itemService.searchItem(name, description, priceLess, priceGreater, page, size, userName, category);
 
         return ResponseEntity.ok(pageResult);
     }

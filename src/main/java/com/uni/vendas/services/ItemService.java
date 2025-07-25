@@ -1,6 +1,7 @@
 package com.uni.vendas.services;
 
-import com.uni.vendas.data.dto.ItemDTO;
+import com.uni.vendas.data.dto.DefaultItemDTO;
+import com.uni.vendas.data.dto.RegisterItemDTO;
 import com.uni.vendas.mapper.ItemMapper;
 import com.uni.vendas.models.Item;
 import com.uni.vendas.repository.ItemRepository;
@@ -25,13 +26,13 @@ public class ItemService {
     private final ItemValidator itemValidator;
     private final ItemMapper itemMapper;
 
-    public Optional<ItemDTO> findById(String id) {
+    public Optional<RegisterItemDTO> findById(String id) {
         UUID idItem = UUID.fromString(id);
         var itemOptional = itemRepository.findById(idItem);
         if (itemOptional.isEmpty()) {
             throw new IllegalArgumentException("Item with ID " + id + " does not exist");
         }
-        return itemOptional.map(itemMapper::toDTO);
+        return itemOptional.map(itemMapper::toRegisterDTO);
     }
 
     protected Optional<Item> findByIdInternal(String id) {
@@ -42,13 +43,13 @@ public class ItemService {
         return itemOptional;
     }
 
-    public Item createItem(ItemDTO itemDTO) {
-        var item = itemMapper.toEntity(itemDTO);
+    public Item createItem(RegisterItemDTO registerItemDTO) {
+        var item = itemMapper.toEntity(registerItemDTO);
         itemValidator.validate(item);
         return itemRepository.save(item);
     }
 
-    public Optional<ItemDTO> updateItem(String id, ItemDTO itemDTO) {
+    public Optional<RegisterItemDTO> updateItem(String id, RegisterItemDTO registerItemDTO) {
         Optional<Item> itemOptional = findByIdInternal(id);
 
         if (itemOptional.isEmpty()) {
@@ -61,14 +62,14 @@ public class ItemService {
             throw new IllegalArgumentException("Item ID cannot be null for update operation");
         }
 
-        item.setName(itemDTO.name());
-        item.setDescription(itemDTO.description());
-        item.setAmount(itemDTO.amount());
-        item.setPrice(itemDTO.price());
+        item.setName(registerItemDTO.name());
+        item.setDescription(registerItemDTO.description());
+        item.setAmount(registerItemDTO.amount());
+        item.setPrice(registerItemDTO.price());
 
         itemValidator.validate(item);
         Item updated = itemRepository.save(item);
-        return Optional.of(itemMapper.toDTO(updated));
+        return Optional.of(itemMapper.toRegisterDTO(updated));
     }
 
     public void deleteItem(String id) {
@@ -77,7 +78,7 @@ public class ItemService {
         itemOptional.ifPresent(itemRepository::delete);
     }
 
-    public Page<ItemDTO> searchItem(String name, String description, Double priceLess, Double priceGreater, Integer page, Integer size, String userNameLike, String category) {
+    public Page<DefaultItemDTO> searchItem(String name, String description, Double priceLess, Double priceGreater, Integer page, Integer size, String userNameLike, String category) {
 
         Specification<Item> spec = Specification
                 .where((root, query, cb) -> cb.conjunction());
@@ -102,7 +103,7 @@ public class ItemService {
 
         Page<Item> result = itemRepository.findAll(spec, pageable);
 
-        return result.map(itemMapper::toDTO);
+        return result.map(itemMapper::toDefaultDTO);
 
     }
 

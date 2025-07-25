@@ -1,6 +1,6 @@
 package com.uni.vendas.services;
 
-import com.uni.vendas.data.dto.DeafultUserDTO;
+import com.uni.vendas.data.dto.DefaultUserDTO;
 import com.uni.vendas.data.dto.RegisterUserDTO;
 import com.uni.vendas.mapper.UserMapper;
 import com.uni.vendas.models.User;
@@ -26,7 +26,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final UserValidator userValidator;
 
-    public Optional<DeafultUserDTO> findById(String id) {
+    public Optional<DefaultUserDTO> findById(String id) {
         UUID uuid = UUID.fromString(id);
         var userOptional = userRepository.findById(uuid);
         if (userOptional.isEmpty()) {
@@ -50,7 +50,7 @@ public class UserService {
 
     }
 
-    public Optional<DeafultUserDTO> updateUser(String id, RegisterUserDTO userDTO ) {
+    public Optional<DefaultUserDTO> updateUser(String id, RegisterUserDTO userDTO ) {
         Optional<User> userOptional = findByIdInternal(id);
 
         if (userOptional.isEmpty()) {
@@ -80,7 +80,7 @@ public class UserService {
         userOptional.ifPresent(userRepository::delete);
     }
 
-    public Page<DeafultUserDTO> search(String name, String email, String phoneNumber, Integer page, Integer size) {
+    public Page<DefaultUserDTO> search(String name, String email, String phoneNumber, Integer page, Integer size) {
         Specification<User> spec = Specification
                 .where((root, query, cb) -> cb.conjunction());
 
