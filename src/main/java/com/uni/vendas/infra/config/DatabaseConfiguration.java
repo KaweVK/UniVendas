@@ -1,4 +1,4 @@
-package com.uni.vendas.config;
+package com.uni.vendas.infra.config;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;

@@ -1,10 +1,10 @@
-package com.uni.vendas.controllers.commom;
+package com.uni.vendas.infra.controllers.commom;
 
-import com.uni.vendas.error.ErrorAnswer;
-import com.uni.vendas.error.ErrorField;
-import com.uni.vendas.exception.DuplicatedRegisterException;
-import com.uni.vendas.exception.InvalidFieldException;
-import com.uni.vendas.exception.OperationNotAllowedException;
+import com.uni.vendas.infra.error.ErrorAnswer;
+import com.uni.vendas.infra.error.ErrorField;
+import com.uni.vendas.infra.exception.DuplicatedRegisterException;
+import com.uni.vendas.infra.exception.InvalidFieldException;
+import com.uni.vendas.infra.exception.OperationNotAllowedException;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;

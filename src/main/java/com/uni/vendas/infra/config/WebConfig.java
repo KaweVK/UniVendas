@@ -1,4 +1,4 @@
-package com.uni.vendas.config;
+package com.uni.vendas.infra.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;

@@ -1,4 +1,4 @@
-package com.uni.vendas.error;
+package com.uni.vendas.infra.error;
 
 import org.springframework.http.HttpStatus;
 

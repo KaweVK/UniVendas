@@ -1,4 +1,4 @@
-package com.uni.vendas.exception;
+package com.uni.vendas.infra.exception;
 
 import lombok.Getter;
 
