@@ -1,4 +1,4 @@
-package com.uni.vendas.models.enums;
+package com.uni.vendas.item.model.enums;
 
 public enum ItemCategory {
     TECNOLOGIA,

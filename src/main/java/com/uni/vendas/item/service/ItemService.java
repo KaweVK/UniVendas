@@ -1,11 +1,11 @@
-package com.uni.vendas.services;
+package com.uni.vendas.item.service;
 
-import com.uni.vendas.data.dto.DefaultItemDTO;
-import com.uni.vendas.data.dto.RegisterItemDTO;
-import com.uni.vendas.mapper.ItemMapper;
-import com.uni.vendas.models.Item;
-import com.uni.vendas.repository.ItemRepository;
-import com.uni.vendas.validator.ItemValidator;
+import com.uni.vendas.user.dto.DefaultItemDTO;
+import com.uni.vendas.item.data.RegisterItemDTO;
+import com.uni.vendas.item.mapper.ItemMapper;
+import com.uni.vendas.item.model.Item;
+import com.uni.vendas.item.repository.ItemRepository;
+import com.uni.vendas.item.validator.ItemValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -13,7 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import static com.uni.vendas.repository.specs.ItemSpecs.*;
+import static com.uni.vendas.item.repository.specs.ItemSpecs.*;
 
 import java.util.Optional;
 import java.util.UUID;

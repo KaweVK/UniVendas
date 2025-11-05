@@ -1,8 +1,8 @@
-package com.uni.vendas.validator;
+package com.uni.vendas.item.validator;
 
-import com.uni.vendas.exception.DuplicatedRegisterException;
-import com.uni.vendas.models.Item;
-import com.uni.vendas.repository.ItemRepository;
+import com.uni.vendas.infra.exception.DuplicatedRegisterException;
+import com.uni.vendas.item.model.Item;
+import com.uni.vendas.item.repository.ItemRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

@@ -1,9 +1,9 @@
-package com.uni.vendas.controllers;
+package com.uni.vendas.item.controller;
 
-import com.uni.vendas.data.dto.DefaultItemDTO;
-import com.uni.vendas.data.dto.RegisterItemDTO;
-import com.uni.vendas.models.Item;
-import com.uni.vendas.services.ItemService;
+import com.uni.vendas.user.dto.DefaultItemDTO;
+import com.uni.vendas.item.data.RegisterItemDTO;
+import com.uni.vendas.item.model.Item;
+import com.uni.vendas.item.service.ItemService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

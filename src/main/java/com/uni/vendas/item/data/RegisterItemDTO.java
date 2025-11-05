@@ -1,7 +1,7 @@
-package com.uni.vendas.data.dto;
+package com.uni.vendas.item.data;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.uni.vendas.models.enums.ItemCategory;
+import com.uni.vendas.item.model.enums.ItemCategory;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;

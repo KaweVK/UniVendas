@@ -1,6 +1,7 @@
-package com.uni.vendas.models;
+package com.uni.vendas.item.model;
 
-import com.uni.vendas.models.enums.ItemCategory;
+import com.uni.vendas.item.model.enums.ItemCategory;
+import com.uni.vendas.user.models.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;

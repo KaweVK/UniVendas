@@ -1,6 +1,6 @@
-package com.uni.vendas.repository;
+package com.uni.vendas.item.repository;
 
-import com.uni.vendas.models.Item;
+import com.uni.vendas.item.model.Item;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 

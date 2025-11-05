@@ -1,9 +1,10 @@
-package com.uni.vendas.mapper;
+package com.uni.vendas.item.mapper;
 
-import com.uni.vendas.data.dto.DefaultItemDTO;
-import com.uni.vendas.data.dto.RegisterItemDTO;
-import com.uni.vendas.models.Item;
-import com.uni.vendas.repository.UserRepository;
+import com.uni.vendas.user.dto.DefaultItemDTO;
+import com.uni.vendas.item.data.RegisterItemDTO;
+import com.uni.vendas.user.mapper.UserMapper;
+import com.uni.vendas.item.model.Item;
+import com.uni.vendas.user.repository.UserRepository;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.springframework.beans.factory.annotation.Autowired;

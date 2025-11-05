@@ -1,6 +1,6 @@
-package com.uni.vendas.repository.specs;
+package com.uni.vendas.item.repository.specs;
 
-import com.uni.vendas.models.Item;
+import com.uni.vendas.item.model.Item;
 import org.springframework.data.jpa.domain.Specification;
 
 public class ItemSpecs {
