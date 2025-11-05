@@ -1,6 +1,6 @@
-package com.uni.vendas.repository;
+package com.uni.vendas.user.repository;
 
-import com.uni.vendas.models.User;
+import com.uni.vendas.user.models.User;
 import jakarta.validation.constraints.Email;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;

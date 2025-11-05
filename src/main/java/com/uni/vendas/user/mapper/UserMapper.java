@@ -1,8 +1,8 @@
-package com.uni.vendas.mapper;
+package com.uni.vendas.user.mapper;
 
-import com.uni.vendas.data.dto.DefaultUserDTO;
-import com.uni.vendas.data.dto.RegisterUserDTO;
-import com.uni.vendas.models.User;
+import com.uni.vendas.user.dto.DefaultUserDTO;
+import com.uni.vendas.item.data.RegisterUserDTO;
+import com.uni.vendas.user.models.User;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")

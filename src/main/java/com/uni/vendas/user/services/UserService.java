@@ -1,11 +1,11 @@
-package com.uni.vendas.services;
+package com.uni.vendas.user.services;
 
-import com.uni.vendas.data.dto.DefaultUserDTO;
-import com.uni.vendas.data.dto.RegisterUserDTO;
-import com.uni.vendas.mapper.UserMapper;
-import com.uni.vendas.models.User;
-import com.uni.vendas.repository.UserRepository;
-import com.uni.vendas.validator.UserValidator;
+import com.uni.vendas.user.dto.DefaultUserDTO;
+import com.uni.vendas.item.data.RegisterUserDTO;
+import com.uni.vendas.user.mapper.UserMapper;
+import com.uni.vendas.user.models.User;
+import com.uni.vendas.user.repository.UserRepository;
+import com.uni.vendas.user.validator.UserValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 import java.util.UUID;
 
-import static com.uni.vendas.repository.specs.UserSpecs.*;
+import static com.uni.vendas.user.repository.specs.UserSpecs.*;
 
 @Service
 @RequiredArgsConstructor

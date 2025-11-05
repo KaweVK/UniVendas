@@ -1,6 +1,6 @@
-package com.uni.vendas.repository.specs;
+package com.uni.vendas.user.repository.specs;
 
-import com.uni.vendas.models.User;
+import com.uni.vendas.user.models.User;
 import org.springframework.data.jpa.domain.Specification;
 
 public class UserSpecs {

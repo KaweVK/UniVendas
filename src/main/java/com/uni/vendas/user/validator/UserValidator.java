@@ -1,8 +1,8 @@
-package com.uni.vendas.validator;
+package com.uni.vendas.user.validator;
 
-import com.uni.vendas.exception.DuplicatedRegisterException;
-import com.uni.vendas.models.User;
-import com.uni.vendas.repository.UserRepository;
+import com.uni.vendas.infra.exception.DuplicatedRegisterException;
+import com.uni.vendas.user.models.User;
+import com.uni.vendas.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

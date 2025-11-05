@@ -1,4 +1,4 @@
-package com.uni.vendas.models;
+package com.uni.vendas.user.models;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
