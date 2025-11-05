@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.3.1</version> <relativePath/> </parent>
+        <version>3.3.4</version> <relativePath/> </parent>
     <groupId>com.github.kawevk</groupId>
     <artifactId>libraryapi</artifactId>
     <version>0.0.1-SNAPSHOT</version>
@@ -60,7 +60,6 @@
             <version>${mapstruct.version}</version>
             <scope>provided</scope>
         </dependency>
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
