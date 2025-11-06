@@ -72,7 +72,7 @@ public class UserController {
 
     @GetMapping(
             value = "/search",
-            produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE}
+            produces = {MediaType.APPLICATION_JSON_VALUE}
     )
     public ResponseEntity<Page<DefaultUserDTO>> sarchUsers(
             @RequestParam(value = "name", required = false)
