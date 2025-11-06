@@ -1,6 +1,7 @@
-package com.uni.vendas.user.dto;
+package com.uni.vendas.item.dto;
 
 import com.uni.vendas.item.model.enums.ItemCategory;
+import com.uni.vendas.user.dto.DefaultUserDTO;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;

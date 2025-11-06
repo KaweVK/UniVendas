@@ -1,4 +1,4 @@
-package com.uni.vendas.item.data;
+package com.uni.vendas.item.dto;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.uni.vendas.item.model.enums.ItemCategory;

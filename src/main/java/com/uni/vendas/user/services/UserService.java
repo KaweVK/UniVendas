@@ -1,7 +1,7 @@
 package com.uni.vendas.user.services;
 
 import com.uni.vendas.user.dto.DefaultUserDTO;
-import com.uni.vendas.item.data.RegisterUserDTO;
+import com.uni.vendas.user.dto.RegisterUserDTO;
 import com.uni.vendas.user.mapper.UserMapper;
 import com.uni.vendas.user.models.User;
 import com.uni.vendas.user.repository.UserRepository;

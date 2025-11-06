@@ -1,7 +1,7 @@
 package com.uni.vendas.user.controller;
 
 import com.uni.vendas.user.dto.DefaultUserDTO;
-import com.uni.vendas.item.data.RegisterUserDTO;
+import com.uni.vendas.user.dto.RegisterUserDTO;
 import com.uni.vendas.user.models.User;
 import com.uni.vendas.user.services.UserService;
 import jakarta.validation.Valid;

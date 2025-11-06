@@ -1,7 +1,7 @@
 package com.uni.vendas.item.mapper;
 
-import com.uni.vendas.user.dto.DefaultItemDTO;
-import com.uni.vendas.item.data.RegisterItemDTO;
+import com.uni.vendas.item.dto.DefaultItemDTO;
+import com.uni.vendas.item.dto.RegisterItemDTO;
 import com.uni.vendas.user.mapper.UserMapper;
 import com.uni.vendas.item.model.Item;
 import com.uni.vendas.user.repository.UserRepository;
