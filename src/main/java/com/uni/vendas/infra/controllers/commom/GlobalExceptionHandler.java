@@ -6,6 +6,7 @@ import com.uni.vendas.infra.exception.DuplicatedRegisterException;
 import com.uni.vendas.infra.exception.InvalidFieldException;
 import com.uni.vendas.infra.exception.OperationNotAllowedException;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -61,6 +62,12 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(UsernameNotFoundException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorAnswer handleUsernameNotFoundException(UsernameNotFoundException e) {
+        return ErrorAnswer.badRequestAnswer(e.getMessage());
+    }
+
+    @ExceptionHandler(BadCredentialsException.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public ErrorAnswer badCredentialException(BadCredentialsException e) {
         return ErrorAnswer.badRequestAnswer(e.getMessage());
     }
 }
