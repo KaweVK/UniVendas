@@ -14,16 +14,17 @@ import java.time.ZoneOffset;
 @Service
 public class TokenService {
 
-    @Value("{api.security.token.secret}")
+    @Value("${api.security.token.secret}")
     private String secret;
 
     public String generateToken(User user) {
         try {
             var algorithm = Algorithm.HMAC256(secret);
+            System.out.printf(secret);
             return JWT.create()
                     .withIssuer("UniVendas")
                     .withSubject(user.getEmail())
-                    .withClaim("email", user.getEmail())
+                    .withClaim("id", String.valueOf(user.getId()))
                     .withExpiresAt(dataExpiracao())
                     .sign(algorithm);
         } catch (JWTCreationException exception){
