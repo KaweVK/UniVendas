@@ -16,3 +16,8 @@ spring:
 logging:
   level:
     root: info
+
+api:
+  security:
+    token:
+      secret: ${JWT_SECRET:univ3nd4s}
