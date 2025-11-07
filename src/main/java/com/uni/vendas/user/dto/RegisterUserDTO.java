@@ -16,7 +16,6 @@ public record RegisterUserDTO(
         @Email(regexp = "^[a-zA-Z0-9._%+-]+@dcx.ufpb.br$", message = "Invalid email format")
         String email,
         @NotBlank(message = "Password cannot be blank")
-        @Size(min = 3, max = 50, message = "Senha deve ter entre 3 e 50 caracteres")
         String password,
         @NotBlank(message = "Phone Number cannot be blank")
         @Size(min = 3, max = 15, message = "Número de celular deve ter entre 3 e 15 caracteres")
