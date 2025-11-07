@@ -1,6 +1,5 @@
 package com.uni.vendas.user.autenticacao;
 
-import com.uni.vendas.user.models.User;
 import com.uni.vendas.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
