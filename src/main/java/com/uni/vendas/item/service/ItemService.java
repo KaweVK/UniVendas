@@ -4,6 +4,7 @@ import com.uni.vendas.item.dto.DefaultItemDTO;
 import com.uni.vendas.item.dto.RegisterItemDTO;
 import com.uni.vendas.item.mapper.ItemMapper;
 import com.uni.vendas.item.model.Item;
+import com.uni.vendas.item.model.enums.ItemCategory;
 import com.uni.vendas.item.repository.ItemRepository;
 import com.uni.vendas.item.validator.ItemValidator;
 import lombok.RequiredArgsConstructor;
@@ -78,7 +79,7 @@ public class ItemService {
         itemOptional.ifPresent(itemRepository::delete);
     }
 
-    public Page<DefaultItemDTO> searchItem(String name, String description, Double priceLess, Double priceGreater, Integer page, Integer size, String userNameLike, String category) {
+    public Page<DefaultItemDTO> searchItem(String name, String description, Double priceLess, Double priceGreater, Integer page, Integer size, String userNameLike, ItemCategory category) {
 
         Specification<Item> spec = Specification
                 .where((root, query, cb) -> cb.conjunction());
@@ -95,8 +96,8 @@ public class ItemService {
         if (userNameLike != null && !userNameLike.isEmpty()) {
             spec = spec.and(userNameLike(userNameLike));
         }
-        if (category != null && !category.isEmpty()) {
-            spec = spec.and(categoryEqual(category));
+        if (category != null) {
+            spec = spec.and(categoryEqual(category.name()));
         }
 
         Pageable pageable = PageRequest.of(page, size);
@@ -107,4 +108,10 @@ public class ItemService {
 
     }
 
+    public Page<DefaultItemDTO> findAll(Integer page, Integer size) {
+
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Item> result = itemRepository.findAll(pageable);
+        return result.map(itemMapper::toDefaultDTO);
+    }
 }

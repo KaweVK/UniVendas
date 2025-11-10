@@ -3,6 +3,7 @@ package com.uni.vendas.item.controller;
 import com.uni.vendas.item.dto.DefaultItemDTO;
 import com.uni.vendas.item.dto.RegisterItemDTO;
 import com.uni.vendas.item.model.Item;
+import com.uni.vendas.item.model.enums.ItemCategory;
 import com.uni.vendas.item.service.ItemService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -35,6 +36,21 @@ public class ItemController {
         return ResponseEntity.notFound().build();
 
     }
+
+    @GetMapping(
+            value = "/all",
+            produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE}
+    )
+    public ResponseEntity<Page<DefaultItemDTO>> findAll(
+            @RequestParam(value = "page", defaultValue = "0")
+            Integer page,
+            @RequestParam(value = "size", defaultValue = "10")
+            Integer size
+    ) {
+        Page<DefaultItemDTO> itens = itemService.findAll(page, size);
+        return ResponseEntity.ok(itens);
+    }
+
 
     @PostMapping(
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
@@ -94,7 +110,7 @@ public class ItemController {
             @RequestParam(value = "user-name", required = false)
             String userName,
             @RequestParam(value = "category", required = false)
-            String category
+            ItemCategory category
     ) {
         Page<DefaultItemDTO> pageResult = itemService.searchItem(name, description, priceLess, priceGreater, page, size, userName, category);
 
