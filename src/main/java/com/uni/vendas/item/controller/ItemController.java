@@ -110,7 +110,7 @@ public class ItemController {
             @RequestParam(value = "user-name", required = false)
             String userName,
             @RequestParam(value = "category", required = false)
-            ItemCategory category
+            String category
     ) {
         Page<DefaultItemDTO> pageResult = itemService.searchItem(name, description, priceLess, priceGreater, page, size, userName, category);
 

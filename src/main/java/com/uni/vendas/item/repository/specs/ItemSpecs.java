@@ -22,7 +22,7 @@ public class ItemSpecs {
     }
 
     public static Specification<Item> categoryEqual(String category) {
-        return (root, query, cb) -> cb.equal(cb.lower(root.get("type").as(String.class)), category.toLowerCase());
+        return (root, query, cb) -> cb.equal(cb.upper(root.get("category").as(String.class)), category.toUpperCase());
     }
 
 }
