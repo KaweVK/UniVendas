@@ -248,8 +248,6 @@ Endpoint base: `/shop`
 
 O schema do banco de dados é definido pelas entidades JPA e pelo arquivo de migração `V1__create-table-item-and-user.sql`.
 
-*(Nota: O arquivo `V1...sql` refere-se a `references users(id)`, enquanto a entidade JPA `User.java` está mapeada para `@Table(name = "user")`. O DDL abaixo é baseado no arquivo de migração. O `ddl-auto: update` do JPA pode tentar reconciliar isso.)*
-
 ```sql
 -- Tabela de Usuários
 CREATE TABLE user(
@@ -271,7 +269,7 @@ CREATE TABLE item(
     amount int NOT NULL,
     price numeric(18,2),
     category varchar(50) NOT NULL,
-    id_user uuid NOT NULL references users(id), -- No arquivo V1...sql
+    id_user uuid NOT NULL references user(id), -- No arquivo V1...sql
     register_date timestamp,
     update_date timestamp
 );
