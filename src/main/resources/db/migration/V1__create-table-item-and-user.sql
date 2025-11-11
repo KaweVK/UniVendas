@@ -14,7 +14,7 @@ create table user(
     id uuid not null primary key,
     name varchar(100) not null,
     email varchar(100) not null,
-    password varchar(50) not null,
+    password varchar(255) not null,
     phone_number varchar(15),
     city varchar(50),
     register_date timestamp,

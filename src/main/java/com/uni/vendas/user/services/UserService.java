@@ -11,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -25,6 +26,7 @@ public class UserService {
     private final UserMapper userMapper;
     private final UserRepository userRepository;
     private final UserValidator userValidator;
+    private final PasswordEncoder passwordEncoder;
 
     public Optional<DefaultUserDTO> findById(String id) {
         UUID uuid = UUID.fromString(id);
@@ -45,6 +47,9 @@ public class UserService {
 
     public User createUser(RegisterUserDTO userDTO) {
         var user = userMapper.toEntity(userDTO);
+
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+
         userValidator.validate(user);
         return userRepository.save(user);
 
@@ -67,7 +72,7 @@ public class UserService {
         user.setEmail(userDTO.email());
         user.setPhoneNumber(userDTO.phoneNumber());
         user.setCity(userDTO.city());
-        user.setPassword(userDTO.password());
+        user.setPassword(passwordEncoder.encode(userDTO.password()));
         userValidator.validate(user);
 
         var updatedUser = userRepository.save(user);
