@@ -75,7 +75,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 document.getElementById('createUserForm').addEventListener('submit', async function(event) {
     event.preventDefault();
-    const id = document.getElementById('createUserId').value;
     const name = document.getElementById('createUserName').value;
     const email = document.getElementById('createUserEmail').value;
     const password = document.getElementById('createUserPassword').value;
@@ -83,7 +82,6 @@ document.getElementById('createUserForm').addEventListener('submit', async funct
     const city = document.getElementById('createUserCity').value;
 
     const userDTO = { name, email, password, phoneNumber, city };
-    if (id) userDTO.id = id;
 
     await sendRequest('POST', `${baseUrl}/users`, userDTO);
 });
@@ -135,7 +133,6 @@ document.getElementById('searchUsersForm').addEventListener('submit', async func
 
 document.getElementById('createItemForm').addEventListener('submit', async function(event) {
     event.preventDefault();
-    const id = document.getElementById('createItemId').value;
     const name = document.getElementById('createItemName').value;
     const description = document.getElementById('createItemDescription').value;
     const amount = parseInt(document.getElementById('createItemAmount').value);
@@ -145,7 +142,6 @@ document.getElementById('createItemForm').addEventListener('submit', async funct
 
 
     const itemDTO = { name, description, amount, price, soldById, category };
-    if (id) itemDTO.id = id;
 
     await sendRequest('POST', `${baseUrl}/shop`, itemDTO);
 });
@@ -176,6 +172,18 @@ document.getElementById('deleteItemForm').addEventListener('submit', async funct
     await sendRequest('DELETE', `${baseUrl}/shop/${id}`);
 });
 
+document.getElementById('findAllItemsForm').addEventListener('submit', async function(event) {
+    event.preventDefault();
+    const page = document.getElementById('findAllItemsPage').value;
+    const size = document.getElementById('findAllItemsSize').value;
+
+    const queryParams = new URLSearchParams();
+    queryParams.append('page', page);
+    queryParams.append('size', size);
+
+    await sendRequest('GET', `${baseUrl}/shop/all?${queryParams.toString()}`);
+});
+
 document.getElementById('searchItemsForm').addEventListener('submit', async function(event) {
     event.preventDefault();
     const name = document.getElementById('searchItemName').value;
@@ -184,7 +192,6 @@ document.getElementById('searchItemsForm').addEventListener('submit', async func
     const priceGreater = document.getElementById('searchItemPriceGreater').value;
     const page = document.getElementById('searchItemPage').value;
     const size = document.getElementById('searchItemSize').value;
-    const userName = document.getElementById('searchItemUserName').value;
     const category = document.getElementById('searchItemCategory').value;
 
 
@@ -193,7 +200,6 @@ document.getElementById('searchItemsForm').addEventListener('submit', async func
     if (description) queryParams.append('description', description);
     if (priceLess) queryParams.append('priceLess', priceLess);
     if (priceGreater) queryParams.append('priceGreater', priceGreater);
-    if (userName) queryParams.append('user-name', userName);
     if (category) queryParams.append('category', category);
 
     queryParams.append('page', page);

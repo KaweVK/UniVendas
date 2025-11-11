@@ -22,7 +22,6 @@
 
             <h3>Criar Usuário (POST /users)</h3>
             <form id="createUserForm">
-                <input type="text" id="createUserId" placeholder="ID (opcional para criação)">
                 <input type="text" id="createUserName" placeholder="Nome" required>
                 <input type="email" id="createUserEmail" placeholder="Email" required>
                 <input type="password" id="createUserPassword" placeholder="Senha" required>
@@ -72,7 +71,6 @@
 
             <h3>Criar Item (POST /shop)</h3>
             <form id="createItemForm">
-                <input type="text" id="createItemId" placeholder="ID (opcional para criação)">
                 <input type="text" id="createItemName" placeholder="Nome do Item" required>
                 <textarea id="createItemDescription" placeholder="Descrição do Item" required></textarea>
                 <input type="number" id="createItemAmount" placeholder="Quantidade" required>
@@ -126,6 +124,13 @@
                 <button type="submit">Deletar Item</button>
             </form>
 
+            <h3>Buscar Todos os Itens (GET /shop/all)</h3>
+            <form id="findAllItemsForm">
+                <input type="number" id="findAllItemsPage" value="0" placeholder="Página">
+                <input type="number" id="findAllItemsSize" value="10" placeholder="Tamanho">
+                <button type="submit">Buscar Todos</button>
+            </form>
+
             <h3>Pesquisar Itens (GET /shop/search)</h3>
             <form id="searchItemsForm">
                 <input type="text" id="searchItemName" placeholder="Nome do Item (opcional)">
@@ -134,7 +139,6 @@
                 <input type="number" step="0.01" id="searchItemPriceGreater" placeholder="Preço Máximo (opcional)">
                 <input type="number" id="searchItemPage" value="0" placeholder="Página">
                 <input type="number" id="searchItemSize" value="10" placeholder="Tamanho">
-                <input type="text" id="searchItemUserName" placeholder="Nome do Vendedor (opcional)">
                 <select id="searchItemCategory" >
                     <option value="">Categoria (opcional)</option>
                     <option value="tecnologia">TECNOLOGIA</option>
