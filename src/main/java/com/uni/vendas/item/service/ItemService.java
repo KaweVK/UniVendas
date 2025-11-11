@@ -4,7 +4,6 @@ import com.uni.vendas.item.dto.DefaultItemDTO;
 import com.uni.vendas.item.dto.RegisterItemDTO;
 import com.uni.vendas.item.mapper.ItemMapper;
 import com.uni.vendas.item.model.Item;
-import com.uni.vendas.item.model.enums.ItemCategory;
 import com.uni.vendas.item.repository.ItemRepository;
 import com.uni.vendas.item.validator.ItemValidator;
 import com.uni.vendas.user.models.User;
@@ -83,7 +82,7 @@ public class ItemService {
         itemOptional.ifPresent(itemRepository::delete);
     }
 
-    public Page<DefaultItemDTO> searchItem(String name, String description, Double priceLess, Double priceGreater, Integer page, Integer size, String userName, String category) {
+    public Page<DefaultItemDTO> searchItem(String name, String description, Double priceLess, Double priceGreater, Integer page, Integer size, String category) {
 
         Specification<Item> spec = Specification
                 .where((root, query, cb) -> cb.conjunction());
@@ -97,11 +96,18 @@ public class ItemService {
         if (priceLess != null && priceGreater != null) {
             spec = spec.and(priceEqual(priceLess, priceGreater));
         }
-        if (userName != null && !userName.isEmpty()) {
-            User user = userRepository.findByNameLike("%" + userName + "%");
-            UUID userId = user.getId();
-            spec = spec.and(userIdEqual(userId));
-        }
+//        if (userName != null && !userName.isEmpty()) {
+//            List<User> users = userRepository.findByNameLike("%" + userName + "%"); //pode acabar retornando dois
+//            if (!users.isEmpty()) {
+//                Specification<Item> userSpecs = Specification.where(null);
+//                for (User user : users) {
+//                    userSpecs = userSpecs.or(userNameLike(user.getName()));
+//                }
+//                spec = spec.and(userSpecs);
+//            } else {
+//                spec = spec.and(userNameLike(userName));
+//            }
+//        }
         if (category != null && !category.isEmpty()) {
             spec = spec.and(categoryEqual(category.toUpperCase()));
         }
@@ -115,7 +121,6 @@ public class ItemService {
     }
 
     public Page<DefaultItemDTO> findAll(Integer page, Integer size) {
-
         Pageable pageable = PageRequest.of(page, size);
         Page<Item> result = itemRepository.findAll(pageable);
         return result.map(itemMapper::toDefaultDTO);

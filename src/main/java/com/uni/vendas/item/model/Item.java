@@ -46,6 +46,4 @@ public class Item {
     @LastModifiedDate
     @Column(name = "update_date")
     private LocalDateTime updateDate;
-    @Column(name = "user_id")
-    private UUID userId;
 }
