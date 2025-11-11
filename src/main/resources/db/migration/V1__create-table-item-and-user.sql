@@ -5,7 +5,7 @@ create table item(
     amount int not null,
     price numeric(18,2),
     category varchar(50) not null,
-    id_user uuid not null references users(id),
+    id_user uuid not null references user(id),
     register_date timestamp,
     update_date timestamp
 );
