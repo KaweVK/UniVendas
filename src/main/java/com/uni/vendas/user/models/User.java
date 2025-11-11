@@ -31,10 +31,10 @@ public class User implements UserDetails {
     private UUID id;
     @Column(name = "name", nullable = false, length = 100)
     private String name;
-    @Email(regexp = "^[a-zA-Z0-9._%+-]+@dcx.ufpb.br$", message = "Invalid email format")
+    @Email(regexp = "^[a-zA-Z0-9._%+-]+@dcx.ufpb.br$", message = "Invalid email format. You need to have a dcx email")
     @Column(name = "email", nullable = false, length = 100)
     private String email;
-    @Column(name = "password", nullable = false)
+    @Column(name = "password", nullable = false, length = 255)
     private String password;
     @Column(name = "phone_number", nullable = false, length = 15)
     private String phoneNumber;
