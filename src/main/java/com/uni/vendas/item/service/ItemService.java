@@ -7,6 +7,8 @@ import com.uni.vendas.item.model.Item;
 import com.uni.vendas.item.model.enums.ItemCategory;
 import com.uni.vendas.item.repository.ItemRepository;
 import com.uni.vendas.item.validator.ItemValidator;
+import com.uni.vendas.user.models.User;
+import com.uni.vendas.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -16,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import static com.uni.vendas.item.repository.specs.ItemSpecs.*;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -26,6 +29,7 @@ public class ItemService {
     private final ItemRepository itemRepository;
     private final ItemValidator itemValidator;
     private final ItemMapper itemMapper;
+    private final UserRepository userRepository;
 
     public Optional<RegisterItemDTO> findById(String id) {
         UUID idItem = UUID.fromString(id);
@@ -79,7 +83,7 @@ public class ItemService {
         itemOptional.ifPresent(itemRepository::delete);
     }
 
-    public Page<DefaultItemDTO> searchItem(String name, String description, Double priceLess, Double priceGreater, Integer page, Integer size, String userNameLike, String category) {
+    public Page<DefaultItemDTO> searchItem(String name, String description, Double priceLess, Double priceGreater, Integer page, Integer size, String userName, String category) {
 
         Specification<Item> spec = Specification
                 .where((root, query, cb) -> cb.conjunction());
@@ -93,8 +97,10 @@ public class ItemService {
         if (priceLess != null && priceGreater != null) {
             spec = spec.and(priceEqual(priceLess, priceGreater));
         }
-        if (userNameLike != null && !userNameLike.isEmpty()) {
-            spec = spec.and(userNameLike(userNameLike));
+        if (userName != null && !userName.isEmpty()) {
+            User user = userRepository.findByNameLike("%" + userName + "%");
+            UUID userId = user.getId();
+            spec = spec.and(userIdEqual(userId));
         }
         if (category != null && !category.isEmpty()) {
             spec = spec.and(categoryEqual(category.toUpperCase()));

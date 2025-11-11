@@ -14,4 +14,6 @@ public interface UserRepository extends JpaRepository<User, UUID>, JpaSpecificat
     Optional<User> findByEmail(@Email(regexp = "^[a-zA-Z0-9._%+-]+@dcx.ufpb.br$", message = "Invalid email format") String email);
 
     UserDetails findUserByEmail(String username);
+
+    User findByNameLike(String name);
 }
