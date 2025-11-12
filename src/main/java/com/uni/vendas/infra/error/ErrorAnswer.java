@@ -25,4 +25,12 @@ public record ErrorAnswer(int status, String message, List<ErrorField> fields) {
     public static ErrorAnswer unprocessableEntityAnswer(String message, List<ErrorField> fields) {
         return new ErrorAnswer(HttpStatus.UNPROCESSABLE_ENTITY.value(), message, fields);
     }
+
+    public static ErrorAnswer notFoundAnswer(String message) {
+        return new ErrorAnswer(HttpStatus.NOT_FOUND.value(), message, List.of());
+    }
+
+    public static ErrorAnswer forbiddenAnswer(String message) {
+        return new ErrorAnswer(HttpStatus.FORBIDDEN.value(), message, List.of());
+    }
 }

@@ -68,6 +68,12 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(BadCredentialsException.class)
     @ResponseStatus(HttpStatus.FORBIDDEN)
     public ErrorAnswer badCredentialException(BadCredentialsException e) {
-        return ErrorAnswer.badRequestAnswer(e.getMessage());
+        return ErrorAnswer.forbiddenAnswer(e.getMessage());
+    }
+
+    @ExceptionHandler(SecurityException.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public ErrorAnswer handleSecurityException(SecurityException e) {
+        return ErrorAnswer.forbiddenAnswer(e.getMessage());
     }
 }
