@@ -1,9 +1,11 @@
 package com.uni.vendas.infra.controllers.commom;
 
+import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.uni.vendas.infra.error.ErrorAnswer;
 import com.uni.vendas.infra.error.ErrorField;
 import com.uni.vendas.infra.exception.DuplicatedRegisterException;
 import com.uni.vendas.infra.exception.InvalidFieldException;
+import com.uni.vendas.infra.exception.InvalidTokenJWT;
 import com.uni.vendas.infra.exception.OperationNotAllowedException;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -47,12 +49,6 @@ public class GlobalExceptionHandler {
         return new ErrorAnswer(HttpStatus.UNPROCESSABLE_ENTITY.value(), "Erro de validação.", List.of(new ErrorField(e.getCampo(), e.getMessage())));
     }
 
-    @ExceptionHandler(RuntimeException.class)
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public ErrorAnswer handleException(RuntimeException e) {
-        return ErrorAnswer.internalServerErrorAnswer("An unexpected error occurred, please try again later.");
-    }
-
     @ExceptionHandler(IllegalArgumentException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorAnswer handleIllegalArgumentException(IllegalArgumentException e) {
@@ -74,6 +70,12 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(SecurityException.class)
     @ResponseStatus(HttpStatus.FORBIDDEN)
     public ErrorAnswer handleSecurityException(SecurityException e) {
+        return ErrorAnswer.forbiddenAnswer(e.getMessage());
+    }
+
+    @ExceptionHandler(JWTVerificationException.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public ErrorAnswer handleInvalidTokenJWT(InvalidTokenJWT e) {
         return ErrorAnswer.forbiddenAnswer(e.getMessage());
     }
 }
