@@ -16,6 +16,6 @@ public class AuthenticationService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        return userRepository.findUserByEmail(username);//para achar o username do cara e ele
+        return userRepository.findUserByEmail(username);
     }
 }

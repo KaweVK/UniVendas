@@ -3,7 +3,6 @@ package com.uni.vendas.infra.security;
 import com.uni.vendas.user.autenticacao.TokenService;
 import com.uni.vendas.user.repository.UserRepository;
 import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
