@@ -1,6 +1,5 @@
 package com.uni.vendas.infra.controllers.commom;
 
-import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.uni.vendas.infra.error.ErrorAnswer;
 import com.uni.vendas.infra.error.ErrorField;
 import com.uni.vendas.infra.exception.DuplicatedRegisterException;
@@ -73,7 +72,7 @@ public class GlobalExceptionHandler {
         return ErrorAnswer.forbiddenAnswer(e.getMessage());
     }
 
-    @ExceptionHandler(JWTVerificationException.class)
+    @ExceptionHandler(InvalidTokenJWT.class)
     @ResponseStatus(HttpStatus.FORBIDDEN)
     public ErrorAnswer handleInvalidTokenJWT(InvalidTokenJWT e) {
         return ErrorAnswer.forbiddenAnswer(e.getMessage());
