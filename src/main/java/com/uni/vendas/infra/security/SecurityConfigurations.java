@@ -1,4 +1,4 @@
-package com.uni.vendas.infra.config;
+package com.uni.vendas.infra.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
