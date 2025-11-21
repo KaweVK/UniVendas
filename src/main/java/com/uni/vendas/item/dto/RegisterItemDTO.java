@@ -25,7 +25,9 @@ public record RegisterItemDTO(
         @NotNull(message = "User ID is required")
         UUID soldById,
         @NotNull(message = "Category is required")
-        ItemCategory category
+        ItemCategory category,
+        @Size(max = 255, message = "URL da imagem muito longa")
+        String imageUrl
 
 ) {
 }

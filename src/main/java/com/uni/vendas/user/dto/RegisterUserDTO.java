@@ -23,4 +23,7 @@ public record RegisterUserDTO(
         String phoneNumber,
         @NotBlank(message = "City cannot be blank")
         @Size(min = 3, max = 50, message = "Cidade deve ter entre 3 e 50 caracteres")
-        String city) {}
+        String city,
+        @Size(max = 255, message = "URL da imagem muito longa")
+        String imageUrl
+){}

@@ -26,6 +26,8 @@ public class Item {
     @Column(name = "id", updatable = false, nullable = false, unique = true)
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
+    @Column(name = "image_url")
+    private String imageUrl;
     @Column(name = "name", nullable = false, length = 80)
     private String name;
     @Column(name = "description", nullable = false)

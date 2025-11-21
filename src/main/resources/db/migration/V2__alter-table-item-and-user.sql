@@ -1,0 +1,2 @@
+ALTER TABLE "user" ADD COLUMN image_url VARCHAR(255);
+ALTER TABLE item ADD COLUMN image_url VARCHAR(255);
