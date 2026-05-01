@@ -1,0 +1,19 @@
+@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+    .botao-padrao {
+        @apply w-full rounded-2xl bg-gradient-to-r from-[#47104C] to-[#6A2C70] px-5 py-4 text-base font-semibold text-white transition hover:brightness-105 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-fuchsia-200 mb-8 cursor-pointer !mb-0 flex items-center justify-center gap-2;
+    }
+
+    .botao-excluir {
+        @apply w-full rounded-2xl bg-gradient-to-r from-[#8F3534] to-[#E32320] px-5 py-4 text-base font-semibold text-white transition hover:brightness-105 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-fuchsia-200 mb-8 cursor-pointer !mb-0 flex items-center justify-center gap-2;
+    }
+
+    .botao-whatsapp {
+        @apply w-full rounded-2xl bg-gradient-to-r from-[#0d8002] to-[#10a602] px-5 py-4 text-base font-semibold text-white transition hover:brightness-105 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-fuchsia-200 mb-8 cursor-pointer !mb-0 flex items-center justify-center gap-2;
+    }
+
+}

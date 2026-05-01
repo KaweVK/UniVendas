@@ -1,0 +1,28 @@
+.lista-usuarios {
+    display: flex;
+    justify-content: center; 
+    align-items: flex-start; 
+    flex-wrap: wrap;         
+    gap: 32px;               
+    padding: 40px;
+}
+
+.lista-usuarios h2 {
+    color: #4c054f;
+    margin-top: 20px;
+    font-size: 30px;
+    text-align: center;
+    display: block;
+    width: 100%;
+}
+
+@media (max-width: 768px) {
+    .lista-produtos, .lista-usuarios {
+        padding: 20px; /* Reduz o padding da secção */
+        gap: 20px; /* Reduz o espaço entre os cards */
+    }
+
+    .lista-produtos h2, .lista-usuarios h2 {
+        font-size: 24px; /* Ajusta o tamanho do título */
+    }
+}

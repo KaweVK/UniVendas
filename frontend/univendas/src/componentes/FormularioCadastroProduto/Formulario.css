@@ -1,0 +1,43 @@
+.formulario {
+    display: flex;
+    justify-content: center;
+    margin: 80px 0;
+}
+
+.formulario form {
+    background-color: #6A2C70;
+    padding: 36px 64px;
+    border-radius: 20px;
+    box-shadow: 8px 8px 16px rgba(0, 0, 0, 0.5);
+    width: 100%;
+    max-width: 40%;
+}
+
+.formulario form h2 {
+    color: #FFFFFF;
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+.formulario label {
+    color: #FFFFFF;
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 400;
+}
+
+/* Responsividade para Ecrãs Menores (Tablets e Telemóveis) */
+@media (max-width: 768px) {
+    .formulario {
+        margin: 40px 0; /* Menos margem vertical */
+    }
+
+    .formulario form {
+        max-width: 90%; /* Ocupa quase toda a largura */
+        padding: 24px; /* Reduz o padding interno */
+    }
+
+    .formulario form h2 {
+        font-size: 24px; /* Título ligeiramente menor */
+    }
+}

@@ -1,0 +1,36 @@
+.campo-busca {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.campo-busca form {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
+    max-width: 800px;
+}
+
+.campo-busca form label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 24px;
+    color: rgb(0, 0, 0);
+}
+
+.campo-busca form input {
+    background-color: rgb(255, 255, 255);
+    box-shadow:  10px 10px 30px rgba(0, 0, 0, 0.3);
+    width: 100%;
+    border-radius: 20px;
+    font-size: 15px;
+    padding: 15px 25px;
+    border: none;
+    outline-color: #47104A;
+    box-sizing: border-box;
+}
+
+.campo-busca form input:focus {
+    box-shadow: 10px 10px 40px rgba(0, 0, 0, 0.5);
+}

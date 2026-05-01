@@ -1,0 +1,67 @@
+.detalhe-usuario {
+    padding: 40px;
+    text-align: center;
+    width: auto; 
+    background-color: transparent; 
+    box-shadow: none; 
+    border: none;
+    margin: 0;
+    max-width: none;
+}
+
+.detalhe-usuario h1 {
+    color: #47104A;
+    margin-bottom: 30px;
+    font-size: 2.5rem;
+}
+
+.detalhe-usuario img {
+    display: block;
+    margin: 20px auto;
+    width: 300px; 
+    height: 300px; 
+    object-fit: cover;
+    border-radius: 50%; 
+    border: 6px solid #6A2C70; 
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3); 
+}
+
+.detalhe-usuario h2 {
+    color: #333;
+    font-size: 35px;
+    margin: 10px 0;
+}
+
+.detalhe-usuario p {
+    color: #000000;
+    font-size: 20px;
+    margin: 10px 0;
+}
+
+.detalhe-usuario strong {
+    color: #47104A;
+}
+
+@media (max-width: 768px) {
+    .detalhe-produto, .detalhe-usuario {
+        padding: 20px; /* Espaçamento mais confortável */
+    }
+
+    .detalhe-produto h1, .detalhe-usuario h1 {
+        font-size: 28px; /* Fonte mais adequada para mobile */
+    }
+
+    .detalhe-produto img, .detalhe-usuario img {
+        width: 100%; /* A imagem adapta-se à largura disponível */
+        max-width: 250px; /* Mas não cresce infinitamente */
+        height: auto; /* Mantém a proporção correta */
+    }
+
+    .detalhe-produto h3 {
+        font-size: 30px;
+    }
+    
+    .detalhe-produto p, .detalhe-usuario p, .detalhe-usuario h2 {
+        font-size: 16px; /* Texto de leitura mais legível */
+    }
+}

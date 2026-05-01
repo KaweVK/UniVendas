@@ -1,0 +1,31 @@
+spring:
+  application:
+    name: univendas
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        format_sql: true
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 15MB
+logging:
+  level:
+    root: info
+
+api:
+  security:
+    token:
+      secret: ${JWT_SECRET}
+  cors:
+    allowed-origins: ${FRONTEND_URL:http://localhost:5173}
