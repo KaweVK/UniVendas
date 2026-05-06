@@ -73,7 +73,7 @@ public class AuthenticationController {
                 .secure(true)
                 .path("/")
                 .maxAge(maxAge)
-                .sameSite("Strict")
+                .sameSite("None")
                 .build();
 
     }
