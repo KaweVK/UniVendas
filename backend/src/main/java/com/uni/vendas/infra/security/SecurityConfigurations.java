@@ -31,6 +31,9 @@ public class SecurityConfigurations {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/users").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/verification/registration/send").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/verification/password-reset/send").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/verification/password-reset/confirm").permitAll()
                         .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
                         .anyRequest().authenticated()
                 )

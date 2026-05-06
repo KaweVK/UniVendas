@@ -6,6 +6,7 @@ import com.uni.vendas.model.Seller;
 import com.uni.vendas.service.SellerService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -36,16 +37,14 @@ public class SellerController {
         return ResponseEntity.notFound().build();
     }
 
-    @PostMapping(
-            consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE}
-    )
-    public ResponseEntity<Object> createUser(@ModelAttribute @Valid RegisterSellerDTO userDTO) {
-        Seller seller = sellerService.createUser(userDTO);
+    @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
+    public ResponseEntity<ResponseSellerDTO> createUser(
+            @ModelAttribute @Valid RegisterSellerDTO userDTO,
+            @RequestParam @NotBlank String code) {
+        Seller seller = sellerService.createUserWithVerification(userDTO, code);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(seller.getId())
-                .toUri();
-        return ResponseEntity.created(location).body("User created successfully with ID: " + seller.getId());
+                .path("/{id}").buildAndExpand(seller.getId()).toUri();
+        return ResponseEntity.created(location).build();
     }
 
     @PutMapping(

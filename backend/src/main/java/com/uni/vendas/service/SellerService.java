@@ -3,6 +3,7 @@ package com.uni.vendas.service;
 import com.uni.vendas.dto.RegisterSellerDTO;
 import com.uni.vendas.dto.ResponseSellerDTO;
 import com.uni.vendas.model.Seller;
+import com.uni.vendas.model.enums.VerificationCodeType;
 import com.uni.vendas.repository.SellerRepository;
 import com.uni.vendas.mapper.SellerMapper;
 import com.uni.vendas.validator.SellerValidator;
@@ -28,6 +29,7 @@ public class SellerService {
     private final SellerValidator sellerValidator;
     private final PasswordEncoder passwordEncoder;
     private final UpImageService upImageService;
+    private final VerificationCodeService verificationCodeService;
 
     public Optional<ResponseSellerDTO> findById(String id) {
         UUID uuid = UUID.fromString(id);
@@ -60,6 +62,24 @@ public class SellerService {
         sellerValidator.validate(user);
         return sellerRepository.save(user);
 
+    }
+
+    public Seller createUserWithVerification(RegisterSellerDTO userDTO, String code) {
+        verificationCodeService.verificarCodigo(
+                userDTO.email(), code, VerificationCodeType.REGISTRATION);
+        return createUser(userDTO);
+    }
+
+    public void redefinirSenha(String email, String novaSenha) {
+        Seller seller = sellerRepository.findByEmail(email)
+                .orElseThrow(() -> new IllegalArgumentException("Usuário não encontrado."));
+        seller.setPassword(passwordEncoder.encode(novaSenha));
+        sellerRepository.save(seller);
+    }
+
+    public void findByEmail(String email) {
+        sellerRepository.findByEmail(email)
+                .orElseThrow(() -> new IllegalArgumentException("Email não cadastrado."));
     }
 
     public Optional<ResponseSellerDTO> updateUser(String id, RegisterSellerDTO userDTO ) {
