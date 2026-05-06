@@ -1,11 +1,19 @@
-export const CampoTexto = (props) => {
-    const aoDigitar = (evento) => {
-        if (props.type === 'file') {
-            props.aoAlterado(evento.target.files[0])
+export const CampoInput = (props) => {
+    const isFile = props.type === 'file'
+
+    const aoDigitar = (e) => {
+        if (isFile) {
+            const arquivos = Array.from(e.target.files)
+            props.aoAlterado(props.multiple ? arquivos : arquivos[0])
+            e.target.value = ''
         } else {
-            props.aoAlterado(evento.target.value)
+            props.aoAlterado(e.target.value)
         }
     }
+
+    const inputProps = isFile
+        ? { multiple: props.multiple, accept: props.accept }
+        : { value: props.valor }
 
     return (
         <div>
@@ -19,9 +27,9 @@ export const CampoTexto = (props) => {
                 autoComplete={props.autoComplete}
                 required={props.obrigatorio}
                 placeholder={props.placeholder}
-                value={props.type === 'file' ? undefined : props.valor}
                 onChange={aoDigitar}
                 className={props.className}
+                {...inputProps}
             />
         </div>
     )

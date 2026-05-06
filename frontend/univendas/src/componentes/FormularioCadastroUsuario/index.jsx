@@ -80,7 +80,7 @@ export const FormularioCadastroUsuario = (props) => {
                         autoComplete="nome"
                         obrigatorio={true}
                         placeholder="Digite o seu nome completo"
-                        value={nome}
+                        valor={nome}
                         aoAlterado={setNome}
                         className={inputClassName}
                     />
@@ -94,7 +94,7 @@ export const FormularioCadastroUsuario = (props) => {
                         autoComplete="email"
                         obrigatorio={true}
                         placeholder="Digite o email do login"
-                        value={email}
+                        valor={email}
                         aoAlterado={setEmail}
                         className={inputClassName}
                     />
@@ -108,7 +108,7 @@ export const FormularioCadastroUsuario = (props) => {
                         autoComplete="senha"
                         obrigatorio={true}
                         placeholder="Digite a sua senha"
-                        value={senha}
+                        valor={senha}
                         aoAlterado={setSenha}
                         className={inputClassName}
                     />
@@ -122,7 +122,7 @@ export const FormularioCadastroUsuario = (props) => {
                         autoComplete="numero"
                         obrigatorio={true}
                         placeholder="Digite o seu número de telefone"
-                        value={numero}
+                        valor={numero}
                         aoAlterado={setNumero}
                         className={inputClassName}
                     />
@@ -136,7 +136,7 @@ export const FormularioCadastroUsuario = (props) => {
                         autoComplete="cidade"
                         obrigatorio={true}
                         placeholder="Digite a sua cidade"
-                        value={cidade}
+                        valor={cidade}
                         aoAlterado={setCidade}
                         className={inputClassName}
                     />
@@ -150,13 +150,16 @@ export const FormularioCadastroUsuario = (props) => {
                         autoComplete="imagem"
                         obrigatorio={false}
                         placeholder="Selecione a imagem"
-                        value={imagem}
+                        valor={imagem}
                         aoAlterado={setImagem}
                         className={inputClassName}
                     />
 
                     {props.usuarioEdicao && previewImagem && (
-                        <PreviewImagem p={'Imagem atual:'} imagem={previewImagem} />
+                        <PreviewImagem
+                            titulo="Imagem atual:"
+                            itens={[{ key: 'avatar', src: previewImagem }]}
+                        />
                     )}
                 </div>
 

@@ -6,30 +6,11 @@ import {
     PhoneIcon,
     TagIcon,
     UserCircleIcon,
+    ChevronLeftIcon,
+    ChevronRightIcon,
 } from '@heroicons/react/24/outline';
-
-const formatarPreco = (preco) => {
-    const precoNumerico = Number(preco);
-
-    if (Number.isNaN(precoNumerico)) {
-        return preco || 'Preco sob consulta';
-    }
-
-    return new Intl.NumberFormat('pt-BR', {
-        style: 'currency',
-        currency: 'BRL',
-    }).format(precoNumerico);
-};
-
-const formatarQuantidade = (quantidade) => {
-    const quantidadeNumerica = Number(quantidade);
-
-    if (Number.isNaN(quantidadeNumerica)) {
-        return 'Nao informada';
-    }
-
-    return `${quantidadeNumerica} ${quantidadeNumerica === 1 ? 'unidade' : 'unidades'}`;
-};
+import { useState } from 'react';
+import { formatarPreco, formatarQuantidade, formatarCategoria } from '../../utils/formatter';
 
 const LinhaInformacao = ({ label, valor }) => (
     <div className="flex items-start justify-between gap-4 border-b border-slate-100 py-4 first:pt-0 last:border-b-0 last:pb-0">
@@ -44,19 +25,29 @@ export const DetalheProduto = ({
     nome,
     descricao,
     preco,
-    imagens,
+    imagens = [],
     categoria,
     quantidade,
     vendedor,
     acoes,
 }) => {
+    const [indiceImagemAtual, setIndiceImagemAtual] = useState(0);
     const quantidadeNumerica = Number(quantidade);
     const estoqueDisponivel = !Number.isNaN(quantidadeNumerica) && quantidadeNumerica > 0;
-    const imagemProduto = imagens[0] || '/imagens/Logos/avatar.webp';
+    const imagensCarrossel = imagens.length > 0 ? imagens : ['/imagens/Logos/avatar.webp'];
+    const imagemExibida = imagensCarrossel[indiceImagemAtual];
     const nomeVendedor = vendedor?.name || 'Vendedor nao identificado';
     const cidadeVendedor = vendedor?.city || 'Cidade nao informada';
     const emailVendedor = vendedor?.email || 'Email nao informado';
     const telefoneVendedor = vendedor?.phoneNumber || 'Telefone nao informado';
+
+    const proximaImagem = () => {
+        setIndiceImagemAtual((prev) => (prev === imagensCarrossel.length - 1 ? 0 : prev + 1));
+    };
+
+    const imagemAnterior = () => {
+        setIndiceImagemAtual((prev) => (prev === 0 ? imagensCarrossel.length - 1 : prev - 1));
+    };
 
     return (
         <div className="grid gap-6 xl:grid-cols-[1.04fr_0.96fr]">
@@ -66,7 +57,7 @@ export const DetalheProduto = ({
 
                     <div className="absolute inset-0">
                         <img
-                            src={imagemProduto}
+                            src={imagemExibida}
                             alt={nome}
                             className="h-full w-full object-cover"
                         />
@@ -87,11 +78,31 @@ export const DetalheProduto = ({
                         <div className="mt-8 flex flex-col items-center text-center">
                             <div className="w-full max-w-[220px] rounded-[30px] border border-white/20 bg-white/10 p-4 shadow-[0_22px_60px_-24px_rgba(0,0,0,0.55)] backdrop-blur-sm sm:max-w-[240px] sm:p-5">
                                 <img
-                                    src={imagemProduto}
+                                    src={imagemExibida}
                                     alt={nome}
                                     className="aspect-square w-full rounded-[24px] object-cover shadow-[0_24px_60px_-30px_rgba(0,0,0,0.45)]"
                                 />
                             </div>
+                            {imagensCarrossel.length > 1 && (
+                                <div className="mt-6 flex justify-center gap-3">
+                                    <button
+                                        type="button"
+                                        onClick={imagemAnterior}
+                                        className="cursor-pointer rounded-full border border-white/30 bg-white/10 p-2 text-white/80 backdrop-blur-sm transition hover:bg-white/20"
+                                        aria-label="Imagem anterior"
+                                    >
+                                        <ChevronLeftIcon className="size-5" />
+                                    </button>
+                                    <button
+                                        type="button"
+                                        onClick={proximaImagem}
+                                        className="cursor-pointer rounded-full border border-white/30 bg-white/10 p-2 text-white/80 backdrop-blur-sm transition hover:bg-white/20"
+                                        aria-label="Próxima imagem"
+                                    >
+                                        <ChevronRightIcon className="size-5" />
+                                    </button>
+                                </div>
+                            )}
                         </div>
                     </div>
                 </div>
@@ -157,7 +168,7 @@ export const DetalheProduto = ({
                         <div className="mt-6 flex flex-wrap gap-3">
                             <span className="inline-flex items-center gap-2 rounded-full border border-[#6b2e74]/10 bg-white px-4 py-2 text-sm font-medium text-[#6b2e74]">
                                 <TagIcon className="size-4" />
-                                {categoria || 'Categoria nao informada'}
+                                {formatarCategoria(categoria) || 'Categoria nao informada'}
                             </span>
                         </div>
                     </section>
@@ -180,7 +191,7 @@ export const DetalheProduto = ({
                         />
                         <LinhaInformacao
                             label="Categoria"
-                            valor={categoria || 'Não informada'}
+                            valor={formatarCategoria(categoria) || 'Não informada'}
                         />
                         <LinhaInformacao
                             label="Quantidade"

@@ -1,10 +1,10 @@
 /* eslint-disable react-hooks/set-state-in-effect */
 import './Formulario.css'
-import { CampoTexto } from '../CampoTexto'
+import { CampoInput } from '../CampoInput'
 import { ListaSuspensa } from '../ListaSuspensa'
 import { PreviewImagem } from '../PreviewImagem'
 import { Botao } from '../Botao'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { Link } from 'react-router-dom'
 
 const labelClassName = 'mb-2 block text-sm font-medium text-slate-700'
@@ -12,26 +12,56 @@ const inputClassName =
     'w-full rounded-2xl border border-slate-200 bg-white px-4 py-4 text-base text-slate-700 shadow-sm outline-none transition placeholder:text-slate-400 focus:border-[#8a4d94] focus:ring-4 focus:ring-fuchsia-100'
 
 export const FormularioCadastroProduto = (props) => {
-    console.log("Formulario recebeu:", props.produtoEdicao);
-
-    const [nome, setNome] = useState('')
-    const [descricao, setDescricao] = useState('')
-    const [quantidade, setQuantidade] = useState('')
-    const [preco, setPreco] = useState('')
-    const [categoria, setCategoria] = useState('')
-    const [imagem, setImagem] = useState(null)
-    const [previewImagem, setPreviewImagem] = useState(null)
+    const [nome, setNome] = useState('');
+    const [descricao, setDescricao] = useState('');
+    const [quantidade, setQuantidade] = useState('');
+    const [preco, setPreco] = useState('');
+    const [categoria, setCategoria] = useState('');
+    const [imagensExistentes, setImagensExistentes] = useState([]);
+    const [novasImagens, setNovasImagens] = useState([]);
 
     useEffect(() => {
         if (props.produtoEdicao) {
-            setNome(props.produtoEdicao.name || '');
-            setDescricao(props.produtoEdicao.description || '');
-            setQuantidade(props.produtoEdicao.amount || '');
-            setPreco(props.produtoEdicao.price || '');
-            setCategoria(props.produtoEdicao.category || '');
-            setPreviewImagem(props.produtoEdicao.image || null);
+            setNome(props.produtoEdicao.name);
+            setDescricao(props.produtoEdicao.description);
+            setQuantidade(props.produtoEdicao.amount);
+            setPreco(props.produtoEdicao.price);
+            setCategoria(props.produtoEdicao.category);
+            setImagensExistentes(props.produtoEdicao.images ?? []);
+            setNovasImagens([]);
         }
     }, [props.produtoEdicao]);
+
+    const previewsNovas = useMemo(
+        () => novasImagens.map((file) => ({
+            key: `${file.name}-${file.lastModified}-${file.size}`,
+            src: URL.createObjectURL(file),
+            file,
+        })),
+        [novasImagens]
+    );
+
+    useEffect(() => {
+        return () => previewsNovas.forEach((p) => URL.revokeObjectURL(p.src));
+    }, [previewsNovas]);
+
+    const itensPreview = [
+        ...imagensExistentes.map((url) => ({
+            key: url,
+            src: url,
+            onRemover: () => setImagensExistentes((prev) => prev.filter((u) => u !== url)),
+        })),
+        ...previewsNovas.map((p) => ({
+            key: p.key,
+            src: p.src,
+            onRemover: () => setNovasImagens((prev) => prev.filter((f) => f !== p.file)),
+        })),
+    ];
+
+    const aoAdicionarImagens = (arquivos) => {
+        const lista = Array.isArray(arquivos) ? arquivos : (arquivos ? [arquivos] : []);
+        if (lista.length) setNovasImagens((prev) => [...prev, ...lista]);
+    };
 
     const aoSalvar = (evento) => {
         evento.preventDefault()
@@ -40,17 +70,18 @@ export const FormularioCadastroProduto = (props) => {
             descricao,
             quantidade,
             preco,
-            imagem,
-            categoria
+            categoria,
+            novasImagens,
+            imagensMantidas: imagensExistentes,
         })
         if (!props.produtoEdicao) {
             setNome('')
             setDescricao('')
             setQuantidade('')
             setPreco('')
-            setImagem(null)
             setCategoria('')
-            setPreviewImagem(null)
+            setImagensExistentes([])
+            setNovasImagens([])
         }
     }
 
@@ -62,7 +93,7 @@ export const FormularioCadastroProduto = (props) => {
             >
                 <div className="mb-8">
                     <p className="text-sm font-medium uppercase tracking-[0.18em] text-[#6b2e74]/70">
-                        <h2>{props.produtoEdicao ? 'Edição do Produto' : 'Cadastro de Produto'}</h2>
+                        {props.produtoEdicao ? 'Edição do Produto' : 'Cadastro de Produto'}
                     </p>
                     <h2 className="mt-3 text-3xl font-semibold text-slate-900 sm:text-[2rem]">
                         {props.produtoEdicao ? 'Edite o seu produto' : 'Crie seu produto'}
@@ -73,7 +104,7 @@ export const FormularioCadastroProduto = (props) => {
                 </div>
 
                 <div className="space-y-5">
-                    <CampoTexto
+                    <CampoInput
                         id="nome"
                         name="nome"
                         type="text"
@@ -82,11 +113,11 @@ export const FormularioCadastroProduto = (props) => {
                         autoComplete="nome"
                         obrigatorio={true}
                         placeholder="Digite o nome do produto"
-                        value={nome}
+                        valor={nome}
                         aoAlterado={setNome}
                         className={inputClassName}
                     />
-                    <CampoTexto
+                    <CampoInput
                         id="descricao"
                         name="descricao"
                         type="text"
@@ -95,11 +126,11 @@ export const FormularioCadastroProduto = (props) => {
                         autoComplete="descricao"
                         obrigatorio={true}
                         placeholder="Digite a descrição do produto"
-                        value={descricao}
+                        valor={descricao}
                         aoAlterado={setDescricao}
                         className={inputClassName}
                     />
-                    <CampoTexto
+                    <CampoInput
                         id="quantidade"
                         name="quantidade"
                         type="text"
@@ -108,11 +139,11 @@ export const FormularioCadastroProduto = (props) => {
                         autoComplete="quantidade"
                         obrigatorio={true}
                         placeholder="Digite a quantidade do produto"
-                        value={quantidade}
+                        valor={quantidade}
                         aoAlterado={setQuantidade}
                         className={inputClassName}
                     />
-                    <CampoTexto
+                    <CampoInput
                         id="preco"
                         name="preco"
                         type="text"
@@ -121,34 +152,37 @@ export const FormularioCadastroProduto = (props) => {
                         autoComplete="preco"
                         obrigatorio={true}
                         placeholder="Digite o preço do produto"
-                        value={preco}
+                        valor={preco}
                         aoAlterado={setPreco}
                         className={inputClassName}
                     />
-                    <CampoTexto
+                    <CampoInput
                         id="imagem"
                         name="imagem"
                         type="file"
-                        label="Imagem"
+                        label="Imagens"
                         labelClassName={labelClassName}
-                        autoComplete="imagem"
                         obrigatorio={false}
-                        placeholder="Imagem do produto"
-                        value={imagem}
-                        aoAlterado={setImagem}
+                        placeholder="Imagens do produto"
+                        multiple={true}
+                        accept="image/*"
+                        aoAlterado={aoAdicionarImagens}
                         className={inputClassName}
                     />
 
-                    {props.produtoEdicao && previewImagem && (
-                        <PreviewImagem p={'Imagem atual:'} imagem={previewImagem} />
+                    {itensPreview.length > 0 && (
+                        <PreviewImagem titulo="Imagens do produto:" itens={itensPreview} />
                     )}
 
                     <ListaSuspensa
+                        id="categoria"
                         obrigatorio={true}
                         itens={props.categorias}
                         label='Categoria'
+                        labelClassName={labelClassName}
                         valor={categoria}
                         aoAlterado={valor => setCategoria(valor)}
+                        className={inputClassName}
                     />
 
 

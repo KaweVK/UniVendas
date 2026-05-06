@@ -21,11 +21,14 @@ export const CadastroProduto = () => {
       formData.append('price', produtoDoFormulario.preco);
       formData.append('category', produtoDoFormulario.categoria);
 
-      if (produtoDoFormulario.imagem instanceof File) {
-        formData.append('images', produtoDoFormulario.imagem);
-      }
+      (produtoDoFormulario.novasImagens ?? []).forEach(f => {
+        if (f instanceof File) formData.append('images', f);
+      });
 
       if (produtoParaEditar) {
+        (produtoDoFormulario.imagensMantidas ?? []).forEach(url =>
+          formData.append('imagensMantidas', url)
+        );
         await api.put(ENDPOINTS.PRODUTO_ID(produtoParaEditar.id), formData);
         alert("Produto atualizado com sucesso!");
       } else {
