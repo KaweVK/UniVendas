@@ -88,6 +88,15 @@ export const FormularioLogin = ({ aoFazerLogin, href }) => {
                             Cadastrar-se
                         </Link>
                     </p>
+                    <p className="text-center text-sm text-slate-500">
+                        Esqueceu sua senha?{' '}
+                        <Link
+                            to="/auth/esqueci-senha"
+                            className="font-semibold text-[#5a1f62] underline-offset-4 transition hover:underline"
+                        >
+                            Recuperar senha
+                        </Link>
+                    </p>
                 </div>
             </form>
         </section>

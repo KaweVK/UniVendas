@@ -10,6 +10,7 @@ import { Produtos } from './pages/Produtos/index.jsx'
 import { Produto } from './pages/Produto/index.jsx'
 import { Usuarios } from './pages/Usuarios/index.jsx'
 import { Usuario } from './pages/Usuario/index.jsx'
+import { EsqueciSenha } from './pages/EsqueciSenha/index.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -21,6 +22,7 @@ createRoot(document.getElementById('root')).render(
           <Route path='/auth'>
             <Route path="login" element={<Login />} />
             <Route path="cadastro-usuario" element={<CadastroUsuario />} />
+            <Route path="esqueci-senha" element={<EsqueciSenha />} />
           </Route>
 
           {/* Rotas protegidas */}
