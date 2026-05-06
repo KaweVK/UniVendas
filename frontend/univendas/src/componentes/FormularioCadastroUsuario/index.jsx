@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/set-state-in-effect */
-import { CampoTexto } from '../CampoTexto'
+import { CampoInput } from '../CampoInput'
 import { Botao } from '../Botao'
 import { PreviewImagem } from '../PreviewImagem'
 import { useState, useEffect } from 'react'
@@ -71,7 +71,7 @@ export const FormularioCadastroUsuario = (props) => {
                 </div>
 
                 <div className="space-y-5">
-                    <CampoTexto
+                    <CampoInput
                         id="nome"
                         name="nome"
                         type="text"
@@ -85,7 +85,7 @@ export const FormularioCadastroUsuario = (props) => {
                         className={inputClassName}
                     />
 
-                    <CampoTexto
+                    <CampoInput
                         id="email"
                         name="email"
                         type="email"
@@ -99,7 +99,7 @@ export const FormularioCadastroUsuario = (props) => {
                         className={inputClassName}
                     />
 
-                    <CampoTexto
+                    <CampoInput
                         id="senha"
                         name="senha"
                         type="password"
@@ -113,7 +113,7 @@ export const FormularioCadastroUsuario = (props) => {
                         className={inputClassName}
                     />
 
-                    <CampoTexto
+                    <CampoInput
                         id="numero"
                         name="numero"
                         type="text"
@@ -127,7 +127,7 @@ export const FormularioCadastroUsuario = (props) => {
                         className={inputClassName}
                     />
 
-                    <CampoTexto
+                    <CampoInput
                         id="cidade"
                         name="cidade"
                         type="text"
@@ -141,7 +141,7 @@ export const FormularioCadastroUsuario = (props) => {
                         className={inputClassName}
                     />
 
-                    <CampoTexto
+                    <CampoInput
                         id="imagem"
                         name="imagem"
                         type="file"

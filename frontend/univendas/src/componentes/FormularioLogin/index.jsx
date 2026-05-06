@@ -2,7 +2,7 @@ import './FormularioLogin.css'
 import { useState } from 'react'
 import { Botao } from '../Botao'
 import { Link } from 'react-router-dom'
-import { CampoTexto } from '../CampoTexto'
+import { CampoInput } from '../CampoInput'
 
 const labelClassName = 'mb-2 block text-sm font-medium text-slate-700'
 const inputClassName =
@@ -42,7 +42,7 @@ export const FormularioLogin = ({ aoFazerLogin, href }) => {
                 </div>
 
                 <div className="space-y-5">
-                    <CampoTexto
+                    <CampoInput
                         id="email"
                         name="email"
                         type="email"
@@ -56,7 +56,7 @@ export const FormularioLogin = ({ aoFazerLogin, href }) => {
                         className={inputClassName}
                     />
 
-                    <CampoTexto
+                    <CampoInput
                         id="senha"
                         name="senha"
                         type="password"
