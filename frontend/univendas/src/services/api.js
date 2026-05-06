@@ -2,7 +2,7 @@ import axios from 'axios';
 import { eventBus } from '../utils/eventBus';
 
 const api = axios.create({
-    baseURL: import.meta.env.VITE_API_URL || 'http://localhost:8080',
+    baseURL: import.meta.env.VITE_API_URL,
     withCredentials: true,
 });
 
