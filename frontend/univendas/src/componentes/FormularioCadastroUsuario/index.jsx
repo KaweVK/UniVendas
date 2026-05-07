@@ -89,7 +89,7 @@ export const FormularioCadastroUsuario = (props) => {
                         id="email"
                         name="email"
                         type="email"
-                        label="Email (@dcx.ufpb.br)"
+                        label="Email"
                         labelClassName={labelClassName}
                         autoComplete="email"
                         obrigatorio={true}
