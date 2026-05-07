@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import {
     PencilSquareIcon,
@@ -7,50 +7,42 @@ import {
 } from '@heroicons/react/24/outline';
 import { Botao } from '../../componentes/Botao/index.jsx';
 import { DetalheUsuario } from '../../componentes/DetalheUsuario/index.jsx';
-import api from '../../services/api.js';
 import './Usuario.css';
 import { FundoDecorado } from '../../componentes/FundoDecorado/index.jsx';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext.jsx';
-import { ENDPOINTS } from '../../services/endpoints.js';
+import { useUsuario } from '../../hooks/useUsuario.js';
+import { excluirUsuario as excluirUsuarioServico } from '../../services/usuariosService.js';
+import { extrairErro } from '../../utils/extrairErro.js';
 
 export const Usuario = () => {
     const { id } = useParams();
     const navigate = useNavigate();
     const { usuario: usuarioLogado, logout } = useAuth();
 
-    const [usuario, setUsuario] = useState(null);
+    const { usuario, carregando, erro } = useUsuario(id);
 
     const eDono = !!usuarioLogado && String(usuarioLogado.id) === String(id);
 
     useEffect(() => {
-        const carregarUsuario = async () => {
-            try {
-                const resposta = await api.get(ENDPOINTS.USUARIO_ID(id));
-                setUsuario(resposta.data);
-            } catch (erro) {
-                console.error('Erro ao buscar usuario:', erro);
-                alert('Erro ao carregar perfil.');
-                navigate('/usuarios');
-            }
-        };
-        carregarUsuario();
-    }, [id, navigate]);
+        if (erro) {
+            alert('Erro ao carregar perfil.');
+            navigate('/usuarios');
+        }
+    }, [erro, navigate]);
 
     const excluirUsuario = async () => {
         if (!eDono) {
             alert('Você não pode excluir outro usuário!');
             return;
         }
-        if (window.confirm(`Tem certeza que deseja excluir o usuário ${usuario.name}?`)) {
-            try {
-                await api.delete(ENDPOINTS.USUARIO_ID(id));
-                alert('Sua conta foi excluída. Você será desconectado.');
-                await logout();
-            } catch (erro) {
-                console.error('Erro ao excluir:', erro);
-                alert('Erro ao excluir usuário. Verifique permissões.');
-            }
+        if (!window.confirm(`Tem certeza que deseja excluir o usuário ${usuario.name}?`)) return;
+        try {
+            await excluirUsuarioServico(id);
+            alert('Sua conta foi excluída. Você será desconectado.');
+            await logout();
+        } catch (e) {
+            alert(extrairErro(e, 'Erro ao excluir usuário. Verifique permissões.'));
         }
     };
 
@@ -62,7 +54,7 @@ export const Usuario = () => {
         navigate('/auth/cadastro-usuario', { state: { usuarioParaEditar: usuario } });
     };
 
-    if (!usuario) {
+    if (carregando || !usuario) {
         return (
             <FundoDecorado>
                 <div className="rounded-[32px] border border-white/60 bg-white/75 p-10 text-center shadow-[0_32px_90px_-34px_rgba(62,16,68,0.45)] backdrop-blur-xl">

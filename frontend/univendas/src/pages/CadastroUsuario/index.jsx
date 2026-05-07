@@ -1,39 +1,35 @@
-// pages/CadastroUsuario/index.jsx
 import { useState } from 'react'
 import { BarraRodape } from '../../componentes/BarraRodape/index.jsx'
 import { FormularioCadastroUsuario } from '../../componentes/FormularioCadastroUsuario/index.jsx'
 import { Banner } from '../../componentes/Banner/index.jsx'
-import api from '../../services/api.js'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { FundoDecorado } from '../../componentes/FundoDecorado/index.jsx'
-import { ENDPOINTS } from '../../services/endpoints.js'
 import { VerificacaoEmail } from '../../componentes/VerificacaoEmail/index.jsx'
+import { criarUsuario, atualizarUsuario } from '../../services/usuariosService.js'
+import { enviarCodigoCadastro } from '../../services/verificacaoService.js'
+import { extrairErro } from '../../utils/extrairErro.js'
 
 export const CadastroUsuario = () => {
   const navigate = useNavigate()
   const location = useLocation()
   const usuarioParaEditar = location.state?.usuarioParaEditar
 
-  // etapa: 'form' | 'verificacao'
   const [etapa, setEtapa] = useState('form')
   const [dadosPendentes, setDadosPendentes] = useState(null)
   const [enviando, setEnviando] = useState(false)
 
   const iniciarCadastro = async (dadosFormulario) => {
-    // Se for edição, fluxo normal sem verificação
     if (usuarioParaEditar) {
       await salvarEdicao(dadosFormulario)
       return
     }
     try {
       setEnviando(true)
-      await api.post(ENDPOINTS.VERIFICATION_REGISTRATION_SEND, {
-        email: dadosFormulario.email
-      })
+      await enviarCodigoCadastro(dadosFormulario.email)
       setDadosPendentes(dadosFormulario)
       setEtapa('verificacao')
     } catch (error) {
-      alert(error.response?.data?.message || 'Erro ao enviar código.')
+      alert(extrairErro(error, 'Erro ao enviar código.'))
     } finally {
       setEnviando(false)
     }
@@ -42,24 +38,11 @@ export const CadastroUsuario = () => {
   const confirmarCodigo = async (codigo) => {
     try {
       setEnviando(true)
-      const formData = new FormData()
-      formData.append('name', dadosPendentes.nome)
-      formData.append('email', dadosPendentes.email)
-      formData.append('password', dadosPendentes.senha)
-      formData.append('phoneNumber', dadosPendentes.numero)
-      formData.append('city', dadosPendentes.cidade)
-      formData.append('code', codigo)
-      if (dadosPendentes.imagem instanceof File) {
-        formData.append('image', dadosPendentes.imagem)
-      }
-      await api.post(ENDPOINTS.USUARIO, formData)
+      await criarUsuario(dadosPendentes, codigo)
       alert('Conta criada com sucesso! Faça login.')
       navigate('/auth/login')
     } catch (error) {
-      const msg = error.response?.data?.fields?.[0]?.error
-            || error.response?.data?.message
-            || 'Código inválido ou expirado.'
-      alert(msg)
+      alert(extrairErro(error, 'Código inválido ou expirado.'))
     } finally {
       setEnviando(false)
     }
@@ -67,20 +50,11 @@ export const CadastroUsuario = () => {
 
   const salvarEdicao = async (dadosFormulario) => {
     try {
-      const formData = new FormData()
-      formData.append('name', dadosFormulario.nome)
-      formData.append('email', dadosFormulario.email)
-      formData.append('password', dadosFormulario.senha)
-      formData.append('phoneNumber', dadosFormulario.numero)
-      formData.append('city', dadosFormulario.cidade)
-      if (dadosFormulario.imagem instanceof File) {
-        formData.append('image', dadosFormulario.imagem)
-      }
-      await api.put(ENDPOINTS.USUARIO_ID(usuarioParaEditar.id), formData)
+      await atualizarUsuario(usuarioParaEditar.id, dadosFormulario)
       alert('Dados atualizados!')
       navigate(`/usuario/${usuarioParaEditar.id}`)
     } catch (error) {
-      alert(error.response?.data?.message || 'Erro ao salvar.')
+      alert(extrairErro(error, 'Erro ao salvar.'))
     }
   }
 

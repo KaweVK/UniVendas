@@ -1,29 +1,14 @@
-import { useEffect, useState } from 'react'
 import { Botao } from '../../componentes/Botao/index.jsx'
 import { BarraRodape } from '../../componentes/BarraRodape/index.jsx'
 import { CardUsuario } from '../../componentes/CardUsuario/index.jsx'
 import { Link } from 'react-router-dom'
-import api from '../../services/api.js'
 import './Usuarios.css'
 import { FundoDecorado } from '../../componentes/FundoDecorado/index.jsx'
 import { NavBar } from '../../componentes/NavBar/index.jsx'
-import { ENDPOINTS } from '../../services/endpoints.js'
+import { useUsuariosBusca } from '../../hooks/useUsuariosBusca.js'
 
 export const Usuarios = () => {
-    const [usuarios, setUsuarios] = useState([]);
-
-    useEffect(() => {
-        const buscarUsuarios = async () => {
-            try {
-                const resposta = await api.get(ENDPOINTS.USUARIOS_BUSCA);
-                setUsuarios(resposta.data.content || []);
-            } catch (error) {
-                console.error("Erro ao buscar usuários:", error);
-                setUsuarios([])
-            }
-        }
-        buscarUsuarios();
-    }, []);
+    const { content: usuarios, carregando, erro } = useUsuariosBusca();
 
     return (
         <>
@@ -31,7 +16,11 @@ export const Usuarios = () => {
             <FundoDecorado>
             <div className='lista-usuarios'>
                 <h2>Usuários Cadastrados</h2>
-                {usuarios.length > 0 ? (
+                {carregando ? (
+                    <p>Carregando usuários...</p>
+                ) : erro ? (
+                    <p>Erro ao carregar usuários.</p>
+                ) : usuarios.length > 0 ? (
                     usuarios.map(usuario => (
                         <Link to={`/usuario/${usuario.id}`} key={usuario.id} style={{ textDecoration: 'none' }}>
                             <CardUsuario

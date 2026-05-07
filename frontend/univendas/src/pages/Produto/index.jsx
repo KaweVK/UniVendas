@@ -8,47 +8,41 @@ import {
 } from '@heroicons/react/24/outline';
 import { Botao } from '../../componentes/Botao/index.jsx';
 import { DetalheProduto } from '../../componentes/DetalheProduto/index.jsx';
-import api from '../../services/api.js';
 import { FundoDecorado } from '../../componentes/FundoDecorado';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext.jsx';
-import { ENDPOINTS } from '../../services/endpoints.js';
+import { useProduto } from '../../hooks/useProduto.js';
+import { excluirProduto as excluirProdutoServico } from '../../services/produtosService.js';
+import { obterUsuario } from '../../services/usuariosService.js';
+import { extrairErro } from '../../utils/extrairErro.js';
 
 export const Produto = () => {
     const { id } = useParams();
     const navigate = useNavigate();
     const { usuario: usuarioLogado } = useAuth();
 
-    const [produto, setProduto] = useState(null);
+    const { produto, carregando, erro } = useProduto(id);
     const [vendedor, setVendedor] = useState(null);
 
     const eDono = !!usuarioLogado && !!produto &&
         String(usuarioLogado.id) === String(produto.soldBy?.id);
 
     useEffect(() => {
-        const carregarProduto = async () => {
-            try {
-                const resposta = await api.get(ENDPOINTS.PRODUTO_ID(id));
-                setProduto(resposta.data);
-            } catch (erro) {
-                console.error('Erro ao buscar produto:', erro);
-                navigate('/produtos');
-            }
-        };
-        carregarProduto();
-    }, [id, navigate]);
+        if (erro) {
+            console.error('Erro ao buscar produto:', erro);
+            navigate('/produtos');
+        }
+    }, [erro, navigate]);
 
     useEffect(() => {
         if (!produto?.soldBy?.id) return;
-        const carregarVendedor = async () => {
-            try {
-                const resposta = await api.get(ENDPOINTS.USUARIO_ID(produto.soldBy.id));
-                setVendedor(resposta.data);
-            } catch (erro) {
-                console.error('Erro ao buscar vendedor:', erro);
-            }
-        };
-        carregarVendedor();
+        const controller = new AbortController();
+        obterUsuario(produto.soldBy.id, controller.signal)
+            .then(setVendedor)
+            .catch((e) => {
+                if (e.name !== 'CanceledError') console.error('Erro ao buscar vendedor:', e);
+            });
+        return () => controller.abort();
     }, [produto]);
 
     const excluirProduto = async () => {
@@ -56,15 +50,13 @@ export const Produto = () => {
             alert('Você não pode excluir um produto de outro usuário!');
             return;
         }
-        if (window.confirm('Tem certeza que deseja excluir este produto?')) {
-            try {
-                await api.delete(ENDPOINTS.PRODUTO_ID(id));
-                alert('Produto excluído com sucesso!');
-                navigate('/produtos');
-            } catch (erro) {
-                console.error('Erro ao excluir:', erro);
-                alert('Não foi possível excluir o produto.');
-            }
+        if (!window.confirm('Tem certeza que deseja excluir este produto?')) return;
+        try {
+            await excluirProdutoServico(id);
+            alert('Produto excluído com sucesso!');
+            navigate('/produtos');
+        } catch (e) {
+            alert(extrairErro(e, 'Não foi possível excluir o produto.'));
         }
     };
 
@@ -76,7 +68,7 @@ export const Produto = () => {
         navigate('/cadastro-produto', { state: { produtoParaEditar: produto } });
     };
 
-    if (!produto) {
+    if (carregando || !produto) {
         return (
             <FundoDecorado>
                 <div className="rounded-[32px] border border-white/60 bg-white/75 p-10 text-center shadow-[0_32px_90px_-34px_rgba(62,16,68,0.45)] backdrop-blur-xl">

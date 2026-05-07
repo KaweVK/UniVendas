@@ -1,18 +1,22 @@
 export const ENDPOINTS = {
-    LOGIN: '/auth/login',
-    LOGOUT: '/auth/logout',
-    ME: '/auth/me',
-
-    PRODUTOS_TODOS: '/shop/all',
-    PRODUTOS_BUSCA: '/shop/search',
-    PRODUTO: '/shop',
-    PRODUTO_ID: (id) => `/shop/${id}`,
-
-    USUARIOS_BUSCA: '/users/search',
-    USUARIO: '/users',
-    USUARIO_ID: (id) => `/users/${id}`,
-
-    VERIFICATION_REGISTRATION_SEND: '/verification/registration/send',
-    VERIFICATION_PASSWORD_RESET_SEND: '/verification/password-reset/send',
-    VERIFICATION_PASSWORD_RESET_CONFIRM: '/verification/password-reset/confirm',
+    auth: {
+        login: '/auth/login',
+        logout: '/auth/logout',
+        me: '/auth/me',
+    },
+    produtos: {
+        busca: '/shop/search',
+        base: '/shop',
+        porId: (id) => `/shop/${id}`,
+    },
+    usuarios: {
+        busca: '/users/search',
+        base: '/users',
+        porId: (id) => `/users/${id}`,
+    },
+    verificacao: {
+        enviarCadastro: '/verification/registration/send',
+        enviarReset: '/verification/password-reset/send',
+        confirmarReset: '/verification/password-reset/confirm',
+    },
 };

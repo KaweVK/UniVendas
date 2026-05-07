@@ -1,14 +1,12 @@
-// pages/EsqueciSenha/index.jsx
 import { useState } from 'react'
 import { Banner } from '../../componentes/Banner/index.jsx'
 import { BarraRodape } from '../../componentes/BarraRodape/index.jsx'
 import { FundoDecorado } from '../../componentes/FundoDecorado/index.jsx'
 import { Botao } from '../../componentes/Botao/index.jsx'
 import { CampoInput } from '../../componentes/CampoInput/index.jsx'
-import api from '../../services/api.js'
-import { useNavigate } from 'react-router-dom'
-import { ENDPOINTS } from '../../services/endpoints.js'
-import { Link } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
+import { enviarCodigoReset, confirmarReset } from '../../services/verificacaoService.js'
+import { extrairErro } from '../../utils/extrairErro.js'
 
 const labelClassName = 'mb-2 block text-sm font-medium text-slate-700'
 const inputClassName =
@@ -16,7 +14,7 @@ const inputClassName =
 
 export const EsqueciSenha = () => {
     const navigate = useNavigate()
-    // etapa: 'email' | 'codigo'
+
     const [etapa, setEtapa] = useState('email')
     const [email, setEmail] = useState('')
     const [codigo, setCodigo] = useState('')
@@ -27,10 +25,10 @@ export const EsqueciSenha = () => {
         e.preventDefault()
         try {
             setEnviando(true)
-            await api.post(ENDPOINTS.VERIFICATION_PASSWORD_RESET_SEND, { email })
+            await enviarCodigoReset(email)
             setEtapa('codigo')
         } catch (error) {
-            alert(error.response?.data?.message || 'Email não encontrado.')
+            alert(extrairErro(error, 'Email não encontrado.'))
         } finally {
             setEnviando(false)
         }
@@ -40,16 +38,11 @@ export const EsqueciSenha = () => {
         e.preventDefault()
         try {
             setEnviando(true)
-            await api.post(ENDPOINTS.VERIFICATION_PASSWORD_RESET_CONFIRM, {
-                email, code: codigo, newPassword: novaSenha
-            })
+            await confirmarReset({ email, codigo, novaSenha })
             alert('Senha redefinida! Faça login.')
             navigate('/auth/login')
         } catch (error) {
-            const msg = error.response?.data?.fields?.[0]?.error
-                || error.response?.data?.message
-                || 'Código inválido ou expirado.'
-            alert(msg)
+            alert(extrairErro(error, 'Código inválido ou expirado.'))
         } finally {
             setEnviando(false)
         }

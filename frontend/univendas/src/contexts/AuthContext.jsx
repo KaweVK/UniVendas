@@ -1,8 +1,7 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import api from '../services/api';
 import { eventBus } from '../utils/eventBus';
-import { ENDPOINTS } from '../services/endpoints';
+import * as authService from '../services/authService';
 
 const AuthContext = createContext(null);
 
@@ -11,15 +10,15 @@ export const AuthProvider = ({ children }) => {
     const [carregando, setCarregando] = useState(true);
     const navigate = useNavigate();
 
-    // Verifica sessão ativa ao iniciar a aplicação
     useEffect(() => {
-        api.get(ENDPOINTS.ME)
-            .then(r => setUsuario(r.data))
+        const controller = new AbortController();
+        authService.obterSessao(controller.signal)
+            .then((data) => setUsuario(data))
             .catch(() => setUsuario(null))
             .finally(() => setCarregando(false));
+        return () => controller.abort();
     }, []);
 
-    // Escuta evento de sessão expirada disparado pelo interceptor do axios
     useEffect(() => {
         const unsubscribe = eventBus.on('session-expired', () => {
             setUsuario(null);
@@ -29,14 +28,14 @@ export const AuthProvider = ({ children }) => {
     }, [navigate]);
 
     const login = async (email, senha) => {
-        await api.post(ENDPOINTS.LOGIN, { email, password: senha });
-        const resposta = await api.get(ENDPOINTS.ME);
-        setUsuario(resposta.data);
+        await authService.login(email, senha);
+        const dados = await authService.obterSessao();
+        setUsuario(dados);
     };
 
     const logout = async () => {
         try {
-            await api.post(ENDPOINTS.LOGOUT);
+            await authService.logout();
         } finally {
             setUsuario(null);
             navigate('/auth/login');

@@ -1,10 +1,10 @@
 import { FormularioCadastroProduto } from '../../componentes/FormularioCadastroProduto/index.jsx'
 import { BarraRodape } from '../../componentes/BarraRodape/index.jsx'
-import api from '../../services/api.js'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { NavBar } from '../../componentes/NavBar/index.jsx';
 import { CATEGORIAS } from '../../constants/categorias.js';
-import { ENDPOINTS } from '../../services/endpoints.js';
+import { criarProduto, atualizarProduto } from '../../services/produtosService.js';
+import { extrairErro } from '../../utils/extrairErro.js';
 
 export const CadastroProduto = () => {
   const navigate = useNavigate();
@@ -14,38 +14,16 @@ export const CadastroProduto = () => {
 
   const salvarProduto = async (produtoDoFormulario) => {
     try {
-      const formData = new FormData();
-      formData.append('name', produtoDoFormulario.nome);
-      formData.append('description', produtoDoFormulario.descricao);
-      formData.append('amount', produtoDoFormulario.quantidade);
-      formData.append('price', produtoDoFormulario.preco);
-      formData.append('category', produtoDoFormulario.categoria);
-
-      (produtoDoFormulario.novasImagens ?? []).forEach(f => {
-        if (f instanceof File) formData.append('images', f);
-      });
-
       if (produtoParaEditar) {
-        (produtoDoFormulario.imagensMantidas ?? []).forEach(url =>
-          formData.append('imagensMantidas', url)
-        );
-        await api.put(ENDPOINTS.PRODUTO_ID(produtoParaEditar.id), formData);
-        alert("Produto atualizado com sucesso!");
+        await atualizarProduto(produtoParaEditar.id, produtoDoFormulario);
+        alert('Produto atualizado com sucesso!');
       } else {
-        await api.post(ENDPOINTS.PRODUTO, formData);
-        alert("Produto cadastrado com sucesso!");
+        await criarProduto(produtoDoFormulario);
+        alert('Produto cadastrado com sucesso!');
       }
-
-      navigate("/produtos");
-
+      navigate('/produtos');
     } catch (error) {
-      console.error("Erro completo:", error);
-      if (error.response?.data?.fields) {
-        const mensagens = error.response.data.fields.map(e => `${e.field}: ${e.error}`).join("\n");
-        alert(`Erro de validação:\n${mensagens}`);
-      } else {
-        alert("Erro ao salvar produto.");
-      }
+      alert(extrairErro(error, 'Erro ao salvar produto.'));
     }
   }
 

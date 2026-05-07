@@ -17,7 +17,7 @@ export const useProdutosBusca = (filtros) => {
 
         const timeoutId = setTimeout(async () => {
             try {
-                const { data } = await buscarProdutos(filtros, controller.signal);
+                const data = await buscarProdutos(filtros, controller.signal);
                 setContent(data.content || []);
                 setTotalPages(data.totalPages || 0);
                 setTotalElements(data.totalElements || 0);
