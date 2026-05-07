@@ -77,7 +77,7 @@ export const NavBar = () => {
                                 <img
                                     alt="Perfil"
                                     src={usuario?.image || "/imagens/Logos/avatar.webp"}
-                                    className="size-8 rounded-full bg-gray-800 outline -outline-offset-1 outline-white/10"
+                                    className="size-8 rounded-full bg-gray-800 outline object-cover -outline-offset-1 outline-white/10 "
                                 />
                             </MenuButton>
 

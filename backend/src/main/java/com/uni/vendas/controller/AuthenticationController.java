@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
 import java.util.Map;
 
 @RestController
@@ -61,10 +62,12 @@ public class AuthenticationController {
     @GetMapping("/me")
     public ResponseEntity<Map<String, Object>> getSessaoAtual(Authentication authentication) {
         var usuario = (Seller) authentication.getPrincipal();
-        return ResponseEntity.ok(Map.of(
-                "id", usuario.getId(),
-                "email", usuario.getEmail()
-        ));
+        var body = new HashMap<String, Object>();
+        body.put("id", usuario.getId());
+        body.put("email", usuario.getEmail());
+        body.put("name", usuario.getName());
+        body.put("image", usuario.getImage());
+        return ResponseEntity.ok(body);
     }
 
     private ResponseCookie buildJwtCookie(String value, int maxAge) {
