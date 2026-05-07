@@ -13,7 +13,6 @@ export const Login = () => {
             await login(dados.email, dados.senha);
             navigate('/produtos');
         } catch (erro) {
-            console.error("Erro ao logar:", erro);
             alert('Email ou senha incorretos!');
         }
     }
