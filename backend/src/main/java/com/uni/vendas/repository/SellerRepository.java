@@ -10,7 +10,7 @@ import java.util.UUID;
 
 public interface SellerRepository extends JpaRepository<Seller, UUID>, JpaSpecificationExecutor<Seller> {
 
-    Optional<Seller> findByEmail(@Email(regexp = "^[a-zA-Z0-9._%+-]+@dcx.ufpb.br$", message = "Invalid email format") String email);
+    Optional<Seller> findByEmail(@Email String email);
 
 
 }
