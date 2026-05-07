@@ -2,6 +2,7 @@ package com.uni.vendas.controller;
 
 import com.uni.vendas.dto.RegisterSellerDTO;
 import com.uni.vendas.dto.ResponseSellerDTO;
+import com.uni.vendas.dto.UpdateSellerDTO;
 import com.uni.vendas.model.Seller;
 import com.uni.vendas.service.SellerService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -51,7 +52,7 @@ public class SellerController {
             value = ID_PATH,
             consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE}
     )
-    public ResponseEntity<ResponseSellerDTO> updateUser(@PathVariable String id, @ModelAttribute @Valid RegisterSellerDTO dto, Authentication authentication) {
+    public ResponseEntity<ResponseSellerDTO> updateUser(@PathVariable String id, @ModelAttribute @Valid UpdateSellerDTO dto, Authentication authentication) {
         Seller current = (Seller) authentication.getPrincipal();
 
         if (!current.getId().toString().equals(id)) {

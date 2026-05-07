@@ -2,6 +2,7 @@ package com.uni.vendas.service;
 
 import com.uni.vendas.dto.RegisterSellerDTO;
 import com.uni.vendas.dto.ResponseSellerDTO;
+import com.uni.vendas.dto.UpdateSellerDTO;
 import com.uni.vendas.model.Seller;
 import com.uni.vendas.model.enums.VerificationCodeType;
 import com.uni.vendas.repository.SellerRepository;
@@ -82,7 +83,7 @@ public class SellerService {
                 .orElseThrow(() -> new IllegalArgumentException("Email não cadastrado."));
     }
 
-    public Optional<ResponseSellerDTO> updateUser(String id, RegisterSellerDTO userDTO ) {
+    public Optional<ResponseSellerDTO> updateUser(String id, UpdateSellerDTO userDTO ) {
         Optional<Seller> userOptional = findByIdInternal(id);
 
         if (userOptional.isEmpty()) {
@@ -96,10 +97,8 @@ public class SellerService {
         }
 
         seller.setName(userDTO.name());
-        seller.setEmail(userDTO.email());
         seller.setPhoneNumber(userDTO.phoneNumber());
         seller.setCity(userDTO.city());
-        seller.setPassword(passwordEncoder.encode(userDTO.password()));
         if (userDTO.image() != null && !userDTO.image().isEmpty()) {
             String url = upImageService.uploadImage(userDTO.image());
 

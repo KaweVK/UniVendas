@@ -23,7 +23,6 @@ export const FormularioCadastroUsuario = (props) => {
     useEffect(() => {
         if (props.usuarioEdicao) {
             setNome(props.usuarioEdicao.name || '');
-            setEmail(props.usuarioEdicao.email || '');
             setNumero(props.usuarioEdicao.phoneNumber || '');
             setCidade(props.usuarioEdicao.city || '');
             setPreviewImagem(props.usuarioEdicao.image || null);
@@ -84,7 +83,8 @@ export const FormularioCadastroUsuario = (props) => {
                         aoAlterado={setNome}
                         className={inputClassName}
                     />
-
+                    
+                    {!props.usuarioEdicao ?
                     <CampoInput
                         id="email"
                         name="email"
@@ -97,21 +97,23 @@ export const FormularioCadastroUsuario = (props) => {
                         valor={email}
                         aoAlterado={setEmail}
                         className={inputClassName}
-                    />
+                    /> : null }
 
-                    <CampoInput
-                        id="senha"
-                        name="senha"
-                        type="password"
-                        label="Senha"
-                        labelClassName={labelClassName}
-                        autoComplete="senha"
-                        obrigatorio={true}
-                        placeholder="Digite a sua senha"
-                        valor={senha}
-                        aoAlterado={setSenha}
-                        className={inputClassName}
-                    />
+
+                    {!props.usuarioEdicao ?
+                        <CampoInput
+                            id="senha"
+                            name="senha"
+                            type="password"
+                            label="Senha"
+                            labelClassName={labelClassName}
+                            autoComplete="senha"
+                            obrigatorio={true}
+                            placeholder="Digite a sua senha"
+                            valor={senha}
+                            aoAlterado={setSenha}
+                            className={inputClassName}
+                        /> : null}
 
                     <CampoInput
                         id="numero"
