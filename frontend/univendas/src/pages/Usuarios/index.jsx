@@ -7,6 +7,7 @@ import api from '../../services/api.js'
 import './Usuarios.css'
 import { FundoDecorado } from '../../componentes/FundoDecorado/index.jsx'
 import { NavBar } from '../../componentes/NavBar/index.jsx'
+import { ENDPOINTS } from '../../services/endpoints.js'
 
 export const Usuarios = () => {
     const [usuarios, setUsuarios] = useState([]);
@@ -14,7 +15,7 @@ export const Usuarios = () => {
     useEffect(() => {
         const buscarUsuarios = async () => {
             try {
-                const resposta = await api.get('/users/search');
+                const resposta = await api.get(ENDPOINTS.USUARIOS_BUSCA);
                 setUsuarios(resposta.data.content || []);
             } catch (error) {
                 console.error("Erro ao buscar usuários:", error);
@@ -37,7 +38,7 @@ export const Usuarios = () => {
                                 nome={usuario.name}
                                 email={usuario.email}
                                 cidade={usuario.city}
-                                img={usuario.image || '../../../public/imagens/Logos/avatar.webp'}
+                                img={usuario.image}
                             />
                         </Link>
                     ))

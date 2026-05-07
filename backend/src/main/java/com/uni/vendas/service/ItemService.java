@@ -2,6 +2,7 @@ package com.uni.vendas.service;
 
 import com.uni.vendas.dto.ResponseItemDTO;
 import com.uni.vendas.dto.RegisterItemDTO;
+import com.uni.vendas.infra.exception.OperationNotAllowedException;
 import com.uni.vendas.mapper.ItemMapper;
 import com.uni.vendas.model.Item;
 import com.uni.vendas.model.Seller;
@@ -54,8 +55,11 @@ public class ItemService {
         return itemRepository.save(item);
     }
 
-    public RegisterItemDTO updateItem(String id, RegisterItemDTO registerItemDTO) {
+    public ResponseItemDTO updateItem(String id, RegisterItemDTO registerItemDTO, Seller current) {
         Item item = findByIdInternal(id);
+
+        if (!item.getSoldBy().getId().equals(current.getId()))
+            throw new OperationNotAllowedException("Sem permissão");
 
         if (item.getId() == null) {
             throw new IllegalArgumentException("Item ID cannot be null for update operation");
@@ -70,11 +74,15 @@ public class ItemService {
 
         itemValidator.validate(item);
         Item updated = itemRepository.save(item);
-        return (itemMapper.toRegisterDTO(updated));
+        return (itemMapper.toDefaultDTO(updated));
     }
 
-    public void deleteItem(String id) {
+    public void deleteItem(String id, Seller current) {
         Item item = findByIdInternal(id);
+
+        if (!item.getSoldBy().getId().equals(current.getId()))
+            throw new OperationNotAllowedException("Sem permissão");
+
         itemRepository.delete(item);
     }
 

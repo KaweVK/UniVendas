@@ -52,7 +52,7 @@ public class ItemController {
     @PostMapping(
             consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE}
     )
-    public ResponseEntity<Object> createItem(@Valid @ModelAttribute RegisterItemDTO registerItemDTO, Authentication authentication) {
+    public ResponseEntity<ResponseItemDTO> createItem(@Valid @ModelAttribute RegisterItemDTO registerItemDTO, Authentication authentication) {
         Seller current = (Seller) authentication.getPrincipal();
 
         Item item = itemService.createItem(registerItemDTO, current);
@@ -61,26 +61,29 @@ public class ItemController {
                 .buildAndExpand(item.getId())
                 .toUri();
 
-        return ResponseEntity.created(location)
-                .body("Author created successfully with ID: " + item.getId());
+        return ResponseEntity.created(location).build();
     }
 
     @PutMapping(
             value = ID_PATH,
             consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE}
     )
-    public ResponseEntity<Object> updateItem(@PathVariable String id, @ModelAttribute @Valid RegisterItemDTO registerItemDTO) {
+    public ResponseEntity<ResponseItemDTO> updateItem(@PathVariable String id, @ModelAttribute @Valid RegisterItemDTO registerItemDTO, Authentication authentication) {
+        Seller current = (Seller) authentication.getPrincipal();
+
         try {
-            return ResponseEntity.ok(itemService.updateItem(id, registerItemDTO));
+            return ResponseEntity.ok(itemService.updateItem(id, registerItemDTO, current));
         } catch (NoSuchElementException e) {
             return ResponseEntity.notFound().build();
         }
     }
 
     @DeleteMapping(ID_PATH)
-    public ResponseEntity<Object> deleteItem(@PathVariable String id) {
+    public ResponseEntity<ResponseItemDTO> deleteItem(@PathVariable String id, Authentication authentication) {
+        Seller current = (Seller) authentication.getPrincipal();
+
         try {
-            itemService.deleteItem(id);
+            itemService.deleteItem(id, current);
             return ResponseEntity.noContent().build();
         } catch (NoSuchElementException e) {
             return ResponseEntity.notFound().build();
