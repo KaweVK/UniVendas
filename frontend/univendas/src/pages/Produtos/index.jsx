@@ -1,86 +1,82 @@
-import { useEffect, useState } from 'react'
-import { BarraRodape } from '../../componentes/BarraRodape/index.jsx'
-import { CardProduto } from '../../componentes/CardProduto/index.jsx'
-import { Link } from 'react-router-dom'
-import './Produtos.css'
-import { Botao } from '../../componentes/Botao/index.jsx'
-import api from '../../services/api.js'
-import { NavBar } from '../../componentes/NavBar/index.jsx'
-import { CampoBusca } from '../../componentes/CampoBusca/index.jsx'
-import { FundoDecorado } from '../../componentes/FundoDecorado/index.jsx'
-import { ENDPOINTS } from '../../services/endpoints.js'
+import { useMemo, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { BarraRodape } from '../../componentes/BarraRodape/index.jsx';
+import { CardProduto } from '../../componentes/CardProduto/index.jsx';
+import { Botao } from '../../componentes/Botao/index.jsx';
+import { NavBar } from '../../componentes/NavBar/index.jsx';
+import { FundoDecorado } from '../../componentes/FundoDecorado/index.jsx';
+import { useProdutosBusca } from '../../hooks/useProdutosBusca.js';
+import { AreaBusca } from '../../componentes/AreaBusca/index.jsx';
+import './Produtos.css';
+
+const FILTROS_INICIAIS = {
+    name: '',
+    category: '',
+    priceGreater: '',
+    priceLess: '',
+    page: 0,
+    size: 10,
+};
 
 export const Produtos = () => {
-    const [produtos, setProdutos] = useState([]);
-    const [produtosBusca, setProdutosBusca] = useState([]);
-    const [busca, setBusca] = useState('');
-    const [palavraBuscada, setPalavraBuscada] = useState('');
-    const [buscou, setBuscou] = useState(false);
-    const [loading, setLoading] = useState(true);
+    const [filtros, setFiltros] = useState(FILTROS_INICIAIS);
+    const [campoBusca, setCampoBusca] = useState('');
 
-    useEffect(() => {
-        const buscarProdutos = async () => {
-            try {
-                const resposta = await api.get(ENDPOINTS.PRODUTOS_TODOS);
-                setProdutos(resposta.data.content);
-            } catch (error) {
-                console.error("Erro ao buscar produtos", error);
-            } finally {
-                setLoading(false);
-            }
-        }
-        buscarProdutos();
-    }, []);
+    const filtrosNormalizados = useMemo(() => ({
+        ...filtros,
+        priceGreater: filtros.priceGreater === '' ? '' : Number(filtros.priceGreater),
+        priceLess: filtros.priceLess === '' ? '' : Number(filtros.priceLess),
+    }), [filtros]);
 
-    const aoPesquisar = async (evento) => {
-        evento.preventDefault();
+    const { content, totalPages, loading, erro } = useProdutosBusca(filtrosNormalizados);
 
-        if (busca === '') {
-            setProdutosBusca([]);
-            setBuscou(false);
-            return;
-        }
+    const aoDigitarNome = (valor) => setCampoBusca(valor);
+    const limparFiltros = () => setFiltros(FILTROS_INICIAIS);
+    const trocarPagina = (novaPagina) => setFiltros((f) => ({ ...f, page: novaPagina }));
+    const pesquisarPorNome = (e) => {
+        e.preventDefault();
+        setFiltros({
+            ...FILTROS_INICIAIS,
+            name: campoBusca,
+        });
+    };
 
-        try {
-            const resposta = await api.get(`${ENDPOINTS.PRODUTOS_BUSCA}?name=${encodeURIComponent(busca)}`);
-            setProdutosBusca(resposta.data.content);
-            setBuscou(true);
-            setPalavraBuscada(busca);
-        } catch (error) {
-            console.error("Erro ao buscar produtos", error);
-            setProdutosBusca([]);
-        }
-    }
-
-    const aoDigitar = (valor) => {
-        setBusca(valor);
-        if (valor === '') {
-            setProdutosBusca([]);
-            setBuscou(false);
-        }
-    }
-
-    const listaAtiva = buscou ? produtosBusca : produtos;
+    const temFiltrosAtivos =
+        filtros.name || filtros.category || filtros.priceGreater !== '' || filtros.priceLess !== '';
 
     return (
         <>
             <NavBar />
             <FundoDecorado>
-                <CampoBusca
+                <AreaBusca
                     label={'Busque'}
-                    aoDigitar={aoDigitar}
+                    aoDigitar={aoDigitarNome}
                     placeholder={'Nome do produto'}
-                    valor={busca}
-                    pesquisa={aoPesquisar}
+                    valor={campoBusca}
+                    pesquisa={pesquisarPorNome}
+                    filtros={filtros}
+                    aoAlterar={setFiltros}
+                    aoLimpar={limparFiltros}
                 />
+
                 <div className='lista-produtos'>
-                    <h2>{buscou ? `Resultado para "${palavraBuscada}"` : 'Produtos à venda'}</h2>
+                    <h2>
+                        {temFiltrosAtivos
+                            ? `Resultados${filtros.name ? ` para "${filtros.name}"` : ''}`
+                            : 'Produtos à venda'}
+                    </h2>
 
                     {loading ? (
                         <p>Carregando produtos...</p>
-                    ) : listaAtiva.length > 0 ? (
-                        listaAtiva.map(produto => (
-                            <Link to={`/produto/${produto.id}`} key={produto.id} style={{ textDecoration: 'none' }}>
+                    ) : erro ? (
+                        <p>Erro ao carregar produtos.</p>
+                    ) : content.length > 0 ? (
+                        content.map((produto) => (
+                            <Link
+                                to={`/produto/${produto.id}`}
+                                key={produto.id}
+                                style={{ textDecoration: 'none' }}
+                            >
                                 <CardProduto
                                     nome={produto.name}
                                     descricao={produto.description}
@@ -89,19 +85,46 @@ export const Produtos = () => {
                             </Link>
                         ))
                     ) : (
-                        <p>{buscou ? 'Nenhum item encontrado na busca.' : 'Nenhum produto cadastrado.'}</p>
+                        <p>
+                            {temFiltrosAtivos
+                                ? 'Nenhum item encontrado para os filtros selecionados.'
+                                : 'Nenhum produto cadastrado.'}
+                        </p>
                     )}
                 </div>
+
+                {totalPages > 1 && (
+                    <div className='paginacao-produtos' style={{ display: 'flex', justifyContent: 'center', gap: '12px', margin: '12px' }}>
+                        <Botao
+                            className='botao-padrao'
+                            onClick={() => trocarPagina(filtros.page - 1)}
+                            disabled={filtros.page === 0}
+                        >
+                            Anterior
+                        </Botao>
+                        <span style={{ alignSelf: 'center' }}>
+                            Página {filtros.page + 1} de {totalPages}
+                        </span>
+                        <Botao
+                            className='botao-padrao'
+                            onClick={() => trocarPagina(filtros.page + 1)}
+                            disabled={filtros.page + 1 >= totalPages}
+                        >
+                            Próxima
+                        </Botao>
+                    </div>
+                )}
+
                 <div style={{ display: 'flex', justifyContent: 'center', gap: '20px', margin: '20px' }}>
                     <Link to='/cadastro-produto'>
-                        <Botao className="botao-padrao">Cadastrar Produto</Botao>
+                        <Botao className='botao-padrao'>Cadastrar Produto</Botao>
                     </Link>
                     <Link to='/usuarios'>
-                        <Botao className="botao-padrao">Ver Usuários</Botao>
+                        <Botao className='botao-padrao'>Ver Usuários</Botao>
                     </Link>
                 </div>
             </FundoDecorado>
             <BarraRodape />
         </>
-    )
-}
+    );
+};

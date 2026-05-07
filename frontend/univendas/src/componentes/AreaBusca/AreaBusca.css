@@ -1,0 +1,79 @@
+.campo-busca {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    width: 100%;
+}
+
+.campo-busca form {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
+    max-width: 800px;
+}
+
+.campo-busca form label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 24px;
+    color: #000000;
+}
+
+.campo-busca form input {
+    background-color: rgb(255, 255, 255);
+    box-shadow:  10px 10px 30px rgba(0, 0, 0, 0.3);
+    width: 100%;
+    border-radius: 20px;
+    font-size: 15px;
+    padding: 15px 25px;
+    border: none;
+    outline-color: #47104A;
+    box-sizing: border-box;
+}
+
+.campo-busca form input:focus {
+    box-shadow: 10px 10px 40px rgba(0, 0, 0, 0.5);
+}
+
+.filtros-produtos {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+    align-items: flex-end;
+    justify-content: center;
+    margin: 16px 0;
+}
+
+.filtros-produtos .filtro-campo {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.filtros-produtos .filtro-campo label {
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.filtros-produtos .filtro-campo select,
+.filtros-produtos .filtro-campo input {
+    padding: 8px 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    min-width: 160px;
+}
+
+.filtros-produtos .filtro-limpar {
+    padding: 8px 14px;
+    border: 1px solid #888;
+    background: transparent;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.filtros-produtos .filtro-limpar:hover {
+    background: #f0f0f0;
+}

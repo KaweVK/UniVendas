@@ -89,8 +89,11 @@ public class ItemService {
         if (description != null && !description.isEmpty()) {
             spec = spec.and(descriptionLike(description));
         }
-        if (priceLess != null && priceGreater != null) {
-            spec = spec.and(priceEqual(priceLess, priceGreater));
+        if (priceGreater != null) {
+            spec = spec.and(priceGreaterOrEqual(priceGreater));
+        }
+        if (priceLess != null) {
+            spec = spec.and(priceLessOrEqual(priceLess));
         }
         if (category != null && !category.isEmpty()) {
             spec = spec.and(categoryEqual(category.toUpperCase()));

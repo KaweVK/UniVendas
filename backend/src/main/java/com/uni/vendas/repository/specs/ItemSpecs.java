@@ -20,8 +20,12 @@ public class ItemSpecs {
         return (root, query, cb) -> cb.like(cb.lower(root.get("description")), "%" + description.toLowerCase() + "%");
     }
 
-    public static Specification<Item> priceEqual(Double priceLess, Double priceGreater) {
-        return (root, query, cb) -> cb.between(root.get("price"), priceLess, priceGreater);
+    public static Specification<Item> priceGreaterOrEqual(Double priceGreater) {
+        return (root, query, cb) -> cb.greaterThanOrEqualTo(root.get("price"), priceGreater);
+    }
+
+    public static Specification<Item> priceLessOrEqual(Double priceLess) {
+        return (root, query, cb) -> cb.lessThanOrEqualTo(root.get("price"), priceLess);
     }
 
 //    public static Specification<Item> userNameLike(String userName) {
