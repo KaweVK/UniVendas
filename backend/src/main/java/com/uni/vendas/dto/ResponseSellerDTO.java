@@ -13,7 +13,7 @@ public record ResponseSellerDTO(
         String name,
         @NotBlank(message = "Email cannot be blank")
         @Size(min = 3, max = 100, message = "Email deve ter entre 3 e 100 caracteres")
-        @Email(regexp = "^[a-zA-Z0-9._%+-]+@dcx.ufpb.br$", message = "Invalid email format")
+        @Email
         String email,
         @NotBlank(message = "Phone Number cannot be blank")
         @Size(min = 3, max = 15, message = "Número de celular deve ter entre 3 e 15 caracteres")

@@ -33,7 +33,7 @@ public class Seller implements UserDetails {
     private String image;
     @Column(name = "name", nullable = false, length = 100)
     private String name;
-    @Email(regexp = "^[a-zA-Z0-9._%+-]+@dcx.ufpb.br$", message = "Invalid email format. You need to have a dcx email")
+    @Email
     @Column(name = "email", nullable = false, length = 100)
     private String email;
     @Column(name = "password", nullable = false, length = 255)
