@@ -29,6 +29,12 @@ export const FormularioCadastroUsuario = (props) => {
         }
     }, [props.usuarioEdicao]);
 
+    const salvarImage = (image) => {
+        setImagem(image)
+        const preview = URL.createObjectURL(image)
+        setPreviewImagem(preview)
+    }
+
     const aoSalvar = (evento) => {
         evento.preventDefault()
         props.aoCadastrarUsuario({
@@ -153,11 +159,11 @@ export const FormularioCadastroUsuario = (props) => {
                         obrigatorio={false}
                         placeholder="Selecione a imagem"
                         valor={imagem}
-                        aoAlterado={setImagem}
+                        aoAlterado={salvarImage}
                         className={inputClassName}
                     />
 
-                    {props.usuarioEdicao && previewImagem && (
+                    {previewImagem && (
                         <PreviewImagem
                             titulo="Imagem atual:"
                             itens={[{ key: 'avatar', src: previewImagem }]}
