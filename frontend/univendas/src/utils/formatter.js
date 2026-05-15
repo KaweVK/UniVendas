@@ -27,3 +27,9 @@ export const formatarCategoria = (valor) => {
     if (!valor) return '';
     return CATEGORIAS.find((c) => c.valor === valor)?.rotulo || valor;
 };
+
+export const formatarMes = (mes) => {
+    if (!mes) return '';
+    return new Date(mes).toLocaleDateString('pt-BR', { month: 'long' });
+};
+

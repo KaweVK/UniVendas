@@ -4,6 +4,10 @@ export const ENDPOINTS = {
         logout: '/auth/logout',
         me: '/auth/me',
     },
+    dashboard: {
+        vendasPorCategoria: '/dashboard/vendas-por-categoria',
+        qtdRegistrosPorMes: '/dashboard/qtd-registros-por-mes-categoria',
+    },
     produtos: {
         busca: '/shop/search',
         base: '/shop',

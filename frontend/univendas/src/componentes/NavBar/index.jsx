@@ -16,6 +16,7 @@ export const NavBar = () => {
     const navigation = [
         { name: 'Produtos', href: '/produtos', current: location.pathname === '/produtos' },
         { name: 'Usuários', href: '/usuarios', current: location.pathname === '/usuarios' },
+        { name: 'Dashboard', href: '/dashboard', current: location.pathname === '/dashboard' },
     ]
 
     const realizarLogout = async () => {
