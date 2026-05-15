@@ -59,6 +59,15 @@ export const Produtos = () => {
                     aoLimpar={limparFiltros}
                 />
 
+                <div style={{ display: 'flex', justifyContent: 'center', gap: '20px', margin: '20px' }}>
+                    <Link to='/cadastro-produto'>
+                        <Botao className='botao-padrao'>Cadastrar Produto</Botao>
+                    </Link>
+                    <Link to='/usuarios'>
+                        <Botao className='botao-padrao'>Ver Usuários</Botao>
+                    </Link>
+                </div>
+
                 <div className='lista-produtos'>
                     <h2>
                         {temFiltrosAtivos
