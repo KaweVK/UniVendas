@@ -2,7 +2,7 @@ import { FormularioCadastroProduto } from '../../componentes/FormularioCadastroP
 import { BarraRodape } from '../../componentes/BarraRodape/index.jsx'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { NavBar } from '../../componentes/NavBar/index.jsx';
-import { CATEGORIAS } from '../../constants/categorias.js';
+import { CATEGORIAS, DISPONIBILIDADE } from '../../constants/categorias.js';
 import { criarProduto, atualizarProduto } from '../../services/produtosService.js';
 import { extrairErro } from '../../utils/extrairErro.js';
 
@@ -53,6 +53,7 @@ export const CadastroProduto = () => {
             <FormularioCadastroProduto
               aoCadastrarProduto={salvarProduto}
               categorias={CATEGORIAS}
+              disponivel={DISPONIBILIDADE}
               produtoEdicao={produtoParaEditar}
             />
           </div>

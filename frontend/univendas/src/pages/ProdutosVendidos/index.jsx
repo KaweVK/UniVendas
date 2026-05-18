@@ -73,7 +73,7 @@ export const ProdutosVendidos = () => {
                     <h2>
                         {temFiltrosAtivos
                             ? `Resultados${filtros.name ? ` para "${filtros.name}"` : ''}`
-                            : 'Produtos à venda'}
+                            : 'Produtos Vendidos'}
                     </h2>
 
                     {loading ? (

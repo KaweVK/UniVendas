@@ -1,4 +1,4 @@
-import { formatarCategoria } from "../../utils/formatter";
+import { formatarCategoria, formatarDisponibilidade } from "../../utils/formatter";
 
 export const ListaSuspensa = (props) => {
     return (
@@ -13,10 +13,16 @@ export const ListaSuspensa = (props) => {
                 onChange={evento => props.aoAlterado(evento.target.value)}
                 className={props.className}
             >
-                <option value="">Selecione a Categoria</option>
-                {formatarCategoria(props.itens).map(item => {
-                    return <option key={item.valor} value={item.valor}>{item.rotulo}</option>;
-                })}
+                <option value="">{props.id === 'disponibilidade' ? 'Selecione a Disponibilidade' : 'Selecione a Categoria'}</option>
+                {props.id === 'disponibilidade' ? (
+                    formatarDisponibilidade(props.itens).map(item => {
+                        return <option key={item.valor} value={item.valor}>{item.rotulo}</option>;
+                    })
+                ) : (
+                    formatarCategoria(props.itens).map(item => {
+                        return <option key={item.valor} value={item.valor}>{item.rotulo}</option>;
+                    })
+                )}
             </select>
         </div>
     )

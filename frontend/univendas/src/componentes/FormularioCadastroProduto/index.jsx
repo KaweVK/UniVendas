@@ -19,6 +19,7 @@ export const FormularioCadastroProduto = (props) => {
     const [categoria, setCategoria] = useState('');
     const [imagensExistentes, setImagensExistentes] = useState([]);
     const [novasImagens, setNovasImagens] = useState([]);
+    const [disponivel, setDisponivel] = useState("AVAILABLE");
 
     useEffect(() => {
         if (props.produtoEdicao) {
@@ -29,6 +30,7 @@ export const FormularioCadastroProduto = (props) => {
             setCategoria(props.produtoEdicao.category);
             setImagensExistentes(props.produtoEdicao.images ?? []);
             setNovasImagens([]);
+            setDisponivel(props.produtoEdicao.availability);
         }
     }, [props.produtoEdicao]);
 
@@ -73,6 +75,7 @@ export const FormularioCadastroProduto = (props) => {
             categoria,
             novasImagens,
             imagensMantidas: imagensExistentes,
+            disponivel,
         })
         if (!props.produtoEdicao) {
             setNome('')
@@ -82,6 +85,7 @@ export const FormularioCadastroProduto = (props) => {
             setCategoria('')
             setImagensExistentes([])
             setNovasImagens([])
+            setDisponivel("AVAILABLE")
         }
     }
 
@@ -185,6 +189,18 @@ export const FormularioCadastroProduto = (props) => {
                         className={inputClassName}
                     />
 
+                    {props.produtoEdicao && (
+                        <ListaSuspensa
+                            id="disponibilidade"
+                            obrigatorio={true}
+                            itens={props.disponivel}
+                            label='Disponibilidade'
+                            labelClassName={labelClassName}
+                            valor={disponivel}
+                            aoAlterado={valor => setDisponivel(valor)}
+                            className={inputClassName}
+                        />
+                    )}
 
                 </div>
 

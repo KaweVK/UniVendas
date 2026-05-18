@@ -9,6 +9,7 @@ const montarFormData = (produto, { edicao = false } = {}) => {
     fd.append('amount', produto.quantidade);
     fd.append('price', produto.preco);
     fd.append('category', produto.categoria);
+    fd.append('availability', produto.disponivel);
 
     (produto.novasImagens ?? []).forEach((arquivo) => {
         if (arquivo instanceof File) fd.append('images', arquivo);

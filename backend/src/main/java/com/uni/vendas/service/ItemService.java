@@ -72,6 +72,7 @@ public class ItemService {
         item.setPrice(registerItemDTO.price());
         item.setCategory(registerItemDTO.category());
         item.setImages(mergeImagens(item.getImages(), registerItemDTO.imagensMantidas(), registerItemDTO.images()));
+        item.setAvailability(registerItemDTO.availability());
 
         itemValidator.validate(item);
         Item updated = itemRepository.save(item);

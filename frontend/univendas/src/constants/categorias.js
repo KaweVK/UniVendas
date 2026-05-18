@@ -8,3 +8,8 @@ export const CATEGORIAS = [
     { valor: 'PAPELARIA', rotulo: 'Papelaria' },
     { valor: 'COMIDA', rotulo: 'Comida' },
 ];
+
+export const DISPONIBILIDADE = [
+    { valor: 'AVAILABLE', rotulo: 'Disponível' },
+    { valor: 'UNAVAILABLE', rotulo: 'Vendido' },
+];

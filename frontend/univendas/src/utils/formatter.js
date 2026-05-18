@@ -1,4 +1,4 @@
-import { CATEGORIAS } from '../constants/categorias';
+import { CATEGORIAS, DISPONIBILIDADE } from '../constants/categorias';
 
 export const formatarPreco = (preco) => {
     const precoNumerico = Number(preco);
@@ -26,6 +26,11 @@ export const formatarQuantidade = (quantidade) => {
 export const formatarCategoria = (valor) => {
     if (!valor) return '';
     return CATEGORIAS.find((c) => c.valor === valor)?.rotulo || valor;
+};
+
+export const formatarDisponibilidade = (valor) => {
+    if (!valor) return '';
+    return DISPONIBILIDADE.find((d) => d.valor === valor)?.rotulo || valor;
 };
 
 export const formatarMes = (mes) => {
