@@ -7,19 +7,19 @@ import { NavBar } from '../../componentes/NavBar/index.jsx';
 import { FundoDecorado } from '../../componentes/FundoDecorado/index.jsx';
 import { useProdutosBusca } from '../../hooks/useProdutosBusca.js';
 import { AreaBusca } from '../../componentes/AreaBusca/index.jsx';
-import './Produtos.css';
+import './ProdutosVendidos.css';
 
 const FILTROS_INICIAIS = {
     name: '',
     category: '',
     priceGreater: '',
     priceLess: '',
-    availability: 'AVAILABLE',
+    availability: 'UNAVAILABLE',
     page: 0,
     size: 10,
 };
 
-export const Produtos = () => {
+export const ProdutosVendidos = () => {
     const [filtros, setFiltros] = useState(FILTROS_INICIAIS);
     const [campoBusca, setCampoBusca] = useState('');
 
@@ -81,7 +81,7 @@ export const Produtos = () => {
                     ) : erro ? (
                         <p>Erro ao carregar produtos.</p>
                     ) : content.length > 0 ? (
-                        content.map((produto) => (produto.availability === 'AVAILABLE') && (
+                        content.map((produto) => (produto.availability === 'UNAVAILABLE') && (
                             <Link
                                 to={`/produto/${produto.id}`}
                                 key={produto.id}

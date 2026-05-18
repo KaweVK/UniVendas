@@ -4,6 +4,7 @@ import com.uni.vendas.dto.ResponseItemDTO;
 import com.uni.vendas.dto.RegisterItemDTO;
 import com.uni.vendas.model.Item;
 import com.uni.vendas.model.Seller;
+import com.uni.vendas.model.enums.ItemAvailability;
 import com.uni.vendas.service.ItemService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
@@ -102,12 +103,14 @@ public class ItemController {
             Double priceGreater,
             @RequestParam(value = "page", defaultValue = "0")
             Integer page,
+            @RequestParam(value = "availability", required = false)
+            String availability,
             @RequestParam(value = "size", defaultValue = "10")
             Integer size,
             @RequestParam(value = "category", required = false)
             String category
     ) {
-        Page<ResponseItemDTO> pageResult = itemService.searchItem(name, description, priceLess, priceGreater, page, size, category);
+        Page<ResponseItemDTO> pageResult = itemService.searchItem(name, description, priceLess, priceGreater, page, size, category, availability);
 
         return ResponseEntity.ok(pageResult);
     }

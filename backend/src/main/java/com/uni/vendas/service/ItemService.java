@@ -6,6 +6,7 @@ import com.uni.vendas.infra.exception.OperationNotAllowedException;
 import com.uni.vendas.mapper.ItemMapper;
 import com.uni.vendas.model.Item;
 import com.uni.vendas.model.Seller;
+import com.uni.vendas.model.enums.ItemAvailability;
 import com.uni.vendas.repository.ItemRepository;
 import com.uni.vendas.validator.ItemValidator;
 import lombok.RequiredArgsConstructor;
@@ -86,7 +87,7 @@ public class ItemService {
         itemRepository.delete(item);
     }
 
-    public Page<ResponseItemDTO> searchItem(String name, String description, Double priceLess, Double priceGreater, Integer page, Integer size, String category) {
+    public Page<ResponseItemDTO> searchItem(String name, String description, Double priceLess, Double priceGreater, Integer page, Integer size, String category, String availability) {
 
         Specification<Item> spec = Specification
                 .where((root, query, cb) -> cb.conjunction());
@@ -105,6 +106,9 @@ public class ItemService {
         }
         if (category != null && !category.isEmpty()) {
             spec = spec.and(categoryEqual(category.toUpperCase()));
+        }
+        if (availability != null && !availability.isEmpty()) {
+            spec = spec.and(availabilityEqual(ItemAvailability.valueOf(availability.toUpperCase())));
         }
 
         Pageable pageable = PageRequest.of(page, size);

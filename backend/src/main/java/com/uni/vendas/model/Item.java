@@ -1,5 +1,6 @@
 package com.uni.vendas.model;
 
+import com.uni.vendas.model.enums.ItemAvailability;
 import com.uni.vendas.model.enums.ItemCategory;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -44,6 +45,9 @@ public class Item {
     @Column(name = "category", nullable = false)
     @Enumerated(EnumType.STRING)
     private ItemCategory category;
+    @Column(name = "availability", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private ItemAvailability availability;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_user")
     private Seller soldBy;

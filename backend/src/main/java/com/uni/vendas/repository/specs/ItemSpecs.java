@@ -1,6 +1,7 @@
 package com.uni.vendas.repository.specs;
 
 import com.uni.vendas.model.Item;
+import com.uni.vendas.model.enums.ItemAvailability;
 import com.uni.vendas.repository.ItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
@@ -34,6 +35,10 @@ public class ItemSpecs {
 
     public static Specification<Item> categoryEqual(String category) {
         return (root, query, cb) -> cb.equal(cb.upper(root.get("category").as(String.class)), category.toUpperCase());
+    }
+
+    public static Specification<Item> availabilityEqual(ItemAvailability availability) {
+        return (root, query, cb) -> cb.equal(root.get("availability"), availability);
     }
 
 }

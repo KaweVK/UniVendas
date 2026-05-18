@@ -1,5 +1,6 @@
 package com.uni.vendas.dto;
 
+import com.uni.vendas.model.enums.ItemAvailability;
 import com.uni.vendas.model.enums.ItemCategory;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -25,6 +26,7 @@ public record ResponseItemDTO(
         ResponseSellerDTO soldBy,
         @NotNull(message = "Category is required")
         ItemCategory category,
-        List<String> images
+        List<String> images,
+        ItemAvailability availability
 ) {
 }

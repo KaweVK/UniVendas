@@ -1,6 +1,7 @@
 package com.uni.vendas.dto;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.uni.vendas.model.enums.ItemAvailability;
 import com.uni.vendas.model.enums.ItemCategory;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -27,7 +28,7 @@ public record RegisterItemDTO(
         @NotNull(message = "Category is required")
         ItemCategory category,
         List<MultipartFile> images,
-        List<String> imagensMantidas
-
+        List<String> imagensMantidas,
+        ItemAvailability availability
 ) {
 }

@@ -12,6 +12,7 @@ import { Usuarios } from './pages/Usuarios/index.jsx'
 import { Usuario } from './pages/Usuario/index.jsx'
 import { EsqueciSenha } from './pages/EsqueciSenha/index.jsx'
 import { Dashboard } from './pages/Dashboard/index.jsx'
+import { ProdutosVendidos } from './pages/ProdutosVendidos/index.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -34,6 +35,7 @@ createRoot(document.getElementById('root')).render(
             <Route path='usuario/:id' element={<Usuario />} />
             <Route path='cadastro-produto' element={<CadastroProduto />} />
             <Route path='dashboard' element={<Dashboard />} />
+            <Route path='produtos-vendidos' element={<ProdutosVendidos />} />
           </Route>
 
           {/* Raiz redireciona para produtos (RotaProtegida trata autenticação) */}
