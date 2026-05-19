@@ -1,6 +1,7 @@
 package com.uni.vendas.controller;
 
 import com.uni.vendas.dto.dashboard.TotalComDataDTO;
+import com.uni.vendas.dto.dashboard.TotalPorVendedor;
 import com.uni.vendas.dto.dashboard.VendaPorCategoriaDTO;
 import com.uni.vendas.service.DashboardService;
 import lombok.RequiredArgsConstructor;
@@ -28,5 +29,9 @@ public class DashboardController {
         return ResponseEntity.ok(dashboardService.getQtdPorCategoriaComData());
     }
 
+    @GetMapping("/qtd-por-vendedor")
+    public ResponseEntity<List<TotalPorVendedor>> qtdPorVendedor() {
+        return ResponseEntity.ok(dashboardService.getQtdPorVendedor());
+    }
 
 }

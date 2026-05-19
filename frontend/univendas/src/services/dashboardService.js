@@ -8,3 +8,7 @@ export const vendasPorCategoria = (signal) =>
 export const qtdRegistrosPorMes = (signal) =>
     api.get(ENDPOINTS.dashboard.qtdRegistrosPorMes, { signal })
         .then((r) => r.data);
+
+export const qtdPorVendedor = (signal) =>
+    api.get(ENDPOINTS.dashboard.qtdPorVendedor, { signal })
+        .then((r) => r.data);

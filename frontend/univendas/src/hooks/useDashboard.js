@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
-import { vendasPorCategoria, qtdRegistrosPorMes } from "../services/dashboardService.js";
+import { vendasPorCategoria, qtdRegistrosPorMes, qtdPorVendedor } from "../services/dashboardService.js";
 
 export function useDashboard() {
     const [porCategoria, setPorCategoria] = useState([]);
     const [qtdRegistros, setQtdRegistros] = useState([]);
+    const [porVendedor, setPorVendedor] = useState([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -28,5 +29,16 @@ export function useDashboard() {
         return () => controller.abort();
     }, []);
 
-    return { porCategoria, qtdRegistros, loading };
+    useEffect(() => {
+        const controller = new AbortController();
+
+        qtdPorVendedor(controller.signal)
+            .then((r) => setPorVendedor(r))
+            .catch((e) => console.error("Erro no dashboard", e))
+            .finally(() => setLoading(false));
+
+        return () => controller.abort();
+    }, []);
+
+    return { porCategoria, qtdRegistros, porVendedor, loading };
 }

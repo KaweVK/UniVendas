@@ -7,6 +7,7 @@ export const ENDPOINTS = {
     dashboard: {
         vendasPorCategoria: '/dashboard/vendas-por-categoria',
         qtdRegistrosPorMes: '/dashboard/qtd-registros-por-mes-categoria',
+        qtdPorVendedor: '/dashboard/qtd-por-vendedor',
     },
     produtos: {
         busca: '/shop/search',
