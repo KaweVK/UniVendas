@@ -4,7 +4,7 @@ import {
 } from "recharts";
 import { formatarCategoria } from "../../utils/formatter.js";
 
-const CORES = ["#22c55e", "#3b82f6", "#f59e0b", "#ef4444", "#8b5cf6", "#ec4899", "#14b8a6", "#f97316"];
+const CORES = ["#47104A", "#E41659", "#f59e0b", "#efec44ff", "#8b5cf6", "#ec4899", "#14b8a6", "#f97316"];
 
 const MESES = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"];
 const nomeMes = (n) => MESES[(Number(n) - 1)] ?? n;
