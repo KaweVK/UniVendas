@@ -1,4 +1,3 @@
-// src/components/GraficoBarras.jsx
 import {
     BarChart, Bar, XAxis, YAxis, CartesianGrid,
     Tooltip, Legend, ResponsiveContainer
@@ -16,7 +15,9 @@ export function GraficoBarras({ dados, titulo }) {
                     <YAxis />
                     <Tooltip />
                     <Legend />
-                    <Bar dataKey="totalItens" name="Quantidade" fill="#47104A" />
+                    <Bar dataKey="totalItens" name="Quantidade Total" fill="#47104A" />
+                    <Bar dataKey="disponiveis" name="Quantidade Disponível" fill="#104a31ff" />
+                    <Bar dataKey="indisponiveis" name="Quantidade Indisponível" fill="#4a2e10ff" />
                 </BarChart>
             </ResponsiveContainer>
         </div>

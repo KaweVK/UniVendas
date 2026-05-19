@@ -14,7 +14,7 @@ public interface ItemRepository extends JpaRepository<Item, UUID>, JpaSpecificat
     Optional<Item> findByNameAndDescriptionAndAmountAndPrice(String name, String description, Long amount, BigDecimal price);
 
     @Query("""
-            SELECT i.category, SUM(i.amount), SUM(i.price * i.amount)
+            SELECT i.category, SUM(i.amount), SUM(i.price * i.amount), SUM(CASE WHEN i.availability = 'AVAILABLE' THEN 1 * i.amount ELSE 0 END), SUM(CASE WHEN i.availability = 'UNAVAILABLE' THEN 1 * i.amount ELSE 0 END)
             FROM Item i
             GROUP BY i.category
             ORDER BY SUM(i.price * i.amount) DESC
@@ -28,4 +28,12 @@ public interface ItemRepository extends JpaRepository<Item, UUID>, JpaSpecificat
             ORDER BY mes
             """)
     List<Object[]> sumTotalByCategoryWithDate();
+
+    @Query("""
+            SELECT SUM(i.amount), SUM(CASE WHEN i.availability = 'AVAILABLE' THEN 1 * i.amount ELSE 0 END), SUM(CASE WHEN i.availability = 'UNAVAILABLE' THEN 1 * i.amount ELSE 0 END), i.soldBy
+            FROM Item i
+            GROUP BY i.soldBy
+            ORDER BY i.soldBy.name asc
+            """)
+    List<Object[]> sumTotalBySeller();
 }

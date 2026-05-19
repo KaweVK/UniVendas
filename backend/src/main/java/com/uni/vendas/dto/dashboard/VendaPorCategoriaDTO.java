@@ -5,6 +5,8 @@ import java.math.BigDecimal;
 public record VendaPorCategoriaDTO(
         String categoria,
         Long totalItens,
-        BigDecimal totalReceita
+        BigDecimal totalReceita,
+        Long disponiveis,
+        Long indisponiveis
 ) {
 }
