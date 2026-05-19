@@ -12,10 +12,18 @@ export const AuthProvider = ({ children }) => {
 
     useEffect(() => {
         const controller = new AbortController();
+
         authService.obterSessao(controller.signal)
             .then((data) => setUsuario(data))
-            .catch(() => setUsuario(null))
-            .finally(() => setCarregando(false));
+            .catch((erro) => {
+                if (erro.name === 'AbortError' || erro.code === 'ERR_CANCELED') return;
+                setUsuario(null)
+            })
+            .finally(() => {
+                if (!controller.signal.aborted) {
+                    setCarregando(false);
+                }
+            });
         return () => controller.abort();
     }, []);
 
@@ -42,6 +50,10 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
+    if (carregando) {
+        return <div>Carregando sessão...</div>;
+    }
+    
     return (
         <AuthContext.Provider value={{ usuario, carregando, autenticado: !!usuario, login, logout }}>
             {children}
